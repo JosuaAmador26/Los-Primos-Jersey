@@ -20,7 +20,6 @@
       --red: #ef4444;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
       --shadow-strong: 0 16px 38px rgba(0, 0, 0, 0.14);
-      --radius: 18px;
     }
 
     html {
@@ -67,6 +66,8 @@
       font-weight: 800;
       letter-spacing: 0.3px;
       white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
     }
 
     .brand-user-wrap {
@@ -184,10 +185,6 @@
       outline: none;
     }
 
-    .search-input:focus {
-      border-color: #c9c9c9;
-    }
-
     .size-select {
       min-width: 130px;
       padding: 14px 16px;
@@ -222,10 +219,6 @@
       background: #000;
       color: #fff;
       border-color: #000;
-    }
-
-    .chip:hover {
-      transform: translateY(-1px);
     }
 
     .sub-row {
@@ -339,11 +332,6 @@
       cursor: pointer;
       font-weight: 800;
       font-size: 14px;
-      transition: transform 0.15s ease;
-    }
-
-    .btn:hover {
-      transform: translateY(-1px);
     }
 
     .btn-edit {
@@ -523,7 +511,7 @@
       <img class="brand-logo" src="logo.png.jpeg" alt="Logo Los Primos Jersey">
     </div>
 
-    <div class="brand-title">Los Primos Jersey</div>
+    <div id="brandTitle" class="brand-title">Los Primos Jersey</div>
 
     <div class="brand-user-wrap">
       <div class="brand-user">👤</div>
@@ -576,7 +564,7 @@
     <div id="products" class="products-grid"></div>
   </section>
 
-  <section class="admin-panel">
+  <section id="adminPanel" class="admin-panel">
     <div class="admin-box">
       <div class="admin-header">
         <h2 id="formTitle">Panel de administración</h2>
@@ -623,6 +611,28 @@
   </section>
 
   <script type="module">
+    const ADMIN_PASSWORD = "chijos2602@.";
+    const isAdmin = localStorage.getItem("admin") === "true";
+
+    function activarAdmin() {
+      const password = prompt("Ingresá la contraseña de administrador:");
+
+      if (password === ADMIN_PASSWORD) {
+        localStorage.setItem("admin", "true");
+        location.reload();
+      } else if (password !== null) {
+        alert("Contraseña incorrecta.");
+      }
+    }
+
+    function salirAdmin() {
+      localStorage.removeItem("admin");
+      location.reload();
+    }
+
+    window.activarAdmin = activarAdmin;
+    window.salirAdmin = salirAdmin;
+
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getFirestore,
@@ -658,6 +668,8 @@
     const sizeFilter = document.getElementById("sizeFilter");
     const chipsContainer = document.getElementById("chipsContainer");
 
+    const brandTitle = document.getElementById("brandTitle");
+    const adminPanel = document.getElementById("adminPanel");
     const nameInput = document.getElementById("name");
     const priceInput = document.getElementById("price");
     const leagueInput = document.getElementById("league");
@@ -676,34 +688,52 @@
     let currentImageUrl = "";
     let activeLeagueFilter = "";
 
-    toggleAdminBtn.addEventListener("click", () => {
-      adminContent.classList.toggle("open");
-      toggleAdminBtn.textContent = adminContent.classList.contains("open")
-        ? "Ocultar panel"
-        : "Mostrar panel";
-    });
-
-    imageFileInput.addEventListener("change", () => {
-      const file = imageFileInput.files[0];
-
-      if (!file) {
-        preview.src = "";
-        preview.style.display = "none";
-        return;
+    brandTitle.addEventListener("click", () => {
+      if (!isAdmin) {
+        activarAdmin();
+      } else {
+        const cerrar = confirm("Ya estás en modo administrador. ¿Querés salir?");
+        if (cerrar) {
+          salirAdmin();
+        }
       }
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        preview.src = e.target.result;
-        preview.style.display = "block";
-      };
-      reader.readAsDataURL(file);
     });
+
+    if (!isAdmin) {
+      adminPanel.style.display = "none";
+    }
+
+    if (isAdmin) {
+      toggleAdminBtn.addEventListener("click", () => {
+        adminContent.classList.toggle("open");
+        toggleAdminBtn.textContent = adminContent.classList.contains("open")
+          ? "Ocultar panel"
+          : "Mostrar panel";
+      });
+
+      imageFileInput.addEventListener("change", () => {
+        const file = imageFileInput.files[0];
+
+        if (!file) {
+          preview.src = "";
+          preview.style.display = "none";
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          preview.src = e.target.result;
+          preview.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      });
+
+      saveBtn.addEventListener("click", saveProduct);
+      cancelEditBtn.addEventListener("click", resetForm);
+    }
 
     searchInput.addEventListener("input", renderProducts);
     sizeFilter.addEventListener("change", renderProducts);
-    saveBtn.addEventListener("click", saveProduct);
-    cancelEditBtn.addEventListener("click", resetForm);
 
     chipsContainer.querySelectorAll(".chip").forEach((chip) => {
       chip.addEventListener("click", () => {
@@ -790,23 +820,27 @@
             <div class="product-meta">${product.league || ""}</div>
             <div class="product-price">${formatPrice(product.price)}</div>
             <div class="product-sizes"><b>Tallas:</b> ${product.sizes || "No definidas"}</div>
-            <div class="card-actions">
-              <button class="btn btn-edit edit-btn" data-id="${product.id}">Editar</button>
-              <button class="btn btn-delete delete-btn" data-id="${product.id}">Eliminar</button>
-            </div>
+            ${isAdmin ? `
+              <div class="card-actions">
+                <button class="btn btn-edit edit-btn" data-id="${product.id}">Editar</button>
+                <button class="btn btn-delete delete-btn" data-id="${product.id}">Eliminar</button>
+              </div>
+            ` : ""}
           </div>
         `;
 
         productsContainer.appendChild(card);
       });
 
-      document.querySelectorAll(".edit-btn").forEach((btn) => {
-        btn.addEventListener("click", () => startEdit(btn.dataset.id));
-      });
+      if (isAdmin) {
+        document.querySelectorAll(".edit-btn").forEach((btn) => {
+          btn.addEventListener("click", () => startEdit(btn.dataset.id));
+        });
 
-      document.querySelectorAll(".delete-btn").forEach((btn) => {
-        btn.addEventListener("click", () => removeProduct(btn.dataset.id));
-      });
+        document.querySelectorAll(".delete-btn").forEach((btn) => {
+          btn.addEventListener("click", () => removeProduct(btn.dataset.id));
+        });
+      }
     }
 
     async function saveProduct() {
