@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Los Primos Jersey</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f5f5f5;
+      --white: #ffffff;
+      --black: #000000;
+      --text: #111111;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --green: #16a34a;
+      --red: #ef4444;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+      --shadow-strong: 0 16px 38px rgba(0, 0, 0, 0.14);
+      --radius: 18px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .topbar {
+      background: #000;
+      color: #fff;
+      padding: 12px 22px;
+      display: grid;
+      grid-template-columns: 120px 1fr 120px;
+      align-items: center;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .brand-logo {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      display: block;
+      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
+    }
+
+    .brand-title {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .brand-user-wrap {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .brand-user {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: #fff;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      min-width: 40px;
+    }
+
+    .hero {
+      min-height: 360px;
+      background:
+        linear-gradient(rgba(0,0,0,0.48), rgba(0,0,0,0.48)),
+        url("fondo-estadio.png.jpg") center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 34px 20px;
+    }
+
+    .hero-inner {
+      max-width: 860px;
+      color: #fff;
+    }
+
+    .hero-pill {
+      display: inline-block;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      backdrop-filter: blur(5px);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: 46px;
+      line-height: 1.02;
+      text-shadow: 0 10px 22px rgba(0,0,0,0.28);
+    }
+
+    .hero p {
+      margin: 0 auto 20px;
+      max-width: 760px;
+      font-size: 16px;
+      color: #f3f4f6;
+      background: rgba(0,0,0,0.28);
+      padding: 12px 16px;
+      border-radius: 14px;
+      display: inline-block;
+    }
+
+    .hero-btn {
+      border: none;
+      background: #000;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.15s ease;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .search-input {
+      width: min(100%, 420px);
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .search-input:focus {
+      border-color: #c9c9c9;
+    }
+
+    .size-select {
+      min-width: 130px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: none;
+      background: #000;
+      color: #fff;
+      font-weight: 800;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .chip {
+      border: 1px solid #ddd;
+      background: #fff;
+      color: #444;
+      padding: 10px 16px;
+      border-radius: 999px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .chip.active {
+      background: #000;
+      color: #fff;
+      border-color: #000;
+    }
+
+    .chip:hover {
+      transform: translateY(-1px);
+    }
+
+    .sub-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+      color: #444;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .sub-row button {
+      border: none;
+      background: #000;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+      gap: 22px;
+      margin-top: 24px;
+    }
+
+    .product-card {
+      background: #fff;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .product-image-wrap {
+      position: relative;
+      background: #ececec;
+    }
+
+    .product-image-wrap img {
+      width: 100%;
+      height: 310px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .status-badge {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(255,255,255,0.96);
+      color: #111;
+      font-size: 12px;
+      font-weight: 800;
+      padding: 7px 12px;
+      border-radius: 999px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .status-badge.agotado {
+      background: #111;
+      color: #fff;
+    }
+
+    .product-body {
+      padding: 16px;
+    }
+
+    .product-title {
+      margin: 0 0 6px;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .product-meta {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-size: 26px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .product-sizes {
+      font-size: 14px;
+      color: #333;
+      margin-bottom: 14px;
+    }
+
+    .card-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn {
+      border: none;
+      padding: 12px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 800;
+      font-size: 14px;
+      transition: transform 0.15s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-edit {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn-delete {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .empty {
+      background: #fff;
+      border: 1px dashed #d7d7d7;
+      border-radius: 18px;
+      padding: 28px;
+      text-align: center;
+      color: #666;
+      margin-top: 24px;
+    }
+
+    .admin-panel {
+      max-width: 1280px;
+      margin: 6px auto 40px;
+      padding: 0 20px;
+    }
+
+    .admin-box {
+      background: #fff;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 18px 20px;
+    }
+
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .admin-header h2 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .admin-toggle {
+      border: none;
+      background: #000;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .admin-content {
+      display: none;
+      margin-top: 18px;
+    }
+
+    .admin-content.open {
+      display: block;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .form-grid .full {
+      grid-column: 1 / -1;
+    }
+
+    .admin-box input,
+    .admin-box select {
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 14px;
+      border: 1px solid #ddd;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .helper {
+      font-size: 12px;
+      color: #666;
+      margin-top: 10px;
+    }
+
+    .preview-wrap {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .preview-image {
+      width: 220px;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 18px;
+      display: none;
+      background: #f0f0f0;
+      border: 1px solid #eee;
+    }
+
+    .admin-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .save-main {
+      background: #000;
+      color: #fff;
+      padding: 14px 22px;
+      border-radius: 14px;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .cancel-btn {
+      background: #ececec;
+      color: #111;
+      padding: 14px 22px;
+      border-radius: 14px;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .topbar {
+        padding: 12px 14px;
+        grid-template-columns: 74px 1fr 74px;
+      }
+
+      .brand-logo {
+        width: 48px;
+        height: 48px;
+      }
+
+      .brand-title {
+        font-size: 15px;
+      }
+
+      .hero {
+        min-height: 320px;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .hero p {
+        font-size: 14px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand-left">
+      <img class="brand-logo" src="logo.png.jpeg" alt="Logo Los Primos Jersey">
+    </div>
+
+    <div class="brand-title">Los Primos Jersey</div>
+
+    <div class="brand-user-wrap">
+      <div class="brand-user">👤</div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-pill">Nueva colección</div>
+      <h1>Jerseys que se ven pesadas</h1>
+      <p>Fútbol, NBA, NFL, MLB y F1. Encontrá tu jersey favorita y administrá todo desde un solo panel.</p>
+      <div>
+        <button class="hero-btn" onclick="document.getElementById('catalog-section').scrollIntoView({behavior:'smooth'})">
+          Ver catálogo
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="catalog-section">
+    <div class="toolbar">
+      <div class="search-row">
+        <input id="searchInput" class="search-input" placeholder="Buscar camiseta..." />
+        <select id="sizeFilter" class="size-select">
+          <option value="">TALLAS</option>
+          <option value="XS">XS</option>
+          <option value="S">S</option>
+          <option value="M">M</option>
+          <option value="L">L</option>
+          <option value="XL">XL</option>
+          <option value="2XL">2XL</option>
+        </select>
+      </div>
+
+      <div class="chips" id="chipsContainer">
+        <button class="chip active" data-filter="">Todos</button>
+        <button class="chip" data-filter="Fútbol">Fútbol</button>
+        <button class="chip" data-filter="NBA">NBA</button>
+        <button class="chip" data-filter="NFL">NFL</button>
+        <button class="chip" data-filter="MLB">MLB</button>
+        <button class="chip" data-filter="F1">F1</button>
+      </div>
+
+      <div class="sub-row">
+        <span>¿Querés saber tu talla?</span>
+        <button type="button">Ver medidas</button>
+      </div>
+    </div>
+
+    <div id="products" class="products-grid"></div>
+  </section>
+
+  <section class="admin-panel">
+    <div class="admin-box">
+      <div class="admin-header">
+        <h2 id="formTitle">Panel de administración</h2>
+        <button id="toggleAdminBtn" class="admin-toggle">Mostrar panel</button>
+      </div>
+
+      <div id="adminContent" class="admin-content">
+        <div class="form-grid">
+          <input id="name" placeholder="Nombre del producto" />
+          <input id="price" type="number" placeholder="Precio en colones" />
+
+          <select id="league">
+            <option value="">Seleccioná una liga</option>
+            <option value="Fútbol">Fútbol</option>
+            <option value="NBA">NBA</option>
+            <option value="NFL">NFL</option>
+            <option value="MLB">MLB</option>
+            <option value="F1">F1</option>
+          </select>
+
+          <select id="status">
+            <option value="Disponible">Disponible</option>
+            <option value="Agotado">Agotado</option>
+          </select>
+
+          <input id="sizes" class="full" placeholder="Tallas (ejemplo: S, M, L, XL)" />
+          <input id="imageFile" class="full" type="file" accept="image/*" />
+        </div>
+
+        <div class="helper">
+          Podés guardar productos con o sin imagen. Si editás y no subís una nueva, se mantiene la actual.
+        </div>
+
+        <div class="preview-wrap">
+          <img id="preview" class="preview-image" alt="Vista previa">
+        </div>
+
+        <div class="admin-actions">
+          <button id="saveBtn" class="save-main">Guardar producto</button>
+          <button id="cancelEditBtn" class="cancel-btn">Cancelar edición</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      getDocs,
+      updateDoc,
+      deleteDoc,
+      doc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    import {
+      getStorage,
+      ref,
+      uploadBytes,
+      getDownloadURL
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCSrXm3fhOE7DUYpm-Ya35cd411jtrC-WY",
+      authDomain: "los-primos-jersey.firebaseapp.com",
+      projectId: "los-primos-jersey",
+      storageBucket: "los-primos-jersey.firebasestorage.app",
+      messagingSenderId: "416044077942",
+      appId: "1:416044077942:web:5f552ef5beddd8d74ba057"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const productsContainer = document.getElementById("products");
+    const searchInput = document.getElementById("searchInput");
+    const sizeFilter = document.getElementById("sizeFilter");
+    const chipsContainer = document.getElementById("chipsContainer");
+
+    const nameInput = document.getElementById("name");
+    const priceInput = document.getElementById("price");
+    const leagueInput = document.getElementById("league");
+    const statusInput = document.getElementById("status");
+    const sizesInput = document.getElementById("sizes");
+    const imageFileInput = document.getElementById("imageFile");
+    const preview = document.getElementById("preview");
+    const saveBtn = document.getElementById("saveBtn");
+    const cancelEditBtn = document.getElementById("cancelEditBtn");
+    const formTitle = document.getElementById("formTitle");
+    const toggleAdminBtn = document.getElementById("toggleAdminBtn");
+    const adminContent = document.getElementById("adminContent");
+
+    let products = [];
+    let editingId = null;
+    let currentImageUrl = "";
+    let activeLeagueFilter = "";
+
+    toggleAdminBtn.addEventListener("click", () => {
+      adminContent.classList.toggle("open");
+      toggleAdminBtn.textContent = adminContent.classList.contains("open")
+        ? "Ocultar panel"
+        : "Mostrar panel";
+    });
+
+    imageFileInput.addEventListener("change", () => {
+      const file = imageFileInput.files[0];
+
+      if (!file) {
+        preview.src = "";
+        preview.style.display = "none";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        preview.src = e.target.result;
+        preview.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+    });
+
+    searchInput.addEventListener("input", renderProducts);
+    sizeFilter.addEventListener("change", renderProducts);
+    saveBtn.addEventListener("click", saveProduct);
+    cancelEditBtn.addEventListener("click", resetForm);
+
+    chipsContainer.querySelectorAll(".chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        chipsContainer.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+        chip.classList.add("active");
+        activeLeagueFilter = chip.dataset.filter;
+        renderProducts();
+      });
+    });
+
+    function formatPrice(value) {
+      return "₡" + Number(value || 0).toLocaleString("es-CR");
+    }
+
+    async function uploadImage(file) {
+      if (!file) return "";
+
+      const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+      const filePath = `products/${Date.now()}-${safeName}`;
+      const fileRef = ref(storage, filePath);
+
+      await uploadBytes(fileRef, file, { contentType: file.type });
+      return await getDownloadURL(fileRef);
+    }
+
+    async function loadProducts() {
+      try {
+        const snapshot = await getDocs(collection(db, "products"));
+        products = snapshot.docs.map((item) => ({
+          id: item.id,
+          ...item.data()
+        }));
+        renderProducts();
+      } catch (error) {
+        console.error("Error al cargar productos:", error);
+        alert("Error cargando productos. Revisá F12.");
+      }
+    }
+
+    function renderProducts() {
+      const search = searchInput.value.trim().toLowerCase();
+      const size = sizeFilter.value;
+
+      const filtered = products.filter((product) => {
+        const name = (product.name || "").toLowerCase();
+        const league = (product.league || "").toLowerCase();
+        const sizesText = (product.sizes || "").toLowerCase();
+
+        const matchesSearch = name.includes(search) || league.includes(search);
+        const matchesLeague = !activeLeagueFilter || product.league === activeLeagueFilter;
+        const matchesSize = !size || sizesText.includes(size.toLowerCase());
+
+        return matchesSearch && matchesLeague && matchesSize;
+      });
+
+      productsContainer.innerHTML = "";
+
+      if (!filtered.length) {
+        productsContainer.innerHTML = `<div class="empty">No hay productos para mostrar.</div>`;
+        return;
+      }
+
+      filtered.forEach((product) => {
+        const card = document.createElement("div");
+        card.className = "product-card";
+
+        const imageSrc = product.imageUrl && product.imageUrl.trim() !== ""
+          ? product.imageUrl
+          : "https://via.placeholder.com/700x700?text=Sin+imagen";
+
+        const badgeClass = product.status === "Agotado" ? "status-badge agotado" : "status-badge";
+
+        card.innerHTML = `
+          <div class="product-image-wrap">
+            <span class="${badgeClass}">${product.status || "Disponible"}</span>
+            <img
+              src="${imageSrc}"
+              alt="${product.name || "Producto"}"
+              onerror="this.src='https://via.placeholder.com/700x700?text=Sin+imagen'"
+            >
+          </div>
+          <div class="product-body">
+            <h3 class="product-title">${product.name || ""}</h3>
+            <div class="product-meta">${product.league || ""}</div>
+            <div class="product-price">${formatPrice(product.price)}</div>
+            <div class="product-sizes"><b>Tallas:</b> ${product.sizes || "No definidas"}</div>
+            <div class="card-actions">
+              <button class="btn btn-edit edit-btn" data-id="${product.id}">Editar</button>
+              <button class="btn btn-delete delete-btn" data-id="${product.id}">Eliminar</button>
+            </div>
+          </div>
+        `;
+
+        productsContainer.appendChild(card);
+      });
+
+      document.querySelectorAll(".edit-btn").forEach((btn) => {
+        btn.addEventListener("click", () => startEdit(btn.dataset.id));
+      });
+
+      document.querySelectorAll(".delete-btn").forEach((btn) => {
+        btn.addEventListener("click", () => removeProduct(btn.dataset.id));
+      });
+    }
+
+    async function saveProduct() {
+      try {
+        const name = nameInput.value.trim();
+        const price = priceInput.value.trim();
+        const league = leagueInput.value;
+        const status = statusInput.value;
+        const sizes = sizesInput.value.trim();
+        const file = imageFileInput.files[0];
+
+        if (!name || !price || !league) {
+          alert("Completá nombre, precio y liga.");
+          return;
+        }
+
+        let imageUrl = currentImageUrl || "";
+
+        if (file) {
+          imageUrl = await uploadImage(file);
+        }
+
+        const productData = {
+          name,
+          price: Number(price),
+          league,
+          status,
+          sizes,
+          imageUrl
+        };
+
+        if (editingId) {
+          await updateDoc(doc(db, "products", editingId), productData);
+          alert("Producto actualizado correctamente.");
+        } else {
+          await addDoc(collection(db, "products"), productData);
+          alert("Producto guardado correctamente.");
+        }
+
+        resetForm();
+        await loadProducts();
+      } catch (error) {
+        console.error("Error al guardar producto:", error);
+        alert("No se pudo guardar. Revisá F12.");
+      }
+    }
+
+    function startEdit(id) {
+      const product = products.find((p) => p.id === id);
+      if (!product) return;
+
+      editingId = id;
+      currentImageUrl = product.imageUrl || "";
+
+      nameInput.value = product.name || "";
+      priceInput.value = product.price || "";
+      leagueInput.value = product.league || "";
+      statusInput.value = product.status || "Disponible";
+      sizesInput.value = product.sizes || "";
+
+      if (product.imageUrl) {
+        preview.src = product.imageUrl;
+        preview.style.display = "block";
+      } else {
+        preview.src = "";
+        preview.style.display = "none";
+      }
+
+      imageFileInput.value = "";
+      formTitle.textContent = "Editando producto";
+      saveBtn.textContent = "Actualizar producto";
+      cancelEditBtn.style.display = "inline-block";
+
+      adminContent.classList.add("open");
+      toggleAdminBtn.textContent = "Ocultar panel";
+      document.querySelector(".admin-panel").scrollIntoView({ behavior: "smooth" });
+    }
+
+    async function removeProduct(id) {
+      const confirmed = confirm("¿Seguro que querés eliminar este producto?");
+      if (!confirmed) return;
+
+      try {
+        await deleteDoc(doc(db, "products", id));
+
+        if (editingId === id) {
+          resetForm();
+        }
+
+        await loadProducts();
+        alert("Producto eliminado.");
+      } catch (error) {
+        console.error("Error al eliminar producto:", error);
+        alert("No se pudo eliminar. Revisá F12.");
+      }
+    }
+
+    function resetForm() {
+      editingId = null;
+      currentImageUrl = "";
+
+      nameInput.value = "";
+      priceInput.value = "";
+      leagueInput.value = "";
+      statusInput.value = "Disponible";
+      sizesInput.value = "";
+      imageFileInput.value = "";
+      preview.src = "";
+      preview.style.display = "none";
+
+      formTitle.textContent = "Panel de administración";
+      saveBtn.textContent = "Guardar producto";
+      cancelEditBtn.style.display = "none";
+    }
+
+    loadProducts();
+  </script>
+</body>
+</html>
