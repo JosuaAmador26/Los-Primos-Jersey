@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Los Primos Jersey</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
     * { box-sizing: border-box; }
@@ -18,9 +18,6 @@
       --border: #e5e7eb;
       --green: #16a34a;
       --red: #ef4444;
-      --gold: #d4af37;
-      --navy: #0f172a;
-      --navy-2: #111827;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
       --shadow-strong: 0 18px 48px rgba(0, 0, 0, 0.18);
     }
@@ -56,11 +53,6 @@
     @keyframes slideLeftSoft {
       from { opacity: 0; transform: translateX(-18px); }
       to { opacity: 1; transform: translateX(0); }
-    }
-
-    @keyframes heroImageZoom {
-      from { transform: scale(1); }
-      to { transform: scale(1.08); }
     }
 
     .topbar {
@@ -143,45 +135,9 @@
       justify-content: center;
       text-align: center;
       padding: 34px 20px;
-      isolation: isolate;
-    }
-
-    .hero-slides {
-      position: absolute;
-      inset: 0;
-      z-index: -3;
-    }
-
-    .hero-slide {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 1s ease;
-      background-size: cover;
-      background-position: center;
-      transform: scale(1.02);
-    }
-
-    .hero-slide.active {
-      opacity: 1;
-      animation: heroImageZoom 7s ease forwards;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
       background:
         linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.52)),
-        radial-gradient(circle at center, rgba(255,255,255,0.05), transparent 55%);
-      z-index: -2;
-    }
-
-    .hero-glow {
-      position: absolute;
-      inset: auto 0 0 0;
-      height: 120px;
-      background: linear-gradient(to top, rgba(0,0,0,0.35), transparent);
-      z-index: -1;
+        url("fondo-estadio.png.jpg") center/cover no-repeat;
     }
 
     .hero-inner {
@@ -241,31 +197,6 @@
       transform: translateY(-2px);
       box-shadow: 0 14px 32px rgba(0,0,0,0.22);
       background: #111;
-    }
-
-    .hero-dots {
-      position: absolute;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      z-index: 2;
-    }
-
-    .hero-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.45);
-      border: none;
-      cursor: pointer;
-      transition: transform 0.2s ease, background 0.2s ease;
-    }
-
-    .hero-dot.active {
-      background: #fff;
-      transform: scale(1.2);
     }
 
     .section {
@@ -814,6 +745,33 @@
       display: none;
     }
 
+    .footer {
+      padding: 40px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .ig-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #000;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .ig-btn:hover {
+      transform: scale(1.2);
+      background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
     @media (max-width: 950px) {
       .dashboard-shell {
         grid-template-columns: 1fr;
@@ -854,31 +812,6 @@
       .form-grid {
         grid-template-columns: 1fr;
       }
-      .footer {
-  padding: 40px 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.ig-btn {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #000;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 24px;
-  transition: all 0.3s ease;
-}
-
-.ig-btn:hover {
-  transform: scale(1.2);
-  background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-}
     }
   </style>
 </head>
@@ -897,26 +830,16 @@
   </header>
 
   <section class="hero">
-    <div class="hero-slides" id="heroSlides">
-      <div class="hero-slide active" style="background-image:url('fondo-estadio.png.jpg')"></div>
-      <div class="hero-slide" style="background-image:url('fondo-estadio.png.jpg')"></div>
-      <div class="hero-slide" style="background-image:url('fondo-estadio.png.jpg')"></div>
-    </div>
-    <div class="hero-overlay"></div>
-    <div class="hero-glow"></div>
-
     <div class="hero-inner">
       <div class="hero-pill">Nueva colección</div>
-      <h1 id="heroTitle">Jerseys que se ven pesadas</h1>
-      <p id="heroText">Fútbol, NBA, NFL, MLB y F1. Encontrá tu jersey favorita y administrá todo desde un solo panel.</p>
+      <h1>Jerseys que se ven pesadas</h1>
+      <p>Fútbol, NBA, NFL, MLB y F1. Encontrá tu jersey favorita y administrá todo desde un solo panel.</p>
       <div>
         <button class="hero-btn" onclick="document.getElementById('catalog-section').scrollIntoView({behavior:'smooth'})">
           Ver catálogo
         </button>
       </div>
     </div>
-
-    <div class="hero-dots" id="heroDots"></div>
   </section>
 
   <section class="section" id="catalog-section">
@@ -1035,7 +958,8 @@
       </div>
     </div>
   </div>
-    <script type="module">
+
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
       getFirestore,
@@ -1111,11 +1035,6 @@
     const closeLoginBtn = document.getElementById("closeLoginBtn");
     const loginError = document.getElementById("loginError");
 
-    const heroSlides = document.querySelectorAll(".hero-slide");
-    const heroDotsWrap = document.getElementById("heroDots");
-    const heroTitle = document.getElementById("heroTitle");
-    const heroText = document.getElementById("heroText");
-
     let products = [];
     let editingId = null;
     let currentImages = [];
@@ -1124,65 +1043,6 @@
 
     let logoClicks = 0;
     let logoClickTimer = null;
-
-    const heroContent = [
-      {
-        title: "Jerseys que se ven pesadas",
-        text: "Fútbol, NBA, NFL, MLB y F1. Encontrá tu jersey favorita y administrá todo desde un solo panel."
-      },
-    ];
-
-    let currentHero = 0;
-    let heroInterval = null;
-
-    function renderHeroDots() {
-      heroDotsWrap.innerHTML = "";
-      heroSlides.forEach((_, index) => {
-        const dot = document.createElement("button");
-        dot.className = `hero-dot ${index === 0 ? "active" : ""}`;
-        dot.addEventListener("click", () => {
-          showHeroSlide(index);
-          restartHeroAuto();
-        });
-        heroDotsWrap.appendChild(dot);
-      });
-    }
-
-    function showHeroSlide(index) {
-      currentHero = index;
-
-      heroSlides.forEach((slide, i) => {
-        slide.classList.toggle("active", i === index);
-      });
-
-      heroDotsWrap.querySelectorAll(".hero-dot").forEach((dot, i) => {
-        dot.classList.toggle("active", i === index);
-      });
-
-      heroTitle.style.animation = "none";
-      heroText.style.animation = "none";
-      heroTitle.offsetHeight;
-      heroTitle.style.animation = "fadeUp 0.55s ease both";
-      heroText.style.animation = "fadeUp 0.75s ease both";
-
-      heroTitle.textContent = heroContent[index].title;
-      heroText.textContent = heroContent[index].text;
-    }
-
-    function startHeroAuto() {
-      heroInterval = setInterval(() => {
-        const next = (currentHero + 1) % heroSlides.length;
-        showHeroSlide(next);
-      }, 4500);
-    }
-
-    function restartHeroAuto() {
-      clearInterval(heroInterval);
-      startHeroAuto();
-    }
-
-    renderHeroDots();
-    //startHeroAuto();
 
     function openLoginModal() {
       loginModal.classList.add("show");
@@ -1586,10 +1446,12 @@
 
     loadProducts();
   </script>
+
   <footer class="footer">
-  <a href="https://instagram.com/losprimos_jersey" target="_blank" class="ig-btn">
-    <i class="fab fa-instagram"></i>
-  </a>
-</footer>
+    <a href="https://instagram.com/losprimos_jersey" target="_blank" class="ig-btn">
+      <i class="fab fa-instagram"></i>
+    </a>
+  </footer>
+
 </body>
 </html>
