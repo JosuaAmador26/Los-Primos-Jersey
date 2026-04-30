@@ -56,13 +56,8 @@
       to { opacity: 1; transform: translateX(0); }
     }
 
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-
     .topbar {
-      background: rgba(0, 0, 0, 0.92);
+      background: #0a0a0a;
       color: #fff;
       padding: 12px 22px;
       display: grid;
@@ -73,7 +68,7 @@
       top: 0;
       z-index: 100;
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
     .brand-left {
@@ -286,18 +281,6 @@
       color: #fff;
       border-color: #000;
       box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-    }
-
-    .chip.new-badge {
-      background: linear-gradient(135deg, #ff6b6b, #ff8787);
-      color: #fff;
-      border-color: #ff6b6b;
-      font-weight: 900;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    .chip.new-badge:hover {
-      transform: translateY(-2px);
     }
 
     .chip:hover {
@@ -809,7 +792,7 @@
     }
 
     .whatsapp-btn {
-      background: var(--whatsapp);
+      background: #25d366;
     }
 
     .whatsapp-btn:hover {
@@ -944,7 +927,7 @@
         <button class="chip" data-filter="NFL">NFL</button>
         <button class="chip" data-filter="MLB">MLB</button>
         <button class="chip" data-filter="F1">F1</button>
-        <button class="chip new-badge" data-filter="nuevo">🆕 Nuevo</button>
+        <button class="chip" data-filter="nuevo">🆕 Nuevo</button>
       </div>
     </div>
 
@@ -1046,7 +1029,6 @@
     </div>
   </div>
 
-  <!-- Modal para ampliar imágenes -->
   <div id="imageModal" class="image-modal">
     <span id="closeImageModal" class="image-modal-close">&times;</span>
     <img id="imageModalImg" class="image-modal-content" src="" alt="Imagen ampliada">
@@ -1093,7 +1075,6 @@
     const storage = getStorage(app);
     const auth = getAuth(app);
 
-    // DOM Elements
     const brandLogo = document.getElementById("brandLogo");
     const productsContainer = document.getElementById("products");
     const searchInput = document.getElementById("searchInput");
@@ -1134,17 +1115,13 @@
     const imageModalImg = document.getElementById("imageModalImg");
     const closeImageModal = document.getElementById("closeImageModal");
 
-    // State
     let products = [];
     let editingId = null;
     let currentImages = [];
     let activeLeagueFilter = "";
     let isAdmin = false;
-
     let logoClicks = 0;
     let logoClickTimer = null;
-
-    // ========== FUNCTIONS ==========
 
     function openLoginModal() {
       loginModal.classList.add("show");
@@ -1254,7 +1231,6 @@
         return matchesSearch && matchesLeague && matchesSize;
       });
 
-      // Filtrar por "nuevo" si está seleccionado
       if (activeLeagueFilter === "nuevo") {
         filtered = filtered.filter(p => p.isNew === true);
       }
@@ -1267,16 +1243,13 @@
       }
 
       filtered.forEach((product) => {
-        // ✅ CREAR CARD CORRECTAMENTE
         const card = document.createElement("div");
         card.className = "product-card";
 
-        // ✅ AGREGAR CLASE SI ES NUEVO
         if (product.isNew === true) {
           card.classList.add("new-product");
         }
 
-        // ✅ OBTENER IMÁGENES SIN DUPLICAR LÓGICA
         const imageList = [];
         if (Array.isArray(product.imageUrls)) {
           product.imageUrls.forEach((url) => {
@@ -1330,7 +1303,6 @@
         productsContainer.appendChild(card);
       });
 
-      // Configurar galerías de miniaturas
       productsContainer.querySelectorAll(".thumb-row").forEach((row) => {
         const card = row.closest(".product-card");
         const mainImage = card.querySelector(".main-image");
@@ -1345,14 +1317,12 @@
         });
       });
 
-      // ✅ MODAL DE IMAGEN - SIN DUPLICADOS
       productsContainer.querySelectorAll(".main-image").forEach((img) => {
         img.addEventListener("click", () => {
           openImageModal(img.src);
         });
       });
 
-      // Acciones de admin
       if (isAdmin) {
         document.querySelectorAll(".edit-btn").forEach((btn) => {
           btn.addEventListener("click", () => startEdit(btn.dataset.id));
@@ -1482,9 +1452,6 @@
       cancelEditBtn.style.display = "none";
     }
 
-    // ========== EVENT LISTENERS ==========
-
-    // Logo clicks para login
     brandLogo.addEventListener("click", () => {
       if (isAdmin) return;
 
@@ -1502,7 +1469,6 @@
       }
     });
 
-    // Login modal
     closeLoginBtn.addEventListener("click", closeLoginModal);
 
     submitLoginBtn.addEventListener("click", async () => {
@@ -1544,7 +1510,6 @@
       if (e.target === loginModal) closeLoginModal();
     });
 
-    // ✅ MODAL DE IMAGEN - CONFIGURACIÓN CORRECTA
     if (closeImageModal) {
       closeImageModal.addEventListener("click", closeImageModalFn);
     }
@@ -1555,7 +1520,6 @@
       });
     }
 
-    // Auth state
     onAuthStateChanged(auth, (user) => {
       searchInput.value = "";
 
@@ -1574,7 +1538,6 @@
       updateStats();
     });
 
-    // Form buttons
     openFormBtn.addEventListener("click", () => {
       adminFormWrap.style.display = "block";
       adminFormWrap.style.animation = "none";
@@ -1597,7 +1560,6 @@
     saveBtn.addEventListener("click", saveProduct);
     cancelEditBtn.addEventListener("click", resetForm);
 
-    // Search and filters
     searchInput.addEventListener("input", renderProducts);
     sizeFilter.addEventListener("change", renderProducts);
 
@@ -1610,7 +1572,6 @@
       });
     });
 
-    // Inicializar
     loadProducts();
   </script>
 
