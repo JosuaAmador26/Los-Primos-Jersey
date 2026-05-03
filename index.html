@@ -20,7 +20,6 @@
       --red: #ef4444;
       --shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
       --shadow-strong: 0 18px 48px rgba(0, 0, 0, 0.18);
-      --whatsapp: #25d366;
     }
 
     html { scroll-behavior: smooth; }
@@ -32,30 +31,29 @@
       color: var(--text);
     }
 
-    button, input, select, textarea {
-      font-family: inherit;
-    }
+    button, input, select, textarea { font-family: inherit; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(28px); }
-      to { opacity: 1; transform: translateY(0); }
+      to   { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes fadeInSoft {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; } to { opacity: 1; }
     }
-
     @keyframes zoomSoft {
       from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
+      to   { opacity: 1; transform: scale(1); }
     }
-
     @keyframes slideLeftSoft {
       from { opacity: 0; transform: translateX(-18px); }
-      to { opacity: 1; transform: translateX(0); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes f1Pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.45); }
+      50%       { box-shadow: 0 0 0 10px rgba(220, 38, 38, 0); }
     }
 
+    /* ── TOPBAR ── */
     .topbar {
       background: #0a0a0a;
       color: #fff;
@@ -71,26 +69,17 @@
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    .brand-left {
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-    }
+    .brand-left { display: flex; align-items: center; justify-content: flex-start; }
 
+    /* Logo completamente neutro — sin ninguna pista de interactividad */
     .brand-logo {
       width: 58px;
       height: 58px;
       object-fit: contain;
       display: block;
-      filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
-      cursor: pointer;
+      cursor: default;
       user-select: none;
-      transition: transform 0.25s ease, filter 0.25s ease;
-    }
-
-    .brand-logo:hover {
-      transform: scale(1.06) rotate(-2deg);
-      filter: drop-shadow(0 8px 18px rgba(212, 175, 55, 0.35));
+      pointer-events: auto;
     }
 
     .brand-title {
@@ -121,23 +110,23 @@
       display: none;
       transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
-
     .header-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 24px rgba(0,0,0,0.22);
     }
 
+    /* ── HERO ── */
     .hero {
       position: relative;
-      min-height: 430px;
+      min-height: 500px;
       overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 34px 20px;
+      padding: 60px 20px;
       background:
-        linear-gradient(rgba(0,0,0,0.58), rgba(0,0,0,0.52)),
+        linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
         url("fondo-estadio.png.jpg") center/cover no-repeat;
     }
 
@@ -145,6 +134,8 @@
       max-width: 900px;
       color: #fff;
       animation: fadeUp 0.9s ease both;
+      position: relative;
+      z-index: 3;
     }
 
     .hero-pill {
@@ -158,6 +149,12 @@
       font-weight: 700;
       margin-bottom: 16px;
       animation: fadeInSoft 0.8s ease both;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+    .hero-pill:hover {
+      background: rgba(255,255,255,0.18);
+      transform: translateY(-2px);
     }
 
     .hero h1 {
@@ -169,7 +166,7 @@
     }
 
     .hero p {
-      margin: 0 auto 22px;
+      margin: 0 auto 28px;
       max-width: 760px;
       font-size: 16px;
       color: #f3f4f6;
@@ -178,6 +175,14 @@
       border-radius: 14px;
       display: inline-block;
       animation: fadeUp 1.1s ease both;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fadeUp 1.2s ease both;
     }
 
     .hero-btn {
@@ -191,15 +196,38 @@
       cursor: pointer;
       box-shadow: var(--shadow);
       transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-      animation: fadeUp 1.2s ease both;
     }
-
     .hero-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 14px 32px rgba(0,0,0,0.22);
       background: #111;
     }
 
+    /* Botón F1 — rojo racing con pulso */
+    .hero-btn-f1 {
+      border: none;
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      animation: f1Pulse 2.2s ease-in-out infinite;
+      transition: transform 0.18s ease, filter 0.18s ease;
+    }
+    .hero-btn-f1:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
+      animation: none;
+      box-shadow: 0 14px 32px rgba(220,38,38,0.45);
+    }
+
+    /* ── CATÁLOGO ── */
     .section {
       max-width: 1280px;
       margin: 0 auto;
@@ -233,7 +261,6 @@
       outline: none;
       transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
     }
-
     .search-input:focus {
       border-color: #c9c9c9;
       box-shadow: 0 0 0 4px rgba(0,0,0,0.04);
@@ -252,7 +279,6 @@
       outline: none;
       transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
-
     .size-select:hover {
       transform: translateY(-1px);
       box-shadow: 0 10px 24px rgba(0,0,0,0.15);
@@ -275,18 +301,15 @@
       cursor: pointer;
       transition: 0.18s ease;
     }
-
     .chip.active {
       background: #000;
       color: #fff;
       border-color: #000;
       box-shadow: 0 8px 18px rgba(0,0,0,0.12);
     }
+    .chip:hover { transform: translateY(-2px); }
 
-    .chip:hover {
-      transform: translateY(-2px);
-    }
-
+    /* ── GRID DE PRODUCTOS ── */
     .products-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
@@ -300,11 +323,9 @@
       overflow: hidden;
       box-shadow: var(--shadow);
       transition: transform 0.18s ease, box-shadow 0.18s ease;
-      transform-origin: center;
       animation: zoomSoft 0.45s ease both;
       position: relative;
     }
-
     .product-card:hover {
       transform: translateY(-8px);
       box-shadow: var(--shadow-strong);
@@ -322,7 +343,7 @@
       font-weight: 900;
       transform: rotate(45deg);
       z-index: 10;
-      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+      box-shadow: 0 4px 12px rgba(255,107,107,0.3);
     }
 
     .product-image-wrap {
@@ -339,10 +360,7 @@
       cursor: pointer;
       transition: transform 0.45s ease;
     }
-
-    .product-card:hover .product-image-wrap img.main-image {
-      transform: scale(1.05);
-    }
+    .product-card:hover .product-image-wrap img.main-image { transform: scale(1.05); }
 
     .thumb-row {
       display: flex;
@@ -351,7 +369,6 @@
       overflow-x: auto;
       background: #fff;
     }
-
     .thumb-row img {
       width: 56px;
       height: 56px;
@@ -362,15 +379,8 @@
       flex: 0 0 auto;
       transition: transform 0.25s ease, border-color 0.25s ease, opacity 0.25s ease;
     }
-
-    .thumb-row img:hover {
-      transform: scale(1.08);
-      opacity: 0.92;
-    }
-
-    .thumb-row img.active {
-      border-color: #000;
-    }
+    .thumb-row img:hover { transform: scale(1.08); opacity: 0.92; }
+    .thumb-row img.active { border-color: #000; }
 
     .status-badge {
       position: absolute;
@@ -384,45 +394,15 @@
       border-radius: 999px;
       box-shadow: 0 6px 18px rgba(0,0,0,0.08);
     }
+    .status-badge.agotado { background: #111; color: #fff; }
 
-    .status-badge.agotado {
-      background: #111;
-      color: #fff;
-    }
+    .product-body { padding: 16px; }
+    .product-title { margin: 0 0 6px; font-size: 20px; font-weight: 800; }
+    .product-meta  { color: var(--muted); font-size: 14px; margin-bottom: 10px; }
+    .product-price { font-size: 26px; font-weight: 900; margin-bottom: 10px; }
+    .product-sizes { font-size: 14px; color: #333; margin-bottom: 14px; }
 
-    .product-body {
-      padding: 16px;
-    }
-
-    .product-title {
-      margin: 0 0 6px;
-      font-size: 20px;
-      font-weight: 800;
-    }
-
-    .product-meta {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-
-    .product-price {
-      font-size: 26px;
-      font-weight: 900;
-      margin-bottom: 10px;
-    }
-
-    .product-sizes {
-      font-size: 14px;
-      color: #333;
-      margin-bottom: 14px;
-    }
-
-    .card-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
+    .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
     .btn {
       border: none;
@@ -433,21 +413,9 @@
       font-size: 14px;
       transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 24px rgba(0,0,0,0.12);
-    }
-
-    .btn-edit {
-      background: var(--green);
-      color: #fff;
-    }
-
-    .btn-delete {
-      background: var(--red);
-      color: #fff;
-    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(0,0,0,0.12); }
+    .btn-edit   { background: var(--green); color: #fff; }
+    .btn-delete { background: var(--red);   color: #fff; }
 
     .empty {
       background: #fff;
@@ -460,17 +428,14 @@
       animation: fadeInSoft 0.4s ease both;
     }
 
+    /* ── DASHBOARD ── */
     .dashboard {
       max-width: 1280px;
       margin: 10px auto 40px;
       padding: 0 20px;
       display: none;
     }
-
-    .dashboard.show {
-      display: block;
-      animation: fadeUp 0.45s ease both;
-    }
+    .dashboard.show { display: block; animation: fadeUp 0.45s ease both; }
 
     .dashboard-shell {
       display: grid;
@@ -478,8 +443,7 @@
       gap: 18px;
     }
 
-    .dash-sidebar,
-    .dash-main {
+    .dash-sidebar, .dash-main {
       background: #fff;
       border-radius: 22px;
       box-shadow: var(--shadow);
@@ -491,18 +455,9 @@
       color: #fff;
       animation: slideLeftSoft 0.55s ease both;
     }
+    .dash-sidebar h3 { margin: 0 0 18px; font-size: 20px; }
 
-    .dash-sidebar h3 {
-      margin: 0 0 18px;
-      font-size: 20px;
-    }
-
-    .dash-menu {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
+    .dash-menu { display: flex; flex-direction: column; gap: 10px; }
     .dash-menu button {
       border: none;
       background: rgba(255,255,255,0.08);
@@ -514,20 +469,10 @@
       font-weight: 700;
       transition: transform 0.18s ease, background 0.18s ease;
     }
+    .dash-menu button:hover  { transform: translateY(-2px); }
+    .dash-menu button.active { background: #fff; color: #111; }
 
-    .dash-menu button:hover {
-      transform: translateY(-2px);
-    }
-
-    .dash-menu button.active {
-      background: #fff;
-      color: #111;
-    }
-
-    .dash-main {
-      padding: 20px;
-      animation: fadeUp 0.6s ease both;
-    }
+    .dash-main { padding: 20px; animation: fadeUp 0.6s ease both; }
 
     .dash-top {
       display: flex;
@@ -537,10 +482,7 @@
       flex-wrap: wrap;
       margin-bottom: 18px;
     }
-
-    .dash-top h2 {
-      margin: 0;
-    }
+    .dash-top h2 { margin: 0; }
 
     .stats {
       display: grid;
@@ -548,7 +490,6 @@
       gap: 14px;
       margin-bottom: 20px;
     }
-
     .stat-card {
       background: #f9fafb;
       border: 1px solid #eee;
@@ -556,44 +497,28 @@
       padding: 16px;
       transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
-
-    .stat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-    }
-
-    .stat-card small {
-      display: block;
-      color: #6b7280;
-      margin-bottom: 8px;
-    }
-
-    .stat-card strong {
-      font-size: 24px;
-    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,0.08); }
+    .stat-card small  { display: block; color: #6b7280; margin-bottom: 8px; }
+    .stat-card strong { font-size: 24px; }
 
     .form-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
     }
-
-    .full {
-      grid-column: 1 / -1;
-    }
+    .full { grid-column: 1 / -1; }
 
     .dash-main input,
     .dash-main select,
     .dash-main textarea {
       width: 100%;
-      padding: 14px 14px;
+      padding: 14px;
       border-radius: 14px;
       border: 1px solid #ddd;
       font-size: 14px;
       outline: none;
       transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
     }
-
     .dash-main input:focus,
     .dash-main select:focus,
     .dash-main textarea:focus {
@@ -602,23 +527,14 @@
       transform: translateY(-1px);
     }
 
-    .helper {
-      font-size: 12px;
-      color: #666;
-      margin-top: 10px;
-    }
-
-    .preview-wrap {
-      margin-top: 16px;
-    }
-
+    .helper { font-size: 12px; color: #666; margin-top: 10px; }
+    .preview-wrap { margin-top: 16px; }
     .preview-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
       gap: 10px;
       margin-top: 10px;
     }
-
     .preview-grid img {
       width: 100%;
       height: 110px;
@@ -628,15 +544,9 @@
       animation: zoomSoft 0.25s ease both;
     }
 
-    .admin-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 18px;
-      flex-wrap: wrap;
-    }
+    .admin-actions { display: flex; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
 
-    .save-main,
-    .cancel-btn {
+    .save-main, .cancel-btn {
       padding: 14px 22px;
       border-radius: 14px;
       border: none;
@@ -644,24 +554,14 @@
       cursor: pointer;
       transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
-
-    .save-main:hover,
-    .cancel-btn:hover {
+    .save-main:hover, .cancel-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 24px rgba(0,0,0,0.12);
     }
+    .save-main  { background: #000; color: #fff; }
+    .cancel-btn { background: #ececec; color: #111; display: none; }
 
-    .save-main {
-      background: #000;
-      color: #fff;
-    }
-
-    .cancel-btn {
-      background: #ececec;
-      color: #111;
-      display: none;
-    }
-
+    /* ── MODAL LOGIN ── */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -673,10 +573,7 @@
       z-index: 500;
       backdrop-filter: blur(4px);
     }
-
-    .modal-backdrop.show {
-      display: flex;
-    }
+    .modal-backdrop.show { display: flex; }
 
     .modal-card {
       width: 100%;
@@ -687,28 +584,14 @@
       overflow: hidden;
       animation: zoomSoft 0.25s ease both;
     }
-
     .modal-top {
       background: linear-gradient(135deg, #000 0%, #111827 100%);
       color: #fff;
       padding: 18px 20px;
     }
-
-    .modal-top h3 {
-      margin: 0;
-      font-size: 22px;
-    }
-
-    .modal-body {
-      padding: 20px;
-    }
-
-    .modal-body p {
-      margin-top: 0;
-      color: #6b7280;
-      font-size: 14px;
-    }
-
+    .modal-top h3 { margin: 0; font-size: 22px; }
+    .modal-body { padding: 20px; }
+    .modal-body p { margin-top: 0; color: #6b7280; font-size: 14px; }
     .modal-body input {
       width: 100%;
       padding: 14px;
@@ -718,18 +601,12 @@
       font-size: 14px;
       transition: border-color 0.18s ease, box-shadow 0.18s ease;
     }
-
     .modal-body input:focus {
       border-color: #c9c9c9;
       box-shadow: 0 0 0 4px rgba(0,0,0,0.04);
       outline: none;
     }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-    }
-
+    .modal-actions { display: flex; gap: 10px; }
     .modal-actions button {
       flex: 1;
       border: none;
@@ -739,29 +616,42 @@
       cursor: pointer;
       transition: transform 0.18s ease, box-shadow 0.18s ease;
     }
+    .modal-actions button:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0,0,0,0.10); }
+    .modal-primary   { background: #000; color: #fff; }
+    .modal-secondary { background: #ececec; color: #111; }
+    .login-error { color: #b91c1c; font-size: 13px; margin-top: 10px; display: none; }
 
-    .modal-actions button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.10);
-    }
-
-    .modal-primary {
-      background: #000;
-      color: #fff;
-    }
-
-    .modal-secondary {
-      background: #ececec;
-      color: #111;
-    }
-
-    .login-error {
-      color: #b91c1c;
-      font-size: 13px;
-      margin-top: 10px;
+    /* ── MODAL IMAGEN ── */
+    .image-modal {
       display: none;
+      position: fixed;
+      z-index: 9999;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      justify-content: center;
+      align-items: center;
+      padding: 30px;
+    }
+    .image-modal.show { display: flex; }
+    .image-modal-content {
+      max-width: 90%;
+      max-height: 90vh;
+      border-radius: 16px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+      animation: zoomSoft 0.25s ease both;
+    }
+    .image-modal-close {
+      position: absolute;
+      top: 18px;
+      right: 28px;
+      font-size: 42px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      line-height: 1;
     }
 
+    /* ── FOOTER ── */
     .footer {
       padding: 40px 20px;
       display: flex;
@@ -770,7 +660,6 @@
       gap: 20px;
       flex-wrap: wrap;
     }
-
     .ig-btn, .whatsapp-btn {
       width: 60px;
       height: 60px;
@@ -784,97 +673,31 @@
       text-decoration: none;
       transition: all 0.3s ease;
     }
-
     .ig-btn:hover {
       transform: scale(1.2);
       background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af);
       box-shadow: 0 10px 25px rgba(0,0,0,0.3);
     }
-
-    .whatsapp-btn {
-      background: #25d366;
-    }
-
+    .whatsapp-btn { background: #25d366; }
     .whatsapp-btn:hover {
       transform: scale(1.2);
       background: #1abc9c;
-      box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+      box-shadow: 0 10px 25px rgba(37,211,102,0.4);
     }
 
-    .image-modal {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.88);
-      justify-content: center;
-      align-items: center;
-      padding: 30px;
-    }
-
-    .image-modal.show {
-      display: flex;
-    }
-
-    .image-modal-content {
-      max-width: 90%;
-      max-height: 90vh;
-      border-radius: 16px;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.45);
-      animation: zoomSoft 0.25s ease both;
-    }
-
-    .image-modal-close {
-      position: absolute;
-      top: 18px;
-      right: 28px;
-      font-size: 42px;
-      color: #fff;
-      cursor: pointer;
-      font-weight: bold;
-      line-height: 1;
-    }
-
+    /* ── RESPONSIVE ── */
     @media (max-width: 950px) {
-      .dashboard-shell {
-        grid-template-columns: 1fr;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
+      .dashboard-shell { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 900px) {
-      .topbar {
-        padding: 12px 14px;
-        grid-template-columns: 74px 1fr auto;
-      }
-
-      .brand-logo {
-        width: 48px;
-        height: 48px;
-      }
-
-      .brand-title {
-        font-size: 15px;
-      }
-
-      .hero {
-        min-height: 340px;
-      }
-
-      .hero h1 {
-        font-size: 36px;
-      }
-
-      .hero p {
-        font-size: 14px;
-      }
-
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
+      .topbar { padding: 12px 14px; grid-template-columns: 74px 1fr auto; }
+      .brand-logo { width: 48px; height: 48px; }
+      .brand-title { font-size: 15px; }
+      .hero { min-height: 400px; }
+      .hero h1 { font-size: 36px; }
+      .hero p  { font-size: 14px; }
+      .form-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -882,11 +705,10 @@
 
   <header class="topbar">
     <div class="brand-left">
+      <!-- Logo: solo decorativo. 5 clics rápidos = acceso admin secreto -->
       <img id="brandLogo" class="brand-logo" src="logo.png.jpeg" alt="Logo Los Primos Jersey">
     </div>
-
     <div class="brand-title">Los Primos Jersey</div>
-
     <div class="header-actions">
       <button id="logoutBtn" class="header-btn" style="display:none;">Salir</button>
     </div>
@@ -894,13 +716,21 @@
 
   <section class="hero">
     <div class="hero-inner">
-      <div class="hero-pill">Nueva colección</div>
+      <div class="hero-pill" id="heroPill">Nueva colección</div>
       <h1>Jerseys que se ven pesadas</h1>
       <p>Fútbol, NBA, NFL, MLB y F1. Encontrá tu jersey favorita y administrá todo desde un solo panel.</p>
-      <div>
+      <div class="hero-buttons">
         <button class="hero-btn" onclick="document.getElementById('catalog-section').scrollIntoView({behavior:'smooth'})">
           Ver catálogo
         </button>
+        <a
+          class="hero-btn-f1"
+          href="https://losprimosjersey.my.canva.site/catalogo-de-gorras-f1-los-primos-jersey"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          🏁 Catálogo F1
+        </a>
       </div>
     </div>
   </section>
@@ -927,7 +757,7 @@
         <button class="chip" data-filter="NFL">NFL</button>
         <button class="chip" data-filter="MLB">MLB</button>
         <button class="chip" data-filter="F1">F1</button>
-        <button class="chip" data-filter="nuevo">🆕 Nuevo</button>
+        <button class="chip" data-filter="nuevo">Nuevo</button>
       </div>
     </div>
 
@@ -951,18 +781,9 @@
         </div>
 
         <div class="stats">
-          <div class="stat-card">
-            <small>Total productos</small>
-            <strong id="statTotal">0</strong>
-          </div>
-          <div class="stat-card">
-            <small>Disponibles</small>
-            <strong id="statAvailable">0</strong>
-          </div>
-          <div class="stat-card">
-            <small>Agotados</small>
-            <strong id="statSoldOut">0</strong>
-          </div>
+          <div class="stat-card"><small>Total productos</small><strong id="statTotal">0</strong></div>
+          <div class="stat-card"><small>Disponibles</small><strong id="statAvailable">0</strong></div>
+          <div class="stat-card"><small>Agotados</small><strong id="statSoldOut">0</strong></div>
         </div>
 
         <div id="adminFormWrap" style="display:none;">
@@ -985,9 +806,9 @@
             </select>
 
             <input id="sizes" class="full" placeholder="Tallas (ejemplo: S, M, L, XL)" />
-            
-            <label style="font-size: 13px; color: #666; margin-bottom: 5px; display: block;">
-              <input id="isNew" type="checkbox" style="margin-right: 8px;" />
+
+            <label style="font-size:13px;color:#666;margin-bottom:5px;display:block;grid-column:1/-1;">
+              <input id="isNew" type="checkbox" style="margin-right:8px;" />
               Marcar como NUEVO
             </label>
 
@@ -1011,11 +832,10 @@
     </div>
   </section>
 
+  <!-- Modal Login -->
   <div id="loginModal" class="modal-backdrop">
     <div class="modal-card">
-      <div class="modal-top">
-        <h3>Iniciar sesión</h3>
-      </div>
+      <div class="modal-top"><h3>Iniciar sesión</h3></div>
       <div class="modal-body">
         <p>Ingresá con tu cuenta de administrador.</p>
         <input id="loginEmail" type="email" placeholder="Correo" value="losprimosjersey@gmail.com" />
@@ -1029,6 +849,7 @@
     </div>
   </div>
 
+  <!-- Modal Imagen ampliada -->
   <div id="imageModal" class="image-modal">
     <span id="closeImageModal" class="image-modal-close">&times;</span>
     <img id="imageModalImg" class="image-modal-content" src="" alt="Imagen ampliada">
@@ -1037,28 +858,17 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import {
-      getFirestore,
-      collection,
-      addDoc,
-      getDocs,
-      updateDoc,
-      deleteDoc,
-      doc
+      getFirestore, collection, addDoc, getDocs,
+      updateDoc, deleteDoc, doc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
     import {
-      getStorage,
-      ref,
-      uploadBytes,
-      getDownloadURL
+      getStorage, ref, uploadBytes, getDownloadURL
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
     import {
-      getAuth,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged
+      getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    const ADMIN_UID = "gcTOz2EC47RkFWMlny7OGPCS3H23";
+    const ADMIN_UID   = "gcTOz2EC47RkFWMlny7OGPCS3H23";
     const ADMIN_EMAIL = "losprimosjersey@gmail.com";
 
     const firebaseConfig = {
@@ -1070,79 +880,81 @@
       appId: "1:416044077942:web:5f552ef5beddd8d74ba057"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    const app     = initializeApp(firebaseConfig);
+    const db      = getFirestore(app);
     const storage = getStorage(app);
-    const auth = getAuth(app);
+    const auth    = getAuth(app);
 
-    const brandLogo = document.getElementById("brandLogo");
+    // ── DOM ──
+    const brandLogo         = document.getElementById("brandLogo");
     const productsContainer = document.getElementById("products");
-    const searchInput = document.getElementById("searchInput");
-    const sizeFilter = document.getElementById("sizeFilter");
-    const chipsContainer = document.getElementById("chipsContainer");
+    const searchInput       = document.getElementById("searchInput");
+    const sizeFilter        = document.getElementById("sizeFilter");
+    const chipsContainer    = document.getElementById("chipsContainer");
+    const heroPill          = document.getElementById("heroPill");
+    const logoutBtn         = document.getElementById("logoutBtn");
+    const dashboard         = document.getElementById("dashboard");
+    const statTotal         = document.getElementById("statTotal");
+    const statAvailable     = document.getElementById("statAvailable");
+    const statSoldOut       = document.getElementById("statSoldOut");
+    const openFormBtn       = document.getElementById("openFormBtn");
+    const closePanelBtn     = document.getElementById("closePanelBtn");
+    const adminFormWrap     = document.getElementById("adminFormWrap");
+    const nameInput         = document.getElementById("name");
+    const priceInput        = document.getElementById("price");
+    const leagueInput       = document.getElementById("league");
+    const statusInput       = document.getElementById("status");
+    const sizesInput        = document.getElementById("sizes");
+    const isNewCheckbox     = document.getElementById("isNew");
+    const imageFilesInput   = document.getElementById("imageFiles");
+    const previewGrid       = document.getElementById("previewGrid");
+    const saveBtn           = document.getElementById("saveBtn");
+    const cancelEditBtn     = document.getElementById("cancelEditBtn");
+    const formTitle         = document.getElementById("formTitle");
+    const loginModal        = document.getElementById("loginModal");
+    const loginEmail        = document.getElementById("loginEmail");
+    const loginPassword     = document.getElementById("loginPassword");
+    const submitLoginBtn    = document.getElementById("submitLoginBtn");
+    const closeLoginBtn     = document.getElementById("closeLoginBtn");
+    const loginError        = document.getElementById("loginError");
+    const imageModal        = document.getElementById("imageModal");
+    const imageModalImg     = document.getElementById("imageModalImg");
+    const closeImageModal   = document.getElementById("closeImageModal");
 
-    const logoutBtn = document.getElementById("logoutBtn");
-    const dashboard = document.getElementById("dashboard");
-
-    const statTotal = document.getElementById("statTotal");
-    const statAvailable = document.getElementById("statAvailable");
-    const statSoldOut = document.getElementById("statSoldOut");
-
-    const openFormBtn = document.getElementById("openFormBtn");
-    const closePanelBtn = document.getElementById("closePanelBtn");
-    const adminFormWrap = document.getElementById("adminFormWrap");
-
-    const nameInput = document.getElementById("name");
-    const priceInput = document.getElementById("price");
-    const leagueInput = document.getElementById("league");
-    const statusInput = document.getElementById("status");
-    const sizesInput = document.getElementById("sizes");
-    const isNewCheckbox = document.getElementById("isNew");
-    const imageFilesInput = document.getElementById("imageFiles");
-    const previewGrid = document.getElementById("previewGrid");
-    const saveBtn = document.getElementById("saveBtn");
-    const cancelEditBtn = document.getElementById("cancelEditBtn");
-    const formTitle = document.getElementById("formTitle");
-
-    const loginModal = document.getElementById("loginModal");
-    const loginEmail = document.getElementById("loginEmail");
-    const loginPassword = document.getElementById("loginPassword");
-    const submitLoginBtn = document.getElementById("submitLoginBtn");
-    const closeLoginBtn = document.getElementById("closeLoginBtn");
-    const loginError = document.getElementById("loginError");
-
-    const imageModal = document.getElementById("imageModal");
-    const imageModalImg = document.getElementById("imageModalImg");
-    const closeImageModal = document.getElementById("closeImageModal");
-
-    let products = [];
-    let editingId = null;
-    let currentImages = [];
+    // ── Estado ──
+    let products           = [];
+    let editingId          = null;
+    let currentImages      = [];
     let activeLeagueFilter = "";
-    let isAdmin = false;
-    let logoClicks = 0;
+    let isAdmin            = false;
+
+    // ── Acceso secreto: 5 clics rápidos en el logo ──
+    let logoClicks     = 0;
     let logoClickTimer = null;
 
-    function openLoginModal() {
-      loginModal.classList.add("show");
-      loginError.style.display = "none";
-      loginPassword.value = "";
-      loginEmail.value = ADMIN_EMAIL;
-    }
+    brandLogo.addEventListener("click", () => {
+      if (isAdmin) return;
+      logoClicks++;
+      if (logoClickTimer) clearTimeout(logoClickTimer);
+      logoClickTimer = setTimeout(() => { logoClicks = 0; }, 1500);
+      if (logoClicks >= 5) {
+        logoClicks = 0;
+        openLoginModal();
+      }
+    });
 
-    function closeLoginModal() {
-      loginModal.classList.remove("show");
-      loginError.style.display = "none";
-    }
-
-    function openImageModal(src) {
-      imageModalImg.src = src;
-      imageModal.classList.add("show");
-    }
-
-    function closeImageModalFn() {
-      imageModal.classList.remove("show");
-      imageModalImg.src = "";
+    // ── Utilidades ──
+    function buildImageList(product) {
+      const list = [];
+      if (Array.isArray(product.imageUrls)) {
+        product.imageUrls.forEach(url => {
+          if (typeof url === "string" && url.trim()) list.push(url.trim());
+        });
+      }
+      if (!list.length && typeof product.imageUrl === "string" && product.imageUrl.trim()) {
+        list.push(product.imageUrl.trim());
+      }
+      return list;
     }
 
     function formatPrice(value) {
@@ -1150,24 +962,17 @@
     }
 
     function updateStats() {
-      const total = products.length;
-      const available = products.filter(p => (p.status || "") === "Disponible").length;
-      const soldOut = products.filter(p => (p.status || "") === "Agotado").length;
-
-      statTotal.textContent = total;
-      statAvailable.textContent = available;
-      statSoldOut.textContent = soldOut;
+      statTotal.textContent     = products.length;
+      statAvailable.textContent = products.filter(p => (p.status || "") === "Disponible").length;
+      statSoldOut.textContent   = products.filter(p => (p.status || "") === "Agotado").length;
     }
 
     function renderPreviewFiles(files) {
       previewGrid.innerHTML = "";
-
-      if (!files.length && !currentImages.length) return;
-
       if (files.length) {
-        files.forEach((file) => {
+        files.forEach(file => {
           const reader = new FileReader();
-          reader.onload = (e) => {
+          reader.onload = e => {
             const img = document.createElement("img");
             img.src = e.target.result;
             previewGrid.appendChild(img);
@@ -1176,8 +981,7 @@
         });
         return;
       }
-
-      currentImages.forEach((url) => {
+      currentImages.forEach(url => {
         const img = document.createElement("img");
         img.src = url;
         previewGrid.appendChild(img);
@@ -1185,28 +989,22 @@
     }
 
     async function uploadMultipleImages(files) {
-      const uploadedUrls = [];
-
+      const urls = [];
       for (const file of files) {
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
         const filePath = `products/${Date.now()}-${Math.random().toString(36).slice(2)}-${safeName}`;
-        const fileRef = ref(storage, filePath);
-
+        const fileRef  = ref(storage, filePath);
         await uploadBytes(fileRef, file, { contentType: file.type });
-        const downloadURL = await getDownloadURL(fileRef);
-        uploadedUrls.push(downloadURL);
+        urls.push(await getDownloadURL(fileRef));
       }
-
-      return uploadedUrls;
+      return urls;
     }
 
+    // ── Firebase CRUD ──
     async function loadProducts() {
       try {
         const snapshot = await getDocs(collection(db, "products"));
-        products = snapshot.docs.map((item) => ({
-          id: item.id,
-          ...item.data()
-        }));
+        products = snapshot.docs.map(item => ({ id: item.id, ...item.data() }));
         renderProducts();
         updateStats();
       } catch (error) {
@@ -1215,20 +1013,115 @@
       }
     }
 
+    async function saveProduct() {
+      if (!isAdmin) { alert("No tenés permiso."); return; }
+
+      const name   = nameInput.value.trim();
+      const price  = priceInput.value.trim();
+      const league = leagueInput.value;
+      const status = statusInput.value;
+      const sizes  = sizesInput.value.trim();
+      const isNew  = isNewCheckbox.checked;
+      const files  = Array.from(imageFilesInput.files || []);
+
+      if (!name || !price || !league) { alert("Completá nombre, precio y liga."); return; }
+
+      try {
+        let imageUrls = [...currentImages];
+        if (files.length) imageUrls = await uploadMultipleImages(files);
+
+        const productData = {
+          name, price: Number(price), league, status,
+          sizes, isNew, imageUrls, imageUrl: imageUrls[0] || ""
+        };
+
+        if (editingId) {
+          await updateDoc(doc(db, "products", editingId), productData);
+          alert("Producto actualizado.");
+        } else {
+          await addDoc(collection(db, "products"), productData);
+          alert("Producto guardado.");
+        }
+
+        resetForm();
+        await loadProducts();
+      } catch (error) {
+        console.error("Error al guardar:", error);
+        alert("No se pudo guardar. Revisá F12.");
+      }
+    }
+
+    function startEdit(id) {
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+
+      editingId     = id;
+      currentImages = Array.isArray(product.imageUrls)
+        ? [...product.imageUrls]
+        : (product.imageUrl ? [product.imageUrl] : []);
+
+      nameInput.value       = product.name   || "";
+      priceInput.value      = product.price  || "";
+      leagueInput.value     = product.league || "";
+      statusInput.value     = product.status || "Disponible";
+      sizesInput.value      = product.sizes  || "";
+      isNewCheckbox.checked = product.isNew  === true;
+      imageFilesInput.value = "";
+      renderPreviewFiles([]);
+
+      formTitle.textContent       = "Editando producto";
+      saveBtn.textContent         = "Actualizar producto";
+      cancelEditBtn.style.display = "inline-block";
+      adminFormWrap.style.display = "block";
+      adminFormWrap.style.animation = "none";
+      adminFormWrap.offsetHeight;
+      adminFormWrap.style.animation = "fadeUp 0.45s ease both";
+      dashboard.scrollIntoView({ behavior: "smooth" });
+    }
+
+    async function removeProduct(id) {
+      if (!confirm("¿Seguro que querés eliminar este producto?")) return;
+      try {
+        await deleteDoc(doc(db, "products", id));
+        if (editingId === id) resetForm();
+        await loadProducts();
+        alert("Producto eliminado.");
+      } catch (error) {
+        console.error("Error al eliminar:", error);
+        alert("No se pudo eliminar. Revisá F12.");
+      }
+    }
+
+    function resetForm() {
+      editingId     = null;
+      currentImages = [];
+      nameInput.value       = "";
+      priceInput.value      = "";
+      leagueInput.value     = "";
+      statusInput.value     = "Disponible";
+      sizesInput.value      = "";
+      isNewCheckbox.checked = false;
+      imageFilesInput.value = "";
+      previewGrid.innerHTML = "";
+      formTitle.textContent       = "Administración del catálogo";
+      saveBtn.textContent         = "Guardar producto";
+      cancelEditBtn.style.display = "none";
+    }
+
+    // ── Renderizado ──
     function renderProducts() {
       const search = searchInput.value.trim().toLowerCase();
-      const size = sizeFilter.value;
+      const size   = sizeFilter.value;
 
-      let filtered = products.filter((product) => {
-        const name = (product.name || "").toLowerCase();
-        const league = (product.league || "").toLowerCase();
-        const sizesText = (product.sizes || "").toLowerCase();
-
-        const matchesSearch = name.includes(search) || league.includes(search);
-        const matchesLeague = !activeLeagueFilter || activeLeagueFilter === "nuevo" || product.league === activeLeagueFilter;
-        const matchesSize = !size || sizesText.includes(size.toLowerCase());
-
-        return matchesSearch && matchesLeague && matchesSize;
+      let filtered = products.filter(product => {
+        const name      = (product.name   || "").toLowerCase();
+        const league    = (product.league || "").toLowerCase();
+        const sizesText = (product.sizes  || "").toLowerCase();
+        return (
+          (name.includes(search) || league.includes(search)) &&
+          (!activeLeagueFilter || activeLeagueFilter === "nuevo" || product.league === activeLeagueFilter) &&
+          (!size || sizesText.includes(size.toLowerCase()))
+        );
       });
 
       if (activeLeagueFilter === "nuevo") {
@@ -1242,26 +1135,12 @@
         return;
       }
 
-      filtered.forEach((product) => {
-        const card = document.createElement("div");
+      filtered.forEach(product => {
+        const card     = document.createElement("div");
         card.className = "product-card";
+        if (product.isNew === true) card.classList.add("new-product");
 
-        if (product.isNew === true) {
-          card.classList.add("new-product");
-        }
-
-        const imageList = [];
-        if (Array.isArray(product.imageUrls)) {
-          product.imageUrls.forEach((url) => {
-            if (typeof url === "string" && url.trim() !== "") {
-              imageList.push(url.trim());
-            }
-          });
-        }
-        if (imageList.length === 0 && typeof product.imageUrl === "string" && product.imageUrl.trim() !== "") {
-          imageList.push(product.imageUrl.trim());
-        }
-
+        const imageList  = buildImageList(product);
         const badgeClass = product.status === "Agotado" ? "status-badge agotado" : "status-badge";
 
         card.innerHTML = `
@@ -1276,13 +1155,8 @@
           </div>
           ${imageList.length > 1 ? `
             <div class="thumb-row">
-              ${imageList.map((url, imgIndex) => `
-                <img
-                  src="${url}"
-                  class="${imgIndex === 0 ? "active" : ""}"
-                  data-full="${url}"
-                  alt="Vista ${imgIndex + 1}"
-                >
+              ${imageList.map((url, i) => `
+                <img src="${url}" class="${i === 0 ? "active" : ""}" data-full="${url}" alt="Vista ${i + 1}">
               `).join("")}
             </div>
           ` : ""}
@@ -1293,236 +1167,64 @@
             <div class="product-sizes"><b>Tallas:</b> ${product.sizes || "No definidas"}</div>
             ${isAdmin ? `
               <div class="card-actions">
-                <button class="btn btn-edit edit-btn" data-id="${product.id}">Editar</button>
+                <button class="btn btn-edit edit-btn"    data-id="${product.id}">Editar</button>
                 <button class="btn btn-delete delete-btn" data-id="${product.id}">Eliminar</button>
               </div>
             ` : ""}
           </div>
         `;
-
         productsContainer.appendChild(card);
       });
 
-      productsContainer.querySelectorAll(".thumb-row").forEach((row) => {
-        const card = row.closest(".product-card");
-        const mainImage = card.querySelector(".main-image");
-        const thumbs = row.querySelectorAll("img");
-
-        thumbs.forEach((thumb) => {
+      productsContainer.querySelectorAll(".thumb-row").forEach(row => {
+        const mainImage = row.closest(".product-card").querySelector(".main-image");
+        const thumbs    = row.querySelectorAll("img");
+        thumbs.forEach(thumb => {
           thumb.addEventListener("click", () => {
             mainImage.src = thumb.dataset.full;
-            thumbs.forEach((t) => t.classList.remove("active"));
+            thumbs.forEach(t => t.classList.remove("active"));
             thumb.classList.add("active");
           });
         });
       });
 
-      productsContainer.querySelectorAll(".main-image").forEach((img) => {
-        img.addEventListener("click", () => {
-          openImageModal(img.src);
-        });
+      productsContainer.querySelectorAll(".main-image").forEach(img => {
+        img.addEventListener("click", () => openImageModal(img.src));
       });
 
       if (isAdmin) {
-        document.querySelectorAll(".edit-btn").forEach((btn) => {
+        document.querySelectorAll(".edit-btn").forEach(btn => {
           btn.addEventListener("click", () => startEdit(btn.dataset.id));
         });
-
-        document.querySelectorAll(".delete-btn").forEach((btn) => {
+        document.querySelectorAll(".delete-btn").forEach(btn => {
           btn.addEventListener("click", () => removeProduct(btn.dataset.id));
         });
       }
     }
 
-    async function saveProduct() {
-      try {
-        if (!isAdmin) {
-          alert("No tenés permiso para hacer esto.");
-          return;
-        }
-
-        const name = nameInput.value.trim();
-        const price = priceInput.value.trim();
-        const league = leagueInput.value;
-        const status = statusInput.value;
-        const sizes = sizesInput.value.trim();
-        const isNew = isNewCheckbox.checked;
-        const files = Array.from(imageFilesInput.files || []);
-
-        if (!name || !price || !league) {
-          alert("Completá nombre, precio y liga.");
-          return;
-        }
-
-        let imageUrls = [...currentImages];
-
-        if (files.length) {
-          imageUrls = await uploadMultipleImages(files);
-        }
-
-        const productData = {
-          name,
-          price: Number(price),
-          league,
-          status,
-          sizes,
-          isNew,
-          imageUrls,
-          imageUrl: imageUrls[0] || ""
-        };
-
-        if (editingId) {
-          await updateDoc(doc(db, "products", editingId), productData);
-          alert("Producto actualizado correctamente.");
-        } else {
-          await addDoc(collection(db, "products"), productData);
-          alert("Producto guardado correctamente.");
-        }
-
-        resetForm();
-        await loadProducts();
-      } catch (error) {
-        console.error("Error al guardar producto:", error);
-        alert("No se pudo guardar. Revisá F12.");
-      }
+    // ── Modales ──
+    function openLoginModal() {
+      loginModal.classList.add("show");
+      loginError.style.display = "none";
+      loginPassword.value      = "";
+      loginEmail.value         = ADMIN_EMAIL;
+    }
+    function closeLoginModal() {
+      loginModal.classList.remove("show");
+      loginError.style.display = "none";
+    }
+    function openImageModal(src) {
+      imageModalImg.src = src;
+      imageModal.classList.add("show");
+    }
+    function closeImageModalFn() {
+      imageModal.classList.remove("show");
+      imageModalImg.src = "";
     }
 
-    function startEdit(id) {
-      const product = products.find((p) => p.id === id);
-      if (!product) return;
-
-      editingId = id;
-      currentImages = Array.isArray(product.imageUrls) ? [...product.imageUrls] : (product.imageUrl ? [product.imageUrl] : []);
-
-      nameInput.value = product.name || "";
-      priceInput.value = product.price || "";
-      leagueInput.value = product.league || "";
-      statusInput.value = product.status || "Disponible";
-      sizesInput.value = product.sizes || "";
-      isNewCheckbox.checked = product.isNew === true;
-
-      imageFilesInput.value = "";
-      renderPreviewFiles([]);
-
-      formTitle.textContent = "Editando producto";
-      saveBtn.textContent = "Actualizar producto";
-      cancelEditBtn.style.display = "inline-block";
-      adminFormWrap.style.display = "block";
-      adminFormWrap.style.animation = "none";
-      adminFormWrap.offsetHeight;
-      adminFormWrap.style.animation = "fadeUp 0.45s ease both";
-
-      dashboard.scrollIntoView({ behavior: "smooth" });
-    }
-
-    async function removeProduct(id) {
-      const confirmed = confirm("¿Seguro que querés eliminar este producto?");
-      if (!confirmed) return;
-
-      try {
-        await deleteDoc(doc(db, "products", id));
-
-        if (editingId === id) {
-          resetForm();
-        }
-
-        await loadProducts();
-        alert("Producto eliminado.");
-      } catch (error) {
-        console.error("Error al eliminar producto:", error);
-        alert("No se pudo eliminar. Revisá F12.");
-      }
-    }
-
-    function resetForm() {
-      editingId = null;
-      currentImages = [];
-
-      nameInput.value = "";
-      priceInput.value = "";
-      leagueInput.value = "";
-      statusInput.value = "Disponible";
-      sizesInput.value = "";
-      isNewCheckbox.checked = false;
-      imageFilesInput.value = "";
-      previewGrid.innerHTML = "";
-
-      formTitle.textContent = "Administración del catálogo";
-      saveBtn.textContent = "Guardar producto";
-      cancelEditBtn.style.display = "none";
-    }
-
-    brandLogo.addEventListener("click", () => {
-      if (isAdmin) return;
-
-      logoClicks++;
-
-      if (logoClickTimer) clearTimeout(logoClickTimer);
-
-      logoClickTimer = setTimeout(() => {
-        logoClicks = 0;
-      }, 1200);
-
-      if (logoClicks >= 5) {
-        logoClicks = 0;
-        openLoginModal();
-      }
-    });
-
-    closeLoginBtn.addEventListener("click", closeLoginModal);
-
-    submitLoginBtn.addEventListener("click", async () => {
-      const email = loginEmail.value.trim();
-      const password = loginPassword.value;
-
-      if (!email || !password) {
-        loginError.textContent = "Completá correo y contraseña.";
-        loginError.style.display = "block";
-        return;
-      }
-
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-        closeLoginModal();
-      } catch (error) {
-        console.error("Error al iniciar sesión:", error);
-        loginError.textContent = "No se pudo iniciar sesión. Revisá tus datos.";
-        loginError.style.display = "block";
-      }
-    });
-
-    logoutBtn.addEventListener("click", async () => {
-      try {
-        await signOut(auth);
-      } catch (error) {
-        console.error("Error al cerrar sesión:", error);
-      }
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        closeLoginModal();
-        closeImageModalFn();
-      }
-    });
-
-    loginModal.addEventListener("click", (e) => {
-      if (e.target === loginModal) closeLoginModal();
-    });
-
-    if (closeImageModal) {
-      closeImageModal.addEventListener("click", closeImageModalFn);
-    }
-
-    if (imageModal) {
-      imageModal.addEventListener("click", (e) => {
-        if (e.target === imageModal) closeImageModalFn();
-      });
-    }
-
-    onAuthStateChanged(auth, (user) => {
+    // ── Auth ──
+    onAuthStateChanged(auth, user => {
       searchInput.value = "";
-
       if (user && user.uid === ADMIN_UID && user.email === ADMIN_EMAIL) {
         isAdmin = true;
         dashboard.classList.add("show");
@@ -1530,20 +1232,67 @@
       } else {
         isAdmin = false;
         dashboard.classList.remove("show");
-        logoutBtn.style.display = "none";
+        logoutBtn.style.display     = "none";
         adminFormWrap.style.display = "none";
       }
-
       renderProducts();
       updateStats();
     });
 
+    // ── Listeners ──
+    closeLoginBtn.addEventListener("click", closeLoginModal);
+
+    submitLoginBtn.addEventListener("click", async () => {
+      const email    = loginEmail.value.trim();
+      const password = loginPassword.value;
+      if (!email || !password) {
+        loginError.textContent   = "Completá correo y contraseña.";
+        loginError.style.display = "block";
+        return;
+      }
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        closeLoginModal();
+      } catch (error) {
+        console.error(error);
+        loginError.textContent   = "No se pudo iniciar sesión. Revisá tus datos.";
+        loginError.style.display = "block";
+      }
+    });
+
+    logoutBtn.addEventListener("click", async () => {
+      try { await signOut(auth); } catch (e) { console.error(e); }
+    });
+
+    heroPill.addEventListener("click", () => {
+      const nuevoChip = document.querySelector('.chip[data-filter="nuevo"]');
+      if (nuevoChip) {
+        document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+        nuevoChip.classList.add("active");
+        activeLeagueFilter = "nuevo";
+        renderProducts();
+        document.getElementById("catalog-section").scrollIntoView({ behavior: "smooth" });
+      }
+    });
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") { closeLoginModal(); closeImageModalFn(); }
+    });
+
+    loginModal.addEventListener("click", e => {
+      if (e.target === loginModal) closeLoginModal();
+    });
+
+    closeImageModal.addEventListener("click", closeImageModalFn);
+    imageModal.addEventListener("click", e => {
+      if (e.target === imageModal) closeImageModalFn();
+    });
+
     openFormBtn.addEventListener("click", () => {
-      adminFormWrap.style.display = "block";
+      adminFormWrap.style.display   = "block";
       adminFormWrap.style.animation = "none";
       adminFormWrap.offsetHeight;
       adminFormWrap.style.animation = "fadeUp 0.45s ease both";
-
       formTitle.textContent = editingId ? "Editando producto" : "Agregar producto";
       dashboard.scrollIntoView({ behavior: "smooth" });
     });
@@ -1553,19 +1302,17 @@
     });
 
     imageFilesInput.addEventListener("change", () => {
-      const files = Array.from(imageFilesInput.files || []);
-      renderPreviewFiles(files);
+      renderPreviewFiles(Array.from(imageFilesInput.files || []));
     });
 
-    saveBtn.addEventListener("click", saveProduct);
+    saveBtn.addEventListener("click",       saveProduct);
     cancelEditBtn.addEventListener("click", resetForm);
+    searchInput.addEventListener("input",   renderProducts);
+    sizeFilter.addEventListener("change",   renderProducts);
 
-    searchInput.addEventListener("input", renderProducts);
-    sizeFilter.addEventListener("change", renderProducts);
-
-    chipsContainer.querySelectorAll(".chip").forEach((chip) => {
+    chipsContainer.querySelectorAll(".chip").forEach(chip => {
       chip.addEventListener("click", () => {
-        chipsContainer.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+        chipsContainer.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
         chip.classList.add("active");
         activeLeagueFilter = chip.dataset.filter;
         renderProducts();
@@ -1583,5 +1330,6 @@
       <i class="fab fa-whatsapp"></i>
     </a>
   </footer>
+
 </body>
 </html>
