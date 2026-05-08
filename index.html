@@ -115,7 +115,7 @@
       box-shadow: 0 10px 24px rgba(0,0,0,0.22);
     }
 
-    /* ── HERO MEJORADO CON CARRUSEL ── */
+    /* ── HERO ── */
     .hero {
       position: relative;
       min-height: 600px;
@@ -124,8 +124,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 60px 40px;
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80') center/cover no-repeat;
-                       url("https://firebasestorage.googleapis.com/v0/b/los-primos-jersey.firebasestorage.app/o/heroe%2Ffondo-estadio.png.jpg?alt=media&token=fcc8e0cb-ddaa-495d-af88-3edf1232ce10") center/cover no-repeat;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                  url("https://firebasestorage.googleapis.com/v0/b/los-primos-jersey.firebasestorage.app/o/heroe%2Ffondo-estadio.png.jpg?alt=media&token=fcc8e0cb-ddaa-495d-af88-3edf1232ce10") center/cover no-repeat;
       background-attachment: fixed;
     }
 
@@ -137,6 +137,9 @@
       height: 100%;
       overflow: hidden;
       z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .hero-carousel-item {
@@ -159,6 +162,7 @@
       height: 100%;
       object-fit: contain;
       object-position: center;
+      padding: 10px;
     }
 
     .carousel-nav {
@@ -813,17 +817,18 @@
         flex-direction: column;
         text-align: center;
         padding: 40px 20px;
+        min-height: auto;
+      }
+
+      .hero-inner {
+        max-width: 100%;
       }
 
       .hero-carousel {
         position: static;
         width: 100%;
-        height: 350px;
-        margin-top: 30px;
-      }
-
-      .hero-inner {
-        max-width: 100%;
+        height: clamp(240px, 50vw, 400px);
+        margin-top: 24px;
       }
 
       .dashboard-shell { grid-template-columns: 1fr; }
@@ -834,11 +839,17 @@
       .topbar { padding: 12px 14px; grid-template-columns: 74px 1fr auto; }
       .brand-logo { width: 48px; height: 48px; }
       .brand-title { font-size: 15px; }
-      .hero { min-height: auto; padding: 30px 20px; }
+      .hero { padding: 30px 20px; }
       .hero h1 { font-size: 36px; }
       .hero p  { font-size: 14px; }
       .form-grid { grid-template-columns: 1fr; }
-      .hero-carousel { height: 280px; }
+      .hero-carousel { height: clamp(200px, 45vw, 320px); }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 28px; }
+      .hero-carousel { height: clamp(180px, 60vw, 260px); }
+      .hero-buttons { justify-content: center; }
     }
   </style>
 </head>
@@ -863,13 +874,13 @@
         <button class="hero-btn" onclick="document.getElementById('catalog-section').scrollIntoView({behavior:'smooth'})">
           Ver catálogo
         </button>
-        <a
-          class="hero-btn-f1"
-          href="https://losprimosjersey.my.canva.site/catalogo-de-gorras-f1-los-primos-jersey"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          🏁 Catálogo F1
+        
+        <a class="hero-btn-f1" 
+   href="https://losprimosjersey.my.canva.site/catalogo-de-gorras-f1-los-primos-jersey" 
+   target="_blank" 
+   rel="noopener noreferrer">
+   🏁 Catálogo F1
+</a>
         </a>
       </div>
     </div>
@@ -1396,7 +1407,6 @@
         productsContainer.appendChild(card);
       });
 
-      // Botones WhatsApp en tarjetas
       document.querySelectorAll(".whatsapp-float-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
