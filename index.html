@@ -124,8 +124,8 @@
       align-items: center;
       justify-content: space-between;
       padding: 60px 40px;
-      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-                  url("https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=1200&h=800&fit=crop") center/cover no-repeat;
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80') center/cover no-repeat;
+                       url("https://firebasestorage.googleapis.com/v0/b/los-primos-jersey.firebasestorage.app/o/heroe%2Ffondo-estadio.png.jpg?alt=media&token=fcc8e0cb-ddaa-495d-af88-3edf1232ce10") center/cover no-repeat;
       background-attachment: fixed;
     }
 
@@ -421,6 +421,33 @@
     }
     .product-card:hover .product-image-wrap img.main-image { transform: scale(1.05); }
 
+    .whatsapp-float-btn {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 40px;
+      height: 40px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+      z-index: 5;
+      border: none;
+    }
+
+    .product-image-wrap:hover .whatsapp-float-btn {
+      opacity: 1;
+      transform: scale(1);
+    }
+
     .thumb-row {
       display: flex;
       gap: 8px;
@@ -696,11 +723,12 @@
       justify-content: center;
       align-items: center;
       padding: 30px;
+      flex-direction: column;
     }
     .image-modal.show { display: flex; }
     .image-modal-content {
       max-width: 90%;
-      max-height: 90vh;
+      max-height: 70vh;
       border-radius: 16px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.8);
       animation: zoomSoft 0.25s ease both;
@@ -714,6 +742,34 @@
       cursor: pointer;
       font-weight: bold;
       line-height: 1;
+    }
+
+    .image-modal-actions {
+      margin-top: 20px;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .image-modal-buy-btn {
+      background: #25d366;
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      font-size: 14px;
+    }
+
+    .image-modal-buy-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
     }
 
     /* ── FOOTER ── */
@@ -952,6 +1008,11 @@
   <div id="imageModal" class="image-modal">
     <span id="closeImageModal" class="image-modal-close">&times;</span>
     <img id="imageModalImg" class="image-modal-content" src="" alt="Imagen ampliada">
+    <div class="image-modal-actions">
+      <button id="imageModalBuyBtn" class="image-modal-buy-btn">
+        <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
+      </button>
+    </div>
   </div>
 
   <script type="module">
@@ -1019,6 +1080,7 @@
     const imageModal        = document.getElementById("imageModal");
     const imageModalImg     = document.getElementById("imageModalImg");
     const closeImageModal   = document.getElementById("closeImageModal");
+    const imageModalBuyBtn  = document.getElementById("imageModalBuyBtn");
     const heroCarousel      = document.getElementById("heroCarousel");
     const carouselNav       = document.getElementById("carouselNav");
 
@@ -1030,6 +1092,7 @@
     let isAdmin            = false;
     let currentCarouselIdx = 0;
     let carouselInterval   = null;
+    let currentProductName = "";
 
     // ── Carrusel Hero ──
     function initCarousel() {
@@ -1247,6 +1310,19 @@
       cancelEditBtn.style.display = "none";
     }
 
+    // ── WhatsApp Message Builder ──
+    function buildWhatsAppMessage(productName) {
+      return encodeURIComponent(
+        `Hola, me interesa esta camiseta: ${productName}\n\nCamisa: ${productName}\nTalla: \nVersión: \nNúmero del dorsal: \nNombre del dorsal: \nParches: \nFoto adjunta*\n¿Está disponible? Quedo atento. 👍`
+      );
+    }
+
+    function openWhatsApp(productName) {
+      const message = buildWhatsAppMessage(productName);
+      const whatsappUrl = `https://wa.me/50660668547?text=${message}`;
+      window.open(whatsappUrl, "_blank");
+    }
+
     // ── Renderizado ──
     function renderProducts() {
       const search = searchInput.value.trim().toLowerCase();
@@ -1290,7 +1366,12 @@
               src="${imageList[0] || 'https://via.placeholder.com/700x700?text=Sin+imagen'}"
               alt="${product.name || "Producto"}"
               onerror="this.onerror=null;this.src='https://via.placeholder.com/700x700?text=Sin+imagen';"
+              data-product-name="${product.name || ''}"
+              data-product-id="${product.id}"
             />
+            <button class="whatsapp-float-btn" data-product-name="${product.name || ''}" data-product-id="${product.id}">
+              <i class="fab fa-whatsapp"></i>
+            </button>
           </div>
           ${imageList.length > 1 ? `
             <div class="thumb-row">
@@ -1315,6 +1396,15 @@
         productsContainer.appendChild(card);
       });
 
+      // Botones WhatsApp en tarjetas
+      document.querySelectorAll(".whatsapp-float-btn").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const productName = btn.dataset.productName;
+          openWhatsApp(productName);
+        });
+      });
+
       productsContainer.querySelectorAll(".thumb-row").forEach(row => {
         const mainImage = row.closest(".product-card").querySelector(".main-image");
         const thumbs    = row.querySelectorAll("img");
@@ -1328,7 +1418,10 @@
       });
 
       productsContainer.querySelectorAll(".main-image").forEach(img => {
-        img.addEventListener("click", () => openImageModal(img.src));
+        img.addEventListener("click", () => {
+          currentProductName = img.dataset.productName;
+          openImageModal(img.src);
+        });
       });
 
       if (isAdmin) {
@@ -1425,6 +1518,10 @@
     closeImageModal.addEventListener("click", closeImageModalFn);
     imageModal.addEventListener("click", e => {
       if (e.target === imageModal) closeImageModalFn();
+    });
+
+    imageModalBuyBtn.addEventListener("click", () => {
+      openWhatsApp(currentProductName);
     });
 
     openFormBtn.addEventListener("click", () => {
