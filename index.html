@@ -874,13 +874,11 @@
         <button class="hero-btn" onclick="document.getElementById('catalog-section').scrollIntoView({behavior:'smooth'})">
           Ver catálogo
         </button>
-        
-        <a class="hero-btn-f1" 
-   href="https://losprimosjersey.my.canva.site/catalogo-de-gorras-f1-los-primos-jersey" 
-   target="_blank" 
-   rel="noopener noreferrer">
-   🏁 Catálogo F1
-</a>
+        <a class="hero-btn-f1"
+           href="https://losprimosjersey.my.canva.site/catalogo-de-gorras-f1-los-primos-jersey"
+           target="_blank"
+           rel="noopener noreferrer">
+          🏁 Catálogo F1
         </a>
       </div>
     </div>
@@ -917,6 +915,7 @@
       <div class="chips" id="chipsContainer">
         <button class="chip active" data-filter="">Todos</button>
         <button class="chip" data-filter="Mujer">Mujer</button>
+        <button class="chip" data-filter="Niños">Niños</button>
         <button class="chip" data-filter="Fútbol">Fútbol</button>
         <button class="chip" data-filter="NBA">NBA</button>
         <button class="chip" data-filter="NFL">NFL</button>
@@ -959,6 +958,7 @@
             <select id="league">
               <option value="">Seleccioná una liga</option>
               <option value="Mujer">Mujer</option>
+              <option value="Niños">Niños</option>
               <option value="Fútbol">Fútbol</option>
               <option value="NBA">NBA</option>
               <option value="NFL">NFL</option>
@@ -1109,7 +1109,7 @@
     function initCarousel() {
       const items = heroCarousel.querySelectorAll(".hero-carousel-item");
       carouselNav.innerHTML = "";
-      
+
       items.forEach((_, i) => {
         const dot = document.createElement("div");
         dot.className = `carousel-dot ${i === 0 ? "active" : ""}`;
@@ -1122,21 +1122,21 @@
 
     function goToSlide(idx) {
       const items = heroCarousel.querySelectorAll(".hero-carousel-item");
-      const dots = carouselNav.querySelectorAll(".carousel-dot");
-      
+      const dots  = carouselNav.querySelectorAll(".carousel-dot");
+
       items.forEach(item => item.classList.remove("active"));
-      dots.forEach(dot => dot.classList.remove("active"));
-      
+      dots.forEach(dot  => dot.classList.remove("active"));
+
       items[idx].classList.add("active");
       dots[idx].classList.add("active");
       currentCarouselIdx = idx;
-      
+
       clearInterval(carouselInterval);
       carouselInterval = setInterval(nextSlide, 5000);
     }
 
     function nextSlide() {
-      const items = heroCarousel.querySelectorAll(".hero-carousel-item");
+      const items  = heroCarousel.querySelectorAll(".hero-carousel-item");
       const nextIdx = (currentCarouselIdx + 1) % items.length;
       goToSlide(nextIdx);
     }
@@ -1329,7 +1329,7 @@
     }
 
     function openWhatsApp(productName) {
-      const message = buildWhatsAppMessage(productName);
+      const message     = buildWhatsAppMessage(productName);
       const whatsappUrl = `https://wa.me/50660668547?text=${message}`;
       window.open(whatsappUrl, "_blank");
     }
@@ -1398,7 +1398,7 @@
             <div class="product-sizes"><b>Tallas:</b> ${product.sizes || "No definidas"}</div>
             ${isAdmin ? `
               <div class="card-actions">
-                <button class="btn btn-edit edit-btn"    data-id="${product.id}">Editar</button>
+                <button class="btn btn-edit edit-btn"     data-id="${product.id}">Editar</button>
                 <button class="btn btn-delete delete-btn" data-id="${product.id}">Eliminar</button>
               </div>
             ` : ""}
@@ -1410,8 +1410,7 @@
       document.querySelectorAll(".whatsapp-float-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
           e.stopPropagation();
-          const productName = btn.dataset.productName;
-          openWhatsApp(productName);
+          openWhatsApp(btn.dataset.productName);
         });
       });
 
