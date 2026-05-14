@@ -153,9 +153,7 @@
       justify-content: center;
     }
 
-    .hero-carousel-item.active {
-      opacity: 1;
-    }
+    .hero-carousel-item.active { opacity: 1; }
 
     .hero-carousel-item img {
       width: 100%;
@@ -183,15 +181,11 @@
       transition: all 0.3s ease;
       border: 2px solid transparent;
     }
-
     .carousel-dot.active {
       background: #fff;
       transform: scale(1.3);
     }
-
-    .carousel-dot:hover {
-      background: rgba(255,255,255,0.8);
-    }
+    .carousel-dot:hover { background: rgba(255,255,255,0.8); }
 
     .hero-inner {
       max-width: 550px;
@@ -446,7 +440,6 @@
       z-index: 5;
       border: none;
     }
-
     .product-image-wrap:hover .whatsapp-float-btn {
       opacity: 1;
       transform: scale(1);
@@ -726,19 +719,22 @@
       background: rgba(0,0,0,0.95);
       justify-content: center;
       align-items: center;
-      padding: 30px;
+      padding: 20px;
       flex-direction: column;
+      overflow-y: auto;
     }
     .image-modal.show { display: flex; }
+
     .image-modal-content {
       max-width: 90%;
-      max-height: 70vh;
+      max-height: 50vh;
       border-radius: 16px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.8);
       animation: zoomSoft 0.25s ease both;
     }
+
     .image-modal-close {
-      position: absolute;
+      position: fixed;
       top: 18px;
       right: 28px;
       font-size: 42px;
@@ -746,35 +742,24 @@
       cursor: pointer;
       font-weight: bold;
       line-height: 1;
+      z-index: 10000;
     }
 
-    .image-modal-actions {
-      margin-top: 20px;
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .image-modal-buy-btn {
-      background: #25d366;
-      color: #fff;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    /* Pills del modal */
+    .modal-pill {
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1.5px solid #3d3d3d;
+      background: transparent;
+      color: #e5e7eb;
       font-size: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all .15s ease;
     }
-
-    .image-modal-buy-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
-    }
+    .modal-pill:hover { border-color: #7c3aed; color: #c4b5fd; }
+    .modal-pill.selected { background: #7c3aed; border-color: #7c3aed; color: #fff; }
+    .modal-pill.soldout  { opacity: .35; cursor: not-allowed; text-decoration: line-through; }
 
     /* ── FOOTER ── */
     .footer {
@@ -819,18 +804,13 @@
         padding: 40px 20px;
         min-height: auto;
       }
-
-      .hero-inner {
-        max-width: 100%;
-      }
-
+      .hero-inner { max-width: 100%; }
       .hero-carousel {
         position: static;
         width: 100%;
         height: clamp(240px, 50vw, 400px);
         margin-top: 24px;
       }
-
       .dashboard-shell { grid-template-columns: 1fr; }
       .stats { grid-template-columns: 1fr; }
     }
@@ -971,22 +951,44 @@
               <option value="Agotado">Agotado</option>
             </select>
 
-            <input id="sizes" class="full" placeholder="Tallas (ejemplo: S, M, L, XL)" />
+            <input id="sizes" class="full" placeholder="Tallas disponibles (ejemplo: S, M, L, XL)" />
 
-            <label style="font-size:13px;color:#999;margin-bottom:5px;display:block;grid-column:1/-1;">
+            <label style="font-size:13px;color:#999;display:block;grid-column:1/-1;">
               <input id="isNew" type="checkbox" style="margin-right:8px;" />
               Marcar como NUEVO
             </label>
+          </div>
 
-            <input id="imageFiles" class="full" type="file" accept="image/*" multiple />
+          <!-- Variantes con imágenes -->
+          <div style="margin-top:20px;">
+            <p style="font-size:13px;color:#9ca3af;margin:0 0 12px;">
+              Subí las imágenes por variante. Solo agregás las que aplican al producto.
+            </p>
+
+            <!-- Local -->
+            <div style="background:#222;border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid #2d2d2d;">
+              <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#c4b5fd;">🏠 Local</p>
+              <input id="imgLocal" type="file" accept="image/*" multiple style="width:100%;" />
+              <div id="previewLocal" class="preview-grid" style="margin-top:10px;"></div>
+            </div>
+
+            <!-- Visitante -->
+            <div style="background:#222;border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid #2d2d2d;">
+              <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#c4b5fd;">✈️ Visitante</p>
+              <input id="imgVisitante" type="file" accept="image/*" multiple style="width:100%;" />
+              <div id="previewVisitante" class="preview-grid" style="margin-top:10px;"></div>
+            </div>
+
+            <!-- Tercera -->
+            <div style="background:#222;border-radius:14px;padding:14px;margin-bottom:12px;border:1px solid #2d2d2d;">
+              <p style="margin:0 0 10px;font-size:14px;font-weight:700;color:#c4b5fd;">⚡ Tercera</p>
+              <input id="imgTercera" type="file" accept="image/*" multiple style="width:100%;" />
+              <div id="previewTercera" class="preview-grid" style="margin-top:10px;"></div>
+            </div>
           </div>
 
           <div class="helper">
-            Podés subir varias imágenes. La primera será la principal. Si editás y no subís nuevas, se dejan las actuales.
-          </div>
-
-          <div class="preview-wrap">
-            <div id="previewGrid" class="preview-grid"></div>
+            Si no subís imágenes nuevas al editar, se conservan las actuales por variante.
           </div>
 
           <div class="admin-actions">
@@ -1015,14 +1017,42 @@
     </div>
   </div>
 
-  <!-- Modal Imagen ampliada -->
+  <!-- Modal Imagen ampliada con variantes -->
   <div id="imageModal" class="image-modal">
     <span id="closeImageModal" class="image-modal-close">&times;</span>
-    <img id="imageModalImg" class="image-modal-content" src="" alt="Imagen ampliada">
-    <div class="image-modal-actions">
-      <button id="imageModalBuyBtn" class="image-modal-buy-btn">
-        <i class="fab fa-whatsapp"></i> Comprar por WhatsApp
-      </button>
+
+    <div style="display:flex;flex-direction:column;align-items:center;gap:16px;width:100%;max-width:580px;">
+
+      <!-- Miniaturas de la variante activa -->
+      <div id="modalThumbRow" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;"></div>
+
+      <!-- Imagen principal -->
+      <img id="imageModalImg" class="image-modal-content" src="" alt="Imagen ampliada">
+
+      <!-- Panel de compra -->
+      <div style="background:#1a1a1a;border:1px solid #2d2d2d;border-radius:18px;padding:18px;width:100%;box-sizing:border-box;">
+        <p id="modalProductTitle"  style="margin:0 0 4px;font-size:17px;font-weight:700;color:#f5f5f5;"></p>
+        <p id="modalProductLeague" style="margin:0 0 14px;font-size:13px;color:#9ca3af;"></p>
+
+        <!-- Versión -->
+        <p style="font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;">Versión</p>
+        <div id="versionPills" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;"></div>
+
+        <!-- Talla -->
+        <p style="font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;">Talla</p>
+        <div id="sizePillsModal" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;"></div>
+
+        <hr style="border:none;border-top:1px solid #2d2d2d;margin-bottom:14px;">
+
+        <button id="imageModalBuyBtn" style="
+          width:100%;padding:13px;border-radius:12px;border:none;
+          background:#25d366;color:#fff;font-size:15px;font-weight:700;
+          cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;
+        ">
+          <i class="fab fa-whatsapp"></i> Pedir por WhatsApp
+        </button>
+        <p id="buyHint" style="font-size:12px;color:#6b7280;text-align:center;margin:10px 0 0;"></p>
+      </div>
     </div>
   </div>
 
@@ -1039,8 +1069,9 @@
       getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    const ADMIN_UID   = "gcTOz2EC47RkFWMlny7OGPCS3H23";
-    const ADMIN_EMAIL = "losprimosjersey@gmail.com";
+    const ADMIN_UID    = "gcTOz2EC47RkFWMlny7OGPCS3H23";
+    const ADMIN_EMAIL  = "losprimosjersey@gmail.com";
+    const VARIANT_KEYS = ["Local", "Visitante", "Tercera"];
 
     const firebaseConfig = {
       apiKey: "AIzaSyCSrXm3fhOE7DUYpm-Ya35cd411jtrC-WY",
@@ -1077,8 +1108,6 @@
     const statusInput       = document.getElementById("status");
     const sizesInput        = document.getElementById("sizes");
     const isNewCheckbox     = document.getElementById("isNew");
-    const imageFilesInput   = document.getElementById("imageFiles");
-    const previewGrid       = document.getElementById("previewGrid");
     const saveBtn           = document.getElementById("saveBtn");
     const cancelEditBtn     = document.getElementById("cancelEditBtn");
     const formTitle         = document.getElementById("formTitle");
@@ -1094,80 +1123,84 @@
     const imageModalBuyBtn  = document.getElementById("imageModalBuyBtn");
     const heroCarousel      = document.getElementById("heroCarousel");
     const carouselNav       = document.getElementById("carouselNav");
+    const buyHint           = document.getElementById("buyHint");
+    const modalThumbRow     = document.getElementById("modalThumbRow");
 
     // ── Estado ──
-    let products           = [];
-    let editingId          = null;
-    let currentImages      = [];
-    let activeLeagueFilter = "";
-    let isAdmin            = false;
-    let currentCarouselIdx = 0;
-    let carouselInterval   = null;
-    let currentProductName = "";
+    let products            = [];
+    let editingId           = null;
+    let currentVariants     = { Local: [], Visitante: [], Tercera: [] };
+    let activeLeagueFilter  = "";
+    let isAdmin             = false;
+    let currentCarouselIdx  = 0;
+    let carouselInterval    = null;
+
+    // Estado modal de compra
+    let modalProduct         = null;
+    let modalSelectedVersion = null;
+    let modalSelectedSize    = null;
 
     // ── Carrusel Hero ──
     function initCarousel() {
       const items = heroCarousel.querySelectorAll(".hero-carousel-item");
       carouselNav.innerHTML = "";
-
       items.forEach((_, i) => {
         const dot = document.createElement("div");
         dot.className = `carousel-dot ${i === 0 ? "active" : ""}`;
         dot.addEventListener("click", () => goToSlide(i));
         carouselNav.appendChild(dot);
       });
-
       carouselInterval = setInterval(nextSlide, 5000);
     }
 
     function goToSlide(idx) {
       const items = heroCarousel.querySelectorAll(".hero-carousel-item");
       const dots  = carouselNav.querySelectorAll(".carousel-dot");
-
       items.forEach(item => item.classList.remove("active"));
-      dots.forEach(dot  => dot.classList.remove("active"));
-
+      dots.forEach(dot   => dot.classList.remove("active"));
       items[idx].classList.add("active");
       dots[idx].classList.add("active");
       currentCarouselIdx = idx;
-
       clearInterval(carouselInterval);
       carouselInterval = setInterval(nextSlide, 5000);
     }
 
     function nextSlide() {
-      const items  = heroCarousel.querySelectorAll(".hero-carousel-item");
-      const nextIdx = (currentCarouselIdx + 1) % items.length;
-      goToSlide(nextIdx);
+      const items = heroCarousel.querySelectorAll(".hero-carousel-item");
+      goToSlide((currentCarouselIdx + 1) % items.length);
     }
 
     // ── Acceso secreto: 5 clics rápidos en el logo ──
-    let logoClicks     = 0;
-    let logoClickTimer = null;
-
+    let logoClicks = 0, logoClickTimer = null;
     brandLogo.addEventListener("click", () => {
       if (isAdmin) return;
       logoClicks++;
       if (logoClickTimer) clearTimeout(logoClickTimer);
       logoClickTimer = setTimeout(() => { logoClicks = 0; }, 1500);
-      if (logoClicks >= 5) {
-        logoClicks = 0;
-        openLoginModal();
-      }
+      if (logoClicks >= 5) { logoClicks = 0; openLoginModal(); }
     });
 
     // ── Utilidades ──
-    function buildImageList(product) {
-      const list = [];
+    function getVariantsFromProduct(product) {
+      if (product.variants && typeof product.variants === "object") {
+        return product.variants;
+      }
+      // Migración productos viejos: sus imágenes van a Local
+      const urls = [];
       if (Array.isArray(product.imageUrls)) {
-        product.imageUrls.forEach(url => {
-          if (typeof url === "string" && url.trim()) list.push(url.trim());
-        });
+        product.imageUrls.forEach(u => { if (u) urls.push(u); });
+      } else if (product.imageUrl) {
+        urls.push(product.imageUrl);
       }
-      if (!list.length && typeof product.imageUrl === "string" && product.imageUrl.trim()) {
-        list.push(product.imageUrl.trim());
+      return { Local: urls, Visitante: [], Tercera: [] };
+    }
+
+    function getFirstImageOfProduct(product) {
+      const v = getVariantsFromProduct(product);
+      for (const key of VARIANT_KEYS) {
+        if (v[key] && v[key].length) return v[key][0];
       }
-      return list;
+      return "";
     }
 
     function formatPrice(value) {
@@ -1180,25 +1213,26 @@
       statSoldOut.textContent   = products.filter(p => (p.status || "") === "Agotado").length;
     }
 
-    function renderPreviewFiles(files) {
-      previewGrid.innerHTML = "";
+    function renderPreview(inputEl, previewEl, currentUrls) {
+      previewEl.innerHTML = "";
+      const files = Array.from(inputEl.files || []);
       if (files.length) {
         files.forEach(file => {
-          const reader = new FileReader();
-          reader.onload = e => {
+          const r = new FileReader();
+          r.onload = e => {
             const img = document.createElement("img");
             img.src = e.target.result;
-            previewGrid.appendChild(img);
+            previewEl.appendChild(img);
           };
-          reader.readAsDataURL(file);
+          r.readAsDataURL(file);
         });
-        return;
+      } else {
+        currentUrls.forEach(url => {
+          const img = document.createElement("img");
+          img.src = url;
+          previewEl.appendChild(img);
+        });
       }
-      currentImages.forEach(url => {
-        const img = document.createElement("img");
-        img.src = url;
-        previewGrid.appendChild(img);
-      });
     }
 
     async function uploadMultipleImages(files) {
@@ -1235,17 +1269,27 @@
       const status = statusInput.value;
       const sizes  = sizesInput.value.trim();
       const isNew  = isNewCheckbox.checked;
-      const files  = Array.from(imageFilesInput.files || []);
 
       if (!name || !price || !league) { alert("Completá nombre, precio y liga."); return; }
 
       try {
-        let imageUrls = [...currentImages];
-        if (files.length) imageUrls = await uploadMultipleImages(files);
+        const variants = {};
+        for (const key of VARIANT_KEYS) {
+          const inputEl = document.getElementById(`img${key}`);
+          const files   = Array.from(inputEl.files || []);
+          if (files.length) {
+            variants[key] = await uploadMultipleImages(files);
+          } else {
+            variants[key] = currentVariants[key] || [];
+          }
+        }
 
+        const firstImage  = getFirstImageOfProduct({ variants });
         const productData = {
           name, price: Number(price), league, status,
-          sizes, isNew, imageUrls, imageUrl: imageUrls[0] || ""
+          sizes, isNew, variants,
+          imageUrl:  firstImage,
+          imageUrls: Object.values(variants).flat()
         };
 
         if (editingId) {
@@ -1268,10 +1312,10 @@
       const product = products.find(p => p.id === id);
       if (!product) return;
 
-      editingId     = id;
-      currentImages = Array.isArray(product.imageUrls)
-        ? [...product.imageUrls]
-        : (product.imageUrl ? [product.imageUrl] : []);
+      editingId       = id;
+      currentVariants = { Local: [], Visitante: [], Tercera: [] };
+      const v = getVariantsFromProduct(product);
+      VARIANT_KEYS.forEach(key => { currentVariants[key] = v[key] || []; });
 
       nameInput.value       = product.name   || "";
       priceInput.value      = product.price  || "";
@@ -1279,8 +1323,13 @@
       statusInput.value     = product.status || "Disponible";
       sizesInput.value      = product.sizes  || "";
       isNewCheckbox.checked = product.isNew  === true;
-      imageFilesInput.value = "";
-      renderPreviewFiles([]);
+
+      VARIANT_KEYS.forEach(key => {
+        const inputEl   = document.getElementById(`img${key}`);
+        const previewEl = document.getElementById(`preview${key}`);
+        if (inputEl)   inputEl.value = "";
+        if (previewEl) renderPreview(inputEl, previewEl, currentVariants[key]);
+      });
 
       formTitle.textContent       = "Editando producto";
       saveBtn.textContent         = "Actualizar producto";
@@ -1306,35 +1355,151 @@
     }
 
     function resetForm() {
-      editingId     = null;
-      currentImages = [];
+      editingId       = null;
+      currentVariants = { Local: [], Visitante: [], Tercera: [] };
       nameInput.value       = "";
       priceInput.value      = "";
       leagueInput.value     = "";
       statusInput.value     = "Disponible";
       sizesInput.value      = "";
       isNewCheckbox.checked = false;
-      imageFilesInput.value = "";
-      previewGrid.innerHTML = "";
+      VARIANT_KEYS.forEach(key => {
+        const inputEl   = document.getElementById(`img${key}`);
+        const previewEl = document.getElementById(`preview${key}`);
+        if (inputEl)   inputEl.value = "";
+        if (previewEl) previewEl.innerHTML = "";
+      });
       formTitle.textContent       = "Administración del catálogo";
       saveBtn.textContent         = "Guardar producto";
       cancelEditBtn.style.display = "none";
     }
 
-    // ── WhatsApp Message Builder ──
-    function buildWhatsAppMessage(productName) {
-      return encodeURIComponent(
-        `Hola, me interesa esta camiseta: ${productName}\n\nCamisa: ${productName}\nTalla: \nVersión: \nNúmero del dorsal: \nNombre del dorsal: \nParches: \nFoto adjunta*\n¿Está disponible? Quedo atento. 👍`
+    // ── Modal imagen con variantes ──
+    function openImageModal(product, initialVariant) {
+      modalProduct         = product;
+      modalSelectedSize    = null;
+      modalSelectedVersion = null;
+
+      document.getElementById("modalProductTitle").textContent  = product.name   || "";
+      document.getElementById("modalProductLeague").textContent = product.league || "";
+
+      const variants          = getVariantsFromProduct(product);
+      const availableVersions = VARIANT_KEYS.filter(k => variants[k] && variants[k].length > 0);
+
+      // Botones de versión
+      const vContainer = document.getElementById("versionPills");
+      vContainer.innerHTML = "";
+      if (!availableVersions.length) {
+        vContainer.innerHTML = `<span style="font-size:13px;color:#6b7280;">Sin variantes registradas</span>`;
+      }
+      availableVersions.forEach(v => {
+        const label = v === "Local" ? "Local" : v === "Visitante" ? " Visitante" : "Tercera";
+        const btn   = document.createElement("button");
+        btn.className   = "modal-pill";
+        btn.textContent = label;
+        btn.onclick = () => {
+          vContainer.querySelectorAll(".modal-pill").forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          modalSelectedVersion = v;
+          loadVariantImages(variants[v] || []);
+          updateBuyHint();
+        };
+        vContainer.appendChild(btn);
+      });
+
+      // Botones de talla
+      const sContainer = document.getElementById("sizePillsModal");
+      sContainer.innerHTML = "";
+      const sizes = (product.sizes || "").split(",").map(s => s.trim()).filter(Boolean);
+      sizes.forEach(sz => {
+        const btn = document.createElement("button");
+        btn.className   = "modal-pill";
+        btn.textContent = sz;
+        btn.onclick = () => {
+          sContainer.querySelectorAll(".modal-pill").forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          modalSelectedSize = sz;
+          updateBuyHint();
+        };
+        sContainer.appendChild(btn);
+      });
+
+      // Activar variante inicial
+      const startVariant = initialVariant && availableVersions.includes(initialVariant)
+        ? initialVariant
+        : availableVersions[0] || null;
+
+      if (startVariant) {
+        const targetBtn = Array.from(vContainer.querySelectorAll(".modal-pill"))
+          .find(b => b.textContent.includes(startVariant));
+        if (targetBtn) targetBtn.click();
+      } else {
+        imageModalImg.src  = getFirstImageOfProduct(product) || "";
+        modalThumbRow.innerHTML = "";
+      }
+
+      buyHint.style.color = "#6b7280";
+      buyHint.textContent = "Seleccioná versión y talla para continuar";
+      imageModal.classList.add("show");
+    }
+
+    function loadVariantImages(urls) {
+      imageModalImg.src = urls[0] || "";
+      modalThumbRow.innerHTML = "";
+      if (urls.length > 1) {
+        urls.forEach((url, i) => {
+          const img = document.createElement("img");
+          img.src = url;
+          img.style.cssText = `
+            width:60px;height:60px;object-fit:cover;border-radius:10px;cursor:pointer;
+            border:2px solid ${i === 0 ? "#7c3aed" : "transparent"};
+            transition:border-color .2s ease,transform .2s ease;
+          `;
+          img.onclick = () => {
+            imageModalImg.src = url;
+            modalThumbRow.querySelectorAll("img").forEach(t => t.style.borderColor = "transparent");
+            img.style.borderColor = "#7c3aed";
+          };
+          modalThumbRow.appendChild(img);
+        });
+      }
+    }
+
+    function updateBuyHint() {
+      if (modalSelectedVersion && modalSelectedSize) {
+        buyHint.style.color = "#9ca3af";
+        buyHint.textContent = `${modalSelectedVersion} · Talla ${modalSelectedSize}`;
+      } else if (modalSelectedVersion) {
+        buyHint.style.color = "#6b7280";
+        buyHint.textContent = "Ahora elegí la talla";
+      } else {
+        buyHint.style.color = "#6b7280";
+        buyHint.textContent = "Seleccioná versión y talla para continuar";
+      }
+    }
+
+    function closeImageModalFn() {
+      imageModal.classList.remove("show");
+      imageModalImg.src = "";
+      modalThumbRow.innerHTML = "";
+    }
+
+    // ── WhatsApp ──
+    imageModalBuyBtn.addEventListener("click", () => {
+      if (!modalSelectedSize) {
+        buyHint.style.color = "#f87171";
+        buyHint.textContent = "⚠️ Por favor elegí una talla primero";
+        return;
+      }
+      const name    = document.getElementById("modalProductTitle").textContent;
+      const version = modalSelectedVersion || "No especificada";
+      const msg = encodeURIComponent(
+        `Hola! Me interesa esta camiseta 👕\n\nCamisa: ${name}\nVersión: ${version}\nTalla: ${modalSelectedSize}\nNúmero del dorsal: \nNombre del dorsal: \nParches: \n\n¿Está disponible? Quedo atento 👍`
       );
-    }
+      window.open(`https://wa.me/50660668547?text=${msg}`, "_blank");
+    });
 
-    function openWhatsApp(productName) {
-      const message     = buildWhatsAppMessage(productName);
-      const whatsappUrl = `https://wa.me/50660668547?text=${message}`;
-      window.open(whatsappUrl, "_blank");
-    }
-
-    // ── Renderizado ──
+    // ── Renderizado de tarjetas ──
     function renderProducts() {
       const search = searchInput.value.trim().toLowerCase();
       const size   = sizeFilter.value;
@@ -1366,31 +1531,43 @@
         card.className = "product-card";
         if (product.isNew === true) card.classList.add("new-product");
 
-        const imageList  = buildImageList(product);
-        const badgeClass = product.status === "Agotado" ? "status-badge agotado" : "status-badge";
+        const variants      = getVariantsFromProduct(product);
+        const firstImage    = getFirstImageOfProduct(product);
+        const badgeClass    = product.status === "Agotado" ? "status-badge agotado" : "status-badge";
+        const availableVars = VARIANT_KEYS.filter(k => variants[k] && variants[k].length > 0);
+
+        // Miniaturas de variantes (solo si hay más de una)
+        const variantThumbsHTML = availableVars.length > 1
+          ? `<div class="thumb-row" id="thumbs-${product.id}">
+              ${availableVars.map((v, i) => `
+                <img
+                  src="${variants[v][0]}"
+                  class="${i === 0 ? "active" : ""}"
+                  data-variant="${v}"
+                  data-images='${JSON.stringify(variants[v])}'
+                  alt="${v}"
+                  title="${v}"
+                >
+              `).join("")}
+             </div>`
+          : "";
 
         card.innerHTML = `
           <div class="product-image-wrap">
             <span class="${badgeClass}">${product.status || "Disponible"}</span>
             <img
               class="main-image"
-              src="${imageList[0] || 'https://via.placeholder.com/700x700?text=Sin+imagen'}"
+              src="${firstImage || "https://via.placeholder.com/700x700?text=Sin+imagen"}"
               alt="${product.name || "Producto"}"
               onerror="this.onerror=null;this.src='https://via.placeholder.com/700x700?text=Sin+imagen';"
-              data-product-name="${product.name || ''}"
               data-product-id="${product.id}"
+              data-active-variant="${availableVars[0] || "Local"}"
             />
-            <button class="whatsapp-float-btn" data-product-name="${product.name || ''}" data-product-id="${product.id}">
+            <button class="whatsapp-float-btn" data-product-id="${product.id}">
               <i class="fab fa-whatsapp"></i>
             </button>
           </div>
-          ${imageList.length > 1 ? `
-            <div class="thumb-row">
-              ${imageList.map((url, i) => `
-                <img src="${url}" class="${i === 0 ? "active" : ""}" data-full="${url}" alt="Vista ${i + 1}">
-              `).join("")}
-            </div>
-          ` : ""}
+          ${variantThumbsHTML}
           <div class="product-body">
             <h3 class="product-title">${product.name || ""}</h3>
             <div class="product-meta">${product.league || ""}</div>
@@ -1405,31 +1582,34 @@
           </div>
         `;
         productsContainer.appendChild(card);
-      });
 
-      document.querySelectorAll(".whatsapp-float-btn").forEach(btn => {
-        btn.addEventListener("click", (e) => {
-          e.stopPropagation();
-          openWhatsApp(btn.dataset.productName);
-        });
-      });
-
-      productsContainer.querySelectorAll(".thumb-row").forEach(row => {
-        const mainImage = row.closest(".product-card").querySelector(".main-image");
-        const thumbs    = row.querySelectorAll("img");
-        thumbs.forEach(thumb => {
-          thumb.addEventListener("click", () => {
-            mainImage.src = thumb.dataset.full;
-            thumbs.forEach(t => t.classList.remove("active"));
-            thumb.classList.add("active");
+        // Miniaturas de variante en tarjeta → cambian imagen principal y registran variante activa
+        if (availableVars.length > 1) {
+          const thumbRow = card.querySelector(`#thumbs-${product.id}`);
+          const mainImg  = card.querySelector(".main-image");
+          thumbRow.querySelectorAll("img").forEach(thumb => {
+            thumb.addEventListener("click", () => {
+              const images = JSON.parse(thumb.dataset.images || "[]");
+              if (images.length) mainImg.src = images[0];
+              mainImg.dataset.activeVariant = thumb.dataset.variant;
+              thumbRow.querySelectorAll("img").forEach(t => t.classList.remove("active"));
+              thumb.classList.add("active");
+            });
           });
-        });
-      });
+        }
 
-      productsContainer.querySelectorAll(".main-image").forEach(img => {
-        img.addEventListener("click", () => {
-          currentProductName = img.dataset.productName;
-          openImageModal(img.src);
+        // Clic en imagen → abrir modal con la variante activa de la tarjeta
+        card.querySelector(".main-image").addEventListener("click", e => {
+          const prod    = products.find(p => p.id === e.target.dataset.productId);
+          const variant = e.target.dataset.activeVariant || null;
+          if (prod) openImageModal(prod, variant);
+        });
+
+        // Botón WhatsApp flotante → abrir modal
+        card.querySelector(".whatsapp-float-btn").addEventListener("click", e => {
+          e.stopPropagation();
+          const prod = products.find(p => p.id === e.currentTarget.dataset.productId);
+          if (prod) openImageModal(prod, null);
         });
       });
 
@@ -1454,14 +1634,6 @@
       loginModal.classList.remove("show");
       loginError.style.display = "none";
     }
-    function openImageModal(src) {
-      imageModalImg.src = src;
-      imageModal.classList.add("show");
-    }
-    function closeImageModalFn() {
-      imageModal.classList.remove("show");
-      imageModalImg.src = "";
-    }
 
     // ── Auth ──
     onAuthStateChanged(auth, user => {
@@ -1482,6 +1654,7 @@
 
     // ── Listeners ──
     closeLoginBtn.addEventListener("click", closeLoginModal);
+    loginModal.addEventListener("click", e => { if (e.target === loginModal) closeLoginModal(); });
 
     submitLoginBtn.addEventListener("click", async () => {
       const email    = loginEmail.value.trim();
@@ -1520,18 +1693,8 @@
       if (e.key === "Escape") { closeLoginModal(); closeImageModalFn(); }
     });
 
-    loginModal.addEventListener("click", e => {
-      if (e.target === loginModal) closeLoginModal();
-    });
-
     closeImageModal.addEventListener("click", closeImageModalFn);
-    imageModal.addEventListener("click", e => {
-      if (e.target === imageModal) closeImageModalFn();
-    });
-
-    imageModalBuyBtn.addEventListener("click", () => {
-      openWhatsApp(currentProductName);
-    });
+    imageModal.addEventListener("click", e => { if (e.target === imageModal) closeImageModalFn(); });
 
     openFormBtn.addEventListener("click", () => {
       adminFormWrap.style.display   = "block";
@@ -1546,8 +1709,15 @@
       adminFormWrap.style.display = "none";
     });
 
-    imageFilesInput.addEventListener("change", () => {
-      renderPreviewFiles(Array.from(imageFilesInput.files || []));
+    // Previsualización en tiempo real por variante
+    VARIANT_KEYS.forEach(key => {
+      const inputEl   = document.getElementById(`img${key}`);
+      const previewEl = document.getElementById(`preview${key}`);
+      if (inputEl && previewEl) {
+        inputEl.addEventListener("change", () => {
+          renderPreview(inputEl, previewEl, currentVariants[key]);
+        });
+      }
     });
 
     saveBtn.addEventListener("click",       saveProduct);
