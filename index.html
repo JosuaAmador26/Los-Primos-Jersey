@@ -485,6 +485,27 @@
     .product-price { font-size: 26px; font-weight: 900; margin-bottom: 10px; color: var(--purple); }
     .product-sizes { font-size: 14px; color: #ccc; margin-bottom: 14px; }
 
+    /* Selector de versión (Fan / Player / Retro) en cada tarjeta */
+    .quality-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .quality-pill {
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: #e5e7eb;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .quality-pill:hover { border-color: var(--purple); color: #c4b5fd; }
+    .quality-pill.selected { background: var(--purple); border-color: var(--purple); color: #fff; }
+
     .card-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
     .btn {
@@ -959,6 +980,10 @@
             </label>
           </div>
 
+          <div class="helper" id="qualityHelper" style="margin-top:6px;">
+            La liga elegida define qué versiones (Fan / Player / Retro) podrá elegir el cliente. El precio se calcula solo según esa elección: Fan ₡22,400 · Player y Retro ₡23,900. Para NBA, NFL, MLB y F1 se usa directamente el precio que pongas arriba.
+          </div>
+
           <!-- Variantes con imágenes -->
           <div style="margin-top:20px;">
             <p style="font-size:13px;color:#9ca3af;margin:0 0 12px;">
@@ -1032,10 +1057,17 @@
       <!-- Panel de compra -->
       <div style="background:#1a1a1a;border:1px solid #2d2d2d;border-radius:18px;padding:18px;width:100%;box-sizing:border-box;">
         <p id="modalProductTitle"  style="margin:0 0 4px;font-size:17px;font-weight:700;color:#f5f5f5;"></p>
-        <p id="modalProductLeague" style="margin:0 0 14px;font-size:13px;color:#9ca3af;"></p>
+        <p id="modalProductLeague" style="margin:0 0 4px;font-size:13px;color:#9ca3af;"></p>
+        <p id="modalProductPrice"  style="margin:0 0 14px;font-size:22px;font-weight:900;color:#7c3aed;"></p>
 
-        <!-- Versión -->
-        <p style="font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;">Versión</p>
+        <!-- Versión Fan / Player / Retro (solo si aplica a la liga) -->
+        <div id="qualityBlockModal">
+          <p style="font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;">Versión de calidad</p>
+          <div id="qualityPillsModal" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;"></div>
+        </div>
+
+        <!-- Uniforme (Local/Visitante/Tercera) -->
+        <p style="font-size:11px;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;">Uniforme</p>
         <div id="versionPills" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;"></div>
 
         <!-- Talla -->
@@ -1072,6 +1104,21 @@
     const ADMIN_UID    = "gcTOz2EC47RkFWMlny7OGPCS3H23";
     const ADMIN_EMAIL  = "losprimosjersey@gmail.com";
     const VARIANT_KEYS = ["Local", "Visitante", "Tercera"];
+
+    // Precio según la versión de calidad elegida por el cliente
+    const QUALITY_PRICES = { Fan: 22400, Player: 23900, Retro: 23900 };
+
+    // Qué versiones de calidad puede elegir el cliente según la liga del producto
+    const QUALITY_OPTIONS_BY_LEAGUE = {
+      "Fútbol": ["Fan", "Player", "Retro"],
+      "Mujer":  ["Fan", "Player", "Retro"],
+      "Niños":  ["Fan"],
+      // NBA, NFL, MLB, F1 → sin selector de calidad (usan el precio fijo del producto)
+    };
+
+    function getQualityOptionsForLeague(league) {
+      return QUALITY_OPTIONS_BY_LEAGUE[league] || [];
+    }
 
     const firebaseConfig = {
       apiKey: "AIzaSyCSrXm3fhOE7DUYpm-Ya35cd411jtrC-WY",
@@ -1125,6 +1172,8 @@
     const carouselNav       = document.getElementById("carouselNav");
     const buyHint           = document.getElementById("buyHint");
     const modalThumbRow     = document.getElementById("modalThumbRow");
+    const modalProductPrice = document.getElementById("modalProductPrice");
+    const qualityBlockModal = document.getElementById("qualityBlockModal");
 
     // ── Estado ──
     let products            = [];
@@ -1136,9 +1185,11 @@
     let carouselInterval    = null;
 
     // Estado modal de compra
-    let modalProduct         = null;
-    let modalSelectedVersion = null;
-    let modalSelectedSize    = null;
+    let modalProduct          = null;
+    let modalSelectedVersion  = null; // Local/Visitante/Tercera
+    let modalSelectedSize     = null;
+    let modalSelectedQuality  = null; // Fan/Player/Retro
+    let modalQualityOptions   = [];
 
     // ── Carrusel Hero ──
     function initCarousel() {
@@ -1205,6 +1256,16 @@
 
     function formatPrice(value) {
       return "₡" + Number(value || 0).toLocaleString("es-CR");
+    }
+
+    // Precio a mostrar en la tarjeta: si la liga tiene versiones de calidad,
+    // muestra el precio de la primera versión disponible (Fan) por defecto.
+    function getDisplayPrice(product) {
+      const qualityOptions = getQualityOptionsForLeague(product.league);
+      if (qualityOptions.length) {
+        return QUALITY_PRICES[qualityOptions[0]];
+      }
+      return product.price;
     }
 
     function updateStats() {
@@ -1374,19 +1435,81 @@
       cancelEditBtn.style.display = "none";
     }
 
-    // ── Modal imagen con variantes ──
+    // ── Selector de calidad EN LA TARJETA (Fan / Player / Retro) ──
+    function renderQualityRow(product) {
+      const options = getQualityOptionsForLeague(product.league);
+      if (!options.length) return "";
+      return `
+        <div class="quality-row" data-product-id="${product.id}">
+          ${options.map((q, i) => `
+            <button
+              type="button"
+              class="quality-pill ${i === 0 ? "selected" : ""}"
+              data-quality="${q}"
+              data-product-id="${product.id}"
+            >${q}</button>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function wireQualityRow(card, product) {
+      const options = getQualityOptionsForLeague(product.league);
+      if (!options.length) return;
+
+      const row = card.querySelector(`.quality-row[data-product-id="${product.id}"]`);
+      if (!row) return;
+      const priceEl = card.querySelector(`.product-price[data-product-id="${product.id}"]`);
+
+      row.querySelectorAll(".quality-pill").forEach(pill => {
+        pill.addEventListener("click", () => {
+          row.querySelectorAll(".quality-pill").forEach(p => p.classList.remove("selected"));
+          pill.classList.add("selected");
+          const chosen = pill.dataset.quality;
+          if (priceEl) priceEl.textContent = formatPrice(QUALITY_PRICES[chosen]);
+        });
+      });
+    }
+
+    // ── Modal imagen con variantes + calidad ──
     function openImageModal(product, initialVariant) {
       modalProduct         = product;
       modalSelectedSize    = null;
       modalSelectedVersion = null;
+      modalQualityOptions  = getQualityOptionsForLeague(product.league);
+      modalSelectedQuality = modalQualityOptions.length ? modalQualityOptions[0] : null;
 
       document.getElementById("modalProductTitle").textContent  = product.name   || "";
       document.getElementById("modalProductLeague").textContent = product.league || "";
 
+      updateModalPrice();
+
+      // Bloque de calidad: solo se muestra si la liga tiene versiones
+      const qContainer = document.getElementById("qualityPillsModal");
+      qContainer.innerHTML = "";
+      if (modalQualityOptions.length) {
+        qualityBlockModal.style.display = "block";
+        modalQualityOptions.forEach((q, i) => {
+          const btn = document.createElement("button");
+          btn.className   = "modal-pill" + (i === 0 ? " selected" : "");
+          btn.textContent = q;
+          btn.onclick = () => {
+            qContainer.querySelectorAll(".modal-pill").forEach(b => b.classList.remove("selected"));
+            btn.classList.add("selected");
+            modalSelectedQuality = q;
+            updateModalPrice();
+            updateBuyHint();
+          };
+          qContainer.appendChild(btn);
+        });
+      } else {
+        qualityBlockModal.style.display = "none";
+      }
+
       const variants          = getVariantsFromProduct(product);
       const availableVersions = VARIANT_KEYS.filter(k => variants[k] && variants[k].length > 0);
 
-      // Botones de versión
+      // Botones de uniforme (Local/Visitante/Tercera)
       const vContainer = document.getElementById("versionPills");
       vContainer.innerHTML = "";
       if (!availableVersions.length) {
@@ -1439,8 +1562,15 @@
       }
 
       buyHint.style.color = "#6b7280";
-      buyHint.textContent = "Seleccioná versión y talla para continuar";
+      buyHint.textContent = "Seleccioná las opciones para continuar";
       imageModal.classList.add("show");
+    }
+
+    function updateModalPrice() {
+      const price = modalSelectedQuality
+        ? QUALITY_PRICES[modalSelectedQuality]
+        : (modalProduct ? modalProduct.price : 0);
+      modalProductPrice.textContent = formatPrice(price);
     }
 
     function loadVariantImages(urls) {
@@ -1466,15 +1596,19 @@
     }
 
     function updateBuyHint() {
-      if (modalSelectedVersion && modalSelectedSize) {
+      const needsQuality = modalQualityOptions.length > 0;
+      const qualityOk     = !needsQuality || !!modalSelectedQuality;
+
+      if (qualityOk && modalSelectedVersion && modalSelectedSize) {
         buyHint.style.color = "#9ca3af";
-        buyHint.textContent = `${modalSelectedVersion} · Talla ${modalSelectedSize}`;
+        const qualityText = modalSelectedQuality ? `${modalSelectedQuality} · ` : "";
+        buyHint.textContent = `${qualityText}${modalSelectedVersion} · Talla ${modalSelectedSize}`;
       } else if (modalSelectedVersion) {
         buyHint.style.color = "#6b7280";
         buyHint.textContent = "Ahora elegí la talla";
       } else {
         buyHint.style.color = "#6b7280";
-        buyHint.textContent = "Seleccioná versión y talla para continuar";
+        buyHint.textContent = "Seleccioná las opciones para continuar";
       }
     }
 
@@ -1491,10 +1625,17 @@
         buyHint.textContent = "⚠️ Por favor elegí una talla primero";
         return;
       }
+      if (modalQualityOptions.length && !modalSelectedQuality) {
+        buyHint.style.color = "#f87171";
+        buyHint.textContent = "⚠️ Por favor elegí una versión (Fan / Player / Retro)";
+        return;
+      }
       const name    = document.getElementById("modalProductTitle").textContent;
       const version = modalSelectedVersion || "No especificada";
+      const price   = modalProductPrice.textContent;
+      const qualityLine = modalSelectedQuality ? `Versión de calidad: ${modalSelectedQuality}\n` : "";
       const msg = encodeURIComponent(
-        `Hola! Me interesa esta camiseta 👕\n\nCamisa: ${name}\nVersión: ${version}\nTalla: ${modalSelectedSize}\nNúmero del dorsal: \nNombre del dorsal: \nParches: \n\n¿Está disponible? Quedo atento 👍`
+        `Hola! Me interesa esta camiseta 👕\n\nCamisa: ${name}\n${qualityLine}Precio: ${price}\nUniforme: ${version}\nTalla: ${modalSelectedSize}\nNúmero del dorsal: \nNombre del dorsal: \nParches: \n\n¿Está disponible? Quedo atento 👍`
       );
       window.open(`https://wa.me/50660668547?text=${msg}`, "_blank");
     });
@@ -1535,6 +1676,7 @@
         const firstImage    = getFirstImageOfProduct(product);
         const badgeClass    = product.status === "Agotado" ? "status-badge agotado" : "status-badge";
         const availableVars = VARIANT_KEYS.filter(k => variants[k] && variants[k].length > 0);
+        const displayPrice  = getDisplayPrice(product);
 
         // Miniaturas de variantes (solo si hay más de una)
         const variantThumbsHTML = availableVars.length > 1
@@ -1571,7 +1713,8 @@
           <div class="product-body">
             <h3 class="product-title">${product.name || ""}</h3>
             <div class="product-meta">${product.league || ""}</div>
-            <div class="product-price">${formatPrice(product.price)}</div>
+            <div class="product-price" data-product-id="${product.id}">${formatPrice(displayPrice)}</div>
+            ${renderQualityRow(product)}
             <div class="product-sizes"><b>Tallas:</b> ${product.sizes || "No definidas"}</div>
             ${isAdmin ? `
               <div class="card-actions">
@@ -1582,6 +1725,9 @@
           </div>
         `;
         productsContainer.appendChild(card);
+
+        // Conectar selector de calidad de la tarjeta (cambia el precio mostrado)
+        wireQualityRow(card, product);
 
         // Miniaturas de variante en tarjeta → cambian imagen principal y registran variante activa
         if (availableVars.length > 1) {
