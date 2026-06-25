@@ -901,6 +901,115 @@
     }
   </style>
 
+
+
+  <style id="lpj-mobile-nav-force-v3">
+    /* FIX REAL MÓVIL v3: todas las opciones quedan visibles, no escondidas en scroll horizontal */
+    @media (max-width: 768px){
+      body{padding-top:0 !important;}
+      .topbar{position:sticky !important;top:0 !important;background:#fff !important;overflow:visible !important;z-index:3000 !important;}
+      .topbar-inner{
+        height:auto !important;
+        min-height:0 !important;
+        padding:10px 14px 8px !important;
+        display:grid !important;
+        grid-template-columns:1fr !important;
+        gap:8px !important;
+        align-items:center !important;
+      }
+      .brand{
+        width:100% !important;
+        display:flex !important;
+        justify-content:flex-start !important;
+        align-items:center !important;
+        padding:0 !important;
+        gap:8px !important;
+      }
+      .brand-logo{width:30px !important;height:30px !important;display:block !important;}
+      .brand-name{font-size:19px !important;line-height:1 !important;letter-spacing:.4px !important;white-space:nowrap !important;color:#111 !important;}
+      .main-nav{
+        width:100% !important;
+        display:grid !important;
+        grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+        gap:6px !important;
+        overflow:visible !important;
+        border-top:1px solid #eeeeee !important;
+        padding-top:8px !important;
+        margin:0 !important;
+      }
+      .nav-item{
+        position:static !important;
+        min-width:0 !important;
+        width:100% !important;
+        flex:none !important;
+      }
+      .nav-btn{
+        width:100% !important;
+        min-height:34px !important;
+        padding:7px 4px !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        gap:3px !important;
+        border:1px solid #e7e7e7 !important;
+        border-radius:999px !important;
+        background:#fafafa !important;
+        color:#111 !important;
+        font-size:10px !important;
+        font-weight:900 !important;
+        letter-spacing:.55px !important;
+        text-align:center !important;
+        white-space:nowrap !important;
+        box-shadow:none !important;
+      }
+      .nav-btn .caret{display:inline-block !important;font-size:7px !important;margin-left:1px !important;}
+      .nav-btn.active,
+      .nav-item.mobile-open > .nav-btn{
+        background:#111 !important;
+        color:#fff !important;
+        text-decoration:none !important;
+      }
+      .nav-right{display:none !important;}
+      .nav-item:hover > .mega-menu,
+      .nav-item:hover > .simple-menu{display:none !important;}
+      .nav-item.mobile-open > .mega-menu,
+      .nav-item.mobile-open > .simple-menu{
+        position:fixed !important;
+        left:0 !important;
+        right:0 !important;
+        top:var(--lpj-mobile-menu-top, 116px) !important;
+        width:100vw !important;
+        max-height:calc(100dvh - var(--lpj-mobile-menu-top, 116px)) !important;
+        overflow-y:auto !important;
+        overflow-x:hidden !important;
+        background:#fff !important;
+        border:0 !important;
+        border-top:1px solid #eee !important;
+        border-bottom:1px solid #eee !important;
+        border-radius:0 !important;
+        box-shadow:0 18px 36px rgba(0,0,0,.14) !important;
+        z-index:4000 !important;
+      }
+      .nav-item.mobile-open > .mega-menu{display:block !important;padding:16px 16px 24px !important;}
+      .nav-item.mobile-open > .simple-menu{display:block !important;padding:14px 22px 22px !important;}
+      .mega-cols{
+        display:grid !important;
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:18px 18px !important;
+        width:100% !important;
+      }
+      .mega-col{min-width:0 !important;}
+      .mega-col-title{font-size:11px !important;color:#111 !important;border-bottom:1px solid #eee !important;padding-bottom:6px !important;margin-bottom:8px !important;}
+      .mega-col ul li a,
+      .simple-menu a{font-size:13px !important;line-height:1.35 !important;color:#666 !important;padding:7px 0 !important;}
+      .mega-col ul li a.mas{font-weight:900 !important;color:#111 !important;}
+    }
+    @media (max-width: 380px){
+      .brand-name{font-size:17px !important;}
+      .nav-btn{font-size:9px !important;padding-left:2px !important;padding-right:2px !important;}
+    }
+  </style>
+
 </head>
 <body>
 
@@ -2351,6 +2460,64 @@ VARIANT_KEYS.forEach(k=>{
 
 // ── Keyboard ──
 document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeLoginModal();closeDetail();}});
+
+
+
+// ── FIX MÓVIL Y FILTROS v3 ──
+// Hace que el menú móvil abra con toque y que los filtros usen equivalencias: Visita=Visitante, Alternativa=Tercera.
+function lpjCanonical(value){
+  const n = normalizeText(value || "").trim();
+  if(["visita","visitante","away"].includes(n)) return "visitante";
+  if(["alternativa","tercera","third"].includes(n)) return "tercera";
+  if(["local","home"].includes(n)) return "local";
+  if(["portero","portera","goalkeeper"].includes(n)) return "portero";
+  if(["edicion especial","edición especial","especial"].includes(n)) return "edicion especial";
+  if(["short","shorts"].includes(n)) return "shorts";
+  if(["fan"].includes(n)) return "fan";
+  if(["player","jugador"].includes(n)) return "player";
+  if(["retro"].includes(n)) return "retro";
+  if(["corta","manga corta"].includes(n)) return "corta";
+  if(["larga","manga larga"].includes(n)) return "larga";
+  return n;
+}
+productMatchesAny = function(values=[], filters=[]){
+  if(!filters.length) return true;
+  const normalizedValues = (values || []).map(lpjCanonical);
+  return filters.some(f => normalizedValues.includes(lpjCanonical(f)));
+};
+const oldGetProductUniformTypes = getProductUniformTypes;
+getProductUniformTypes = function(p){
+  const values = oldGetProductUniformTypes(p);
+  const txt = normalizeText(`${p?.name||""} ${p?.tipo||""} ${p?.uniforme||""} ${p?.category||""} ${p?.temporada||""}`);
+  if(txt.includes("visita") || txt.includes("visitante")) values.push("Visitante");
+  if(txt.includes("alternativa") || txt.includes("tercera")) values.push("Tercera");
+  if(txt.includes("local")) values.push("Local");
+  if(txt.includes("portero")) values.push("Portero");
+  if(txt.includes("especial")) values.push("Edición Especial");
+  if(txt.includes("short")) values.push("Shorts");
+  const canonicalSeen = new Set();
+  return values.filter(v=>{
+    const k=lpjCanonical(v);
+    if(canonicalSeen.has(k)) return false;
+    canonicalSeen.add(k);
+    return true;
+  });
+};
+function lpjRefreshFilterState(){
+  activeVersionFilters = Array.from(document.querySelectorAll("input[data-ft='version']:checked")).map(x=>x.value);
+  activeUniformFilters = Array.from(document.querySelectorAll("input[data-ft='uniforme']:checked")).map(x=>x.value);
+  activeStatusFilters = Array.from(document.querySelectorAll("input[data-ft='status']:checked")).map(x=>x.value);
+  activeMangaFilters = Array.from(document.querySelectorAll("input[data-ft='manga']:checked")).map(x=>x.value);
+  activeSeasonFilters = Array.from(document.querySelectorAll("input[data-ft='temporada']:checked")).map(x=>x.value);
+}
+document.querySelectorAll("input[data-ft]").forEach(cb=>{
+  cb.addEventListener("change",()=>{lpjRefreshFilterState();renderProducts();}, {passive:true});
+});
+// Recalcula la altura real del encabezado móvil después de cargar fuentes e imágenes.
+setTimeout(updateMobileMenuTop, 200);
+setTimeout(updateMobileMenuTop, 800);
+window.addEventListener("load", updateMobileMenuTop);
+
 
 initCarousel();
 loadProducts();
