@@ -1342,6 +1342,66 @@
       .catalog-search-area .search-bar{min-height:48px;font-size:13px;border-radius:999px !important;}
     }
   </style>
+
+
+  <style id="lpj-click-accordion-menu-final">
+    /* Menú principal y categorías: se abren únicamente con clic/toque, no con pasar el mouse */
+    @media (min-width: 769px){
+      .nav-item:hover > .mega-menu,
+      .nav-item:hover > .simple-menu{
+        display:none !important;
+      }
+      .nav-item.menu-open > .mega-menu{
+        display:flex !important;
+      }
+      .nav-item.menu-open > .simple-menu{
+        display:block !important;
+      }
+      .nav-item.menu-open > .nav-btn{
+        color:#000 !important;
+        text-decoration:underline !important;
+        text-underline-offset:5px !important;
+      }
+      .nav-item.menu-open .caret{
+        transform:rotate(180deg);
+      }
+    }
+
+    /* Dentro del mega menú, cada bloque queda cerrado hasta que el usuario toque el nombre */
+    .mega-menu .mega-col-title,
+    #lpjMobileCategoryPanel .mega-col-title{
+      cursor:pointer !important;
+      user-select:none !important;
+      display:flex !important;
+      align-items:center !important;
+      justify-content:space-between !important;
+      gap:8px !important;
+    }
+    .mega-menu .mega-col-title::after,
+    #lpjMobileCategoryPanel .mega-col-title::after{
+      content:"+";
+      font-size:14px;
+      font-weight:900;
+      color:#111;
+      line-height:1;
+      flex:0 0 auto;
+    }
+    .mega-menu .mega-col.col-open > .mega-col-title::after,
+    #lpjMobileCategoryPanel .mega-col.col-open > .mega-col-title::after{
+      content:"−";
+    }
+    .mega-menu .mega-col:not(.col-open) > ul,
+    #lpjMobileCategoryPanel .mega-col:not(.col-open) > ul{
+      display:none !important;
+    }
+    .mega-menu .mega-col.col-open > ul{
+      display:flex !important;
+    }
+    #lpjMobileCategoryPanel .mega-col.col-open > ul{
+      display:block !important;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -1655,8 +1715,8 @@
       <div class="sidebar-header"><span>Filtros</span><button id="clearFiltersBtn">Limpiar</button></div>
 
       <div class="filter-group">
-        <div class="filter-group-title" data-toggle="filter-version">Versión <i class="fas fa-chevron-down fgt-icon"></i></div>
-        <div class="filter-options" id="filter-version">
+        <div class="filter-group-title collapsed" data-toggle="filter-version">Versión <i class="fas fa-chevron-down fgt-icon"></i></div>
+        <div class="filter-options hidden" id="filter-version">
           <label class="fcheck"><input type="checkbox" data-ft="version" value="Fan"><span>Fan</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="version" value="Player"><span>Player</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="version" value="Retro"><span>Retro</span></label>
@@ -1664,28 +1724,29 @@
       </div>
 
       <div class="filter-group">
-        <div class="filter-group-title" data-toggle="filter-tipo">Tipo <i class="fas fa-chevron-down fgt-icon"></i></div>
-        <div class="filter-options" id="filter-tipo">
+        <div class="filter-group-title collapsed" data-toggle="filter-tipo">Tipo <i class="fas fa-chevron-down fgt-icon"></i></div>
+        <div class="filter-options hidden" id="filter-tipo">
           <label class="fcheck"><input type="checkbox" data-ft="uniforme" value="Local"><span>Local</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="uniforme" value="Visitante"><span>Visita</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="uniforme" value="Tercera"><span>Alternativa</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="uniforme" value="Portero"><span>Portero</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="uniforme" value="Edición Especial"><span>Edición Especial</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="uniforme" value="Shorts"><span>Shorts</span></label>
+          <label class="fcheck"><input type="checkbox" data-ft="uniforme" value="Uniforme Completo"><span>Uniforme completo</span></label>
         </div>
       </div>
 
       <div class="filter-group">
-        <div class="filter-group-title" data-toggle="filter-manga">Manga <i class="fas fa-chevron-down fgt-icon"></i></div>
-        <div class="filter-options" id="filter-manga">
+        <div class="filter-group-title collapsed" data-toggle="filter-manga">Manga <i class="fas fa-chevron-down fgt-icon"></i></div>
+        <div class="filter-options hidden" id="filter-manga">
           <label class="fcheck"><input type="checkbox" data-ft="manga" value="Corta"><span>Corta</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="manga" value="Larga"><span>Larga</span></label>
         </div>
       </div>
 
       <div class="filter-group filter-scroll">
-        <div class="filter-group-title" data-toggle="filter-temporada">Temporada <i class="fas fa-chevron-down fgt-icon"></i></div>
-        <div class="filter-options" id="filter-temporada">
+        <div class="filter-group-title collapsed" data-toggle="filter-temporada">Temporada <i class="fas fa-chevron-down fgt-icon"></i></div>
+        <div class="filter-options hidden" id="filter-temporada">
           <label class="fcheck"><input type="checkbox" data-ft="temporada" value="25/26"><span>25/26</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="temporada" value="24/25"><span>24/25</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="temporada" value="23/24"><span>23/24</span></label>
@@ -1735,16 +1796,16 @@
       </div>
 
       <div class="filter-group">
-        <div class="filter-group-title" data-toggle="filter-status">Disponibilidad <i class="fas fa-chevron-down fgt-icon"></i></div>
-        <div class="filter-options" id="filter-status">
+        <div class="filter-group-title collapsed" data-toggle="filter-status">Disponibilidad <i class="fas fa-chevron-down fgt-icon"></i></div>
+        <div class="filter-options hidden" id="filter-status">
           <label class="fcheck"><input type="checkbox" data-ft="status" value="Disponible"><span>Disponible</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="status" value="Agotado"><span>Agotado</span></label>
         </div>
       </div>
 
       <div class="filter-group">
-        <div class="filter-group-title" data-toggle="filter-talla">Talla <i class="fas fa-chevron-down fgt-icon"></i></div>
-        <div class="filter-options" id="filter-talla">
+        <div class="filter-group-title collapsed" data-toggle="filter-talla">Talla <i class="fas fa-chevron-down fgt-icon"></i></div>
+        <div class="filter-options hidden" id="filter-talla">
           <div class="size-grid">
             <button class="size-pill" data-size="XS">XS</button>
             <button class="size-pill" data-size="S">S</button>
@@ -1761,6 +1822,7 @@
       <div class="league-chips" id="leagueChips">
         <button class="lchip active" data-filter="">Todos</button>
         <button class="lchip" data-filter="Fútbol">Fútbol</button>
+        <button class="lchip" data-filter="Uniforme Completo">Uniforme completo</button>
         <button class="lchip" data-filter="Mujer">Mujer</button>
         <button class="lchip" data-filter="Niños">Niños</button>
         <button class="lchip" data-filter="Retro">Retro</button>
@@ -1933,6 +1995,7 @@
             <div class="admin-check-hint">Podés marcar varias. Ejemplo: una misma chema puede aparecer en Hombre/Fútbol, Mujer y Niños.</div>
             <div class="admin-check-grid">
               <label class="admin-check"><input type="checkbox" data-cat value="Fútbol"> Hombre / Fútbol</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="Uniforme Completo"> Uniforme completo</label>
               <label class="admin-check"><input type="checkbox" data-cat value="Mujer"> Mujer</label>
               <label class="admin-check"><input type="checkbox" data-cat value="Niños"> Niños</label>
               <label class="admin-check"><input type="checkbox" data-cat value="Retro"> Retro</label>
@@ -1967,6 +2030,7 @@
               <label class="admin-check"><input type="checkbox" data-form-uniform value="Portero"> Portero</label>
               <label class="admin-check"><input type="checkbox" data-form-uniform value="Edición Especial"> Edición Especial</label>
               <label class="admin-check"><input type="checkbox" data-form-uniform value="Shorts"> Shorts</label>
+              <label class="admin-check"><input type="checkbox" data-form-uniform value="Uniforme Completo"> Uniforme completo</label>
             </div>
           </div>
           <div class="admin-check-panel full">
@@ -1994,6 +2058,7 @@
         <div class="variant-block"><div class="variant-block-title">🏠 Local</div><input id="imgLocal" type="file" accept="image/*" multiple style="width:100%;"><div id="previewLocal" class="preview-grid"></div></div>
         <div class="variant-block"><div class="variant-block-title">✈️ Visitante</div><input id="imgVisitante" type="file" accept="image/*" multiple style="width:100%;"><div id="previewVisitante" class="preview-grid"></div></div>
         <div class="variant-block"><div class="variant-block-title">⚡ Tercera</div><input id="imgTercera" type="file" accept="image/*" multiple style="width:100%;"><div id="previewTercera" class="preview-grid"></div></div>
+        <div class="variant-block"><div class="variant-block-title">👕 Uniforme completo</div><input id="imgUniformeCompleto" type="file" accept="image/*" multiple style="width:100%;"><div id="previewUniformeCompleto" class="preview-grid"></div></div>
         <p class="dash-helper">Si no subís imágenes al editar, se conservan las actuales.</p>
         <div class="admin-footer">
           <button id="saveBtn" class="btn-save">Guardar producto</button>
@@ -2033,14 +2098,16 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstati
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const ADMIN_EMAIL = "losprimosjersey@gmail.com";
-const VARIANT_KEYS = ["Local","Visitante","Tercera"];
+const VARIANT_KEYS = ["Local","Visitante","Tercera","Uniforme Completo"];
+const VARIANT_INPUT_IDS = { "Uniforme Completo": "UniformeCompleto" };
+function getVariantDomId(key){ return VARIANT_INPUT_IDS[key] || key; }
 const DEFAULT_VERSION_PRICES = { Fan: 22400, Player: 23900, Retro: 23900 };
 const QUALITY_PRICES = DEFAULT_VERSION_PRICES; // Compatibilidad con productos antiguos
-const PRODUCT_CATEGORIES = ["Fútbol","Mujer","Niños","Retro","NBA","NFL","MLB","F1","Poster"];
+const PRODUCT_CATEGORIES = ["Fútbol","Uniforme Completo","Mujer","Niños","Retro","NBA","NFL","MLB","F1","Poster"];
 const PRODUCT_VERSIONS = ["Fan","Player","Retro"];
-const PRODUCT_UNIFORM_TYPES = ["Local","Visitante","Tercera","Portero","Edición Especial","Shorts"];
+const PRODUCT_UNIFORM_TYPES = ["Local","Visitante","Tercera","Portero","Edición Especial","Shorts","Uniforme Completo"];
 const PRODUCT_MANGAS = ["Corta","Larga"];
-const QUALITY_BY_LEAGUE = { "Fútbol":["Fan","Player","Retro"], "Mujer":["Fan","Player","Retro"], "Retro":["Fan","Player","Retro"], "Niños":["Fan"] };
+const QUALITY_BY_LEAGUE = { "Fútbol":["Fan","Player","Retro"], "Uniforme Completo":["Fan","Player"], "Mujer":["Fan","Player","Retro"], "Retro":["Fan","Player","Retro"], "Niños":["Fan"] };
 
 const firebaseConfig = {
   apiKey: "AIzaSyCSrXm3fhOE7DUYpm-Ya35cd411jtrC-WY",
@@ -2055,7 +2122,7 @@ const db = getFirestore(app), storage = getStorage(app), auth = getAuth(app);
 
 // ── State ──
 let products = [], editingId = null, isAdmin = false;
-let currentVariants = { Local:[], Visitante:[], Tercera:[] };
+let currentVariants = { Local:[], Visitante:[], Tercera:[], "Uniforme Completo":[] };
 let activeLeagueFilter = "", activeTeamFilter = "", activeSizeFilter = "";
 let activeVersionFilters = [], activeUniformFilters = [], activeStatusFilters = [], activeMangaFilters = [], activeSeasonFilters = [];
 let currentCarouselIdx = 0, carouselInterval = null;
@@ -2164,7 +2231,7 @@ function getVariants(p) {
   const urls=[];
   if(Array.isArray(p.imageUrls)) p.imageUrls.forEach(u=>u&&urls.push(u));
   else if(p.imageUrl) urls.push(p.imageUrl);
-  return {Local:urls,Visitante:[],Tercera:[]};
+  return {Local:urls,Visitante:[],Tercera:[],"Uniforme Completo":[]};
 }
 function getFirstImg(p) { const v=getVariants(p); for(const k of VARIANT_KEYS) if(v[k]?.length) return v[k][0]; return ""; }
 function fmt(val) { return "₡"+Number(val||0).toLocaleString("es-CR"); }
@@ -2323,7 +2390,7 @@ async function saveProduct() {
   try {
     const variants={};
     for(const k of VARIANT_KEYS){
-      const inp=document.getElementById(`img${k}`),files=Array.from(inp.files||[]);
+      const inp=document.getElementById(`img${getVariantDomId(k)}`),files=Array.from(inp.files||[]);
       variants[k]=files.length?await uploadImgs(files):(currentVariants[k]||[]);
     }
     if(!uniformTypes.length) uniformTypes=inferUniformsFromVariants(variants);
@@ -2369,7 +2436,7 @@ function startEdit(id) {
   setSelectedSeasons(getProductSeasons(p));
   statusInput.value=p.status||"Disponible"; sizesInput.value=p.sizes||""; isNewCheckbox.checked=p.isNew===true;
   VARIANT_KEYS.forEach(k=>{
-    const inp=document.getElementById(`img${k}`),pre=document.getElementById(`preview${k}`);
+    const inp=document.getElementById(`img${getVariantDomId(k)}`),pre=document.getElementById(`preview${getVariantDomId(k)}`);
     if(inp)inp.value=""; if(pre)renderPreview(inp,pre,currentVariants[k]);
   });
   formTitle.textContent="Editando producto"; saveBtn.textContent="Actualizar producto";
@@ -2382,13 +2449,13 @@ async function removeProduct(id) {
   catch(e){ console.error(e); alert("Error."); }
 }
 function resetForm() {
-  editingId=null; currentVariants={Local:[],Visitante:[],Tercera:[]};
+  editingId=null; currentVariants={Local:[],Visitante:[],Tercera:[],"Uniforme Completo":[]};
   nameInput.value=""; priceInput.value=""; if(leagueInput) leagueInput.value="";
   setSelectedCategories([]); setSelectedVersions([]); setFormVersionPrices(DEFAULT_VERSION_PRICES);
   setSelectedUniformTypes([]); setSelectedMangas([]); setSelectedSeasons([]);
   statusInput.value="Disponible"; sizesInput.value=""; isNewCheckbox.checked=false;
   VARIANT_KEYS.forEach(k=>{
-    const inp=document.getElementById(`img${k}`),pre=document.getElementById(`preview${k}`);
+    const inp=document.getElementById(`img${getVariantDomId(k)}`),pre=document.getElementById(`preview${getVariantDomId(k)}`);
     if(inp)inp.value=""; if(pre)pre.innerHTML="";
   });
   formTitle.textContent="Administración"; saveBtn.textContent="Guardar producto"; cancelEditBtn.style.display="none";
@@ -2781,6 +2848,15 @@ document.querySelectorAll(".filter-group-title[data-toggle]").forEach(el=>{
     if(target)target.classList.toggle("hidden");
   });
 });
+// Estado inicial: todos los filtros cerrados; cada usuario decide cuáles abrir.
+function initCollapsedFilters(){
+  document.querySelectorAll(".filter-group-title[data-toggle]").forEach(el=>{
+    el.classList.add("collapsed");
+    const target=document.getElementById(el.dataset.toggle);
+    if(target) target.classList.add("hidden");
+  });
+}
+initCollapsedFilters();
 
 // ── Sidebar checkboxes ──
 document.querySelectorAll("input[data-ft='version']").forEach(cb=>{
@@ -2822,7 +2898,7 @@ closePanelBtn.addEventListener("click",()=>adminFormWrap.style.display="none");
 saveBtn.addEventListener("click",saveProduct);
 cancelEditBtn.addEventListener("click",resetForm);
 VARIANT_KEYS.forEach(k=>{
-  const inp=document.getElementById(`img${k}`),pre=document.getElementById(`preview${k}`);
+  const inp=document.getElementById(`img${getVariantDomId(k)}`),pre=document.getElementById(`preview${getVariantDomId(k)}`);
   if(inp&&pre)inp.addEventListener("change",()=>renderPreview(inp,pre,currentVariants[k]));
 });
 
@@ -2841,6 +2917,7 @@ function lpjCanonical(value){
   if(["portero","portera","goalkeeper"].includes(n)) return "portero";
   if(["edicion especial","edición especial","especial"].includes(n)) return "edicion especial";
   if(["short","shorts"].includes(n)) return "shorts";
+  if(["uniforme completo","uniformecompleto","equipacion completa","equipación completa","set completo","kit completo"].includes(n)) return "uniforme completo";
   if(["fan"].includes(n)) return "fan";
   if(["player","jugador"].includes(n)) return "player";
   if(["retro"].includes(n)) return "retro";
@@ -2863,6 +2940,7 @@ getProductUniformTypes = function(p){
   if(txt.includes("portero")) values.push("Portero");
   if(txt.includes("especial")) values.push("Edición Especial");
   if(txt.includes("short")) values.push("Shorts");
+  if(txt.includes("uniforme completo") || txt.includes("equipacion completa") || txt.includes("equipación completa") || txt.includes("set completo") || txt.includes("kit completo")) values.push("Uniforme Completo");
   const canonicalSeen = new Set();
   return values.filter(v=>{
     const k=lpjCanonical(v);
@@ -3010,6 +3088,126 @@ window.addEventListener("load", updateMobileMenuTop);
 
   window.addEventListener('resize', function(){ if(!mobileMode()) closePanel(); });
   window.addEventListener('orientationchange', function(){ setTimeout(function(){ if(typeof updateMobileMenuTop === 'function') updateMobileMenuTop(); }, 250); });
+})();
+
+
+// ── MENÚ POR CLIC + ACORDEÓN DE CATEGORÍAS ──
+// Evita que el mega menú se abra solo al pasar el mouse.
+// Ahora el usuario debe tocar Hombres/Mujeres/etc. y luego tocar cada título
+// interno como Selecciones, Premier League, LaLiga, etc.
+(function(){
+  const nav = document.querySelector('.main-nav');
+  if(!nav) return;
+
+  const desktopItems = Array.from(nav.querySelectorAll('.nav-item')).filter(item =>
+    item.querySelector(':scope > .mega-menu, :scope > .simple-menu')
+  );
+
+  function isMobile(){
+    return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  }
+
+  function closeDesktopMenus(except){
+    desktopItems.forEach(item => {
+      if(item === except) return;
+      item.classList.remove('menu-open');
+      const btn = item.querySelector(':scope > .nav-btn');
+      if(btn) btn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  desktopItems.forEach(item => {
+    const btn = item.querySelector(':scope > .nav-btn');
+    if(!btn) return;
+    btn.setAttribute('aria-haspopup', 'true');
+    btn.setAttribute('aria-expanded', 'false');
+  });
+
+  nav.addEventListener('click', function(e){
+    if(isMobile()) return;
+    const btn = e.target.closest('.nav-item > .nav-btn');
+    if(!btn) return;
+
+    const item = btn.closest('.nav-item');
+    if(!item || !item.querySelector(':scope > .mega-menu, :scope > .simple-menu')) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+
+    const willOpen = !item.classList.contains('menu-open');
+    closeDesktopMenus(item);
+    item.classList.toggle('menu-open', willOpen);
+    btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+  });
+
+  document.addEventListener('click', function(e){
+    if(isMobile()) return;
+    if(e.target.closest('.main-nav')) return;
+    closeDesktopMenus();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeDesktopMenus();
+  });
+
+  window.addEventListener('resize', function(){
+    if(isMobile()) closeDesktopMenus();
+  });
+
+  // Cierra el menú después de elegir una opción real del catálogo.
+  nav.querySelectorAll('.mega-menu a, .simple-menu a').forEach(link => {
+    link.addEventListener('click', function(){
+      if(!isMobile()) setTimeout(() => closeDesktopMenus(), 0);
+    });
+  });
+
+  function prepareMegaTitles(root){
+    (root || document).querySelectorAll('.mega-col-title').forEach(title => {
+      if(title.dataset.lpjAccordionReady === '1') return;
+      title.dataset.lpjAccordionReady = '1';
+      title.setAttribute('role', 'button');
+      title.setAttribute('tabindex', '0');
+      title.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  prepareMegaTitles(document);
+
+  function toggleMegaColumn(title){
+    const col = title.closest('.mega-col');
+    if(!col) return;
+    const willOpen = !col.classList.contains('col-open');
+    col.classList.toggle('col-open', willOpen);
+    title.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+  }
+
+  document.addEventListener('click', function(e){
+    const title = e.target.closest('.mega-col-title');
+    if(!title) return;
+    if(!title.closest('.mega-menu') && !title.closest('#lpjMobileCategoryPanel')) return;
+    prepareMegaTitles(title.closest('.mega-menu') || title.closest('#lpjMobileCategoryPanel'));
+    e.preventDefault();
+    e.stopPropagation();
+    toggleMegaColumn(title);
+  }, true);
+
+  document.addEventListener('keydown', function(e){
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    const title = e.target.closest && e.target.closest('.mega-col-title');
+    if(!title) return;
+    if(!title.closest('.mega-menu') && !title.closest('#lpjMobileCategoryPanel')) return;
+    e.preventDefault();
+    toggleMegaColumn(title);
+  });
+
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(m => {
+      m.addedNodes.forEach(node => {
+        if(node.nodeType === 1) prepareMegaTitles(node);
+      });
+    });
+  });
+  observer.observe(document.body, {childList:true, subtree:true});
 })();
 
 
