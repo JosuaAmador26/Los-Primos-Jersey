@@ -1720,6 +1720,7 @@
           <label class="fcheck"><input type="checkbox" data-ft="version" value="Fan"><span>Fan</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="version" value="Player"><span>Player</span></label>
           <label class="fcheck"><input type="checkbox" data-ft="version" value="Retro"><span>Retro</span></label>
+          <label class="fcheck"><input type="checkbox" data-ft="version" value="Uniforme Completo"><span>Uniforme completo</span></label>
         </div>
       </div>
 
@@ -2008,16 +2009,18 @@
           </div>
           <div class="admin-check-panel full">
             <div class="admin-check-title">Versiones disponibles</div>
-            <div class="admin-check-hint">Marcá Fan, Player o Retro. En la tienda se mostrará el precio correspondiente a la versión seleccionada.</div>
+            <div class="admin-check-hint">Marcá Fan, Player, Retro o Uniforme completo. En la tienda se mostrará el precio correspondiente a la versión seleccionada.</div>
             <div class="admin-check-grid">
               <label class="admin-check"><input type="checkbox" data-version value="Fan"> Fan</label>
               <label class="admin-check"><input type="checkbox" data-version value="Player"> Player</label>
               <label class="admin-check"><input type="checkbox" data-version value="Retro"> Retro</label>
+              <label class="admin-check"><input type="checkbox" data-version value="Uniforme Completo"> Uniforme completo</label>
             </div>
             <div class="version-price-grid">
               <input id="priceFan" type="number" placeholder="Precio Fan: 22400">
               <input id="pricePlayer" type="number" placeholder="Precio Player: 23900">
               <input id="priceRetro" type="number" placeholder="Precio Retro: 23900">
+              <input id="priceUniformeCompleto" type="number" placeholder="Precio Uniforme completo: 28900">
             </div>
           </div>
           <div class="admin-check-panel full">
@@ -2101,13 +2104,13 @@ const ADMIN_EMAIL = "losprimosjersey@gmail.com";
 const VARIANT_KEYS = ["Local","Visitante","Tercera","Uniforme Completo"];
 const VARIANT_INPUT_IDS = { "Uniforme Completo": "UniformeCompleto" };
 function getVariantDomId(key){ return VARIANT_INPUT_IDS[key] || key; }
-const DEFAULT_VERSION_PRICES = { Fan: 22400, Player: 23900, Retro: 23900 };
+const DEFAULT_VERSION_PRICES = { Fan: 22400, Player: 23900, Retro: 23900, "Uniforme Completo": 28900 };
 const QUALITY_PRICES = DEFAULT_VERSION_PRICES; // Compatibilidad con productos antiguos
 const PRODUCT_CATEGORIES = ["Fútbol","Uniforme Completo","Mujer","Niños","Retro","NBA","NFL","MLB","F1","Poster"];
-const PRODUCT_VERSIONS = ["Fan","Player","Retro"];
+const PRODUCT_VERSIONS = ["Fan","Player","Retro","Uniforme Completo"];
 const PRODUCT_UNIFORM_TYPES = ["Local","Visitante","Tercera","Portero","Edición Especial","Shorts","Uniforme Completo"];
 const PRODUCT_MANGAS = ["Corta","Larga"];
-const QUALITY_BY_LEAGUE = { "Fútbol":["Fan","Player","Retro"], "Uniforme Completo":["Fan","Player"], "Mujer":["Fan","Player","Retro"], "Retro":["Fan","Player","Retro"], "Niños":["Fan"] };
+const QUALITY_BY_LEAGUE = { "Fútbol":["Fan","Player","Retro","Uniforme Completo"], "Uniforme Completo":["Uniforme Completo"], "Mujer":["Fan","Player","Retro","Uniforme Completo"], "Retro":["Fan","Player","Retro"], "Niños":["Fan","Uniforme Completo"] };
 
 const firebaseConfig = {
   apiKey: "AIzaSyCSrXm3fhOE7DUYpm-Ya35cd411jtrC-WY",
@@ -2140,7 +2143,7 @@ const statTotal = $("statTotal"), statAvailable = $("statAvailable"), statSoldOu
 const openFormBtn = $("openFormBtn"), closePanelBtn = $("closePanelBtn"), adminFormWrap = $("adminFormWrap");
 const nameInput = $("name"), priceInput = $("price"), leagueInput = $("league");
 const statusInput = $("status"), sizesInput = $("sizes"), isNewCheckbox = $("isNew");
-const priceFanInput = $("priceFan"), pricePlayerInput = $("pricePlayer"), priceRetroInput = $("priceRetro"), seasonInput = $("seasonInput");
+const priceFanInput = $("priceFan"), pricePlayerInput = $("pricePlayer"), priceRetroInput = $("priceRetro"), priceUniformeCompletoInput = $("priceUniformeCompleto"), seasonInput = $("seasonInput");
 const saveBtn = $("saveBtn"), cancelEditBtn = $("cancelEditBtn"), formTitle = $("formTitle");
 const loginModal = $("loginModal"), submitLoginBtn = $("submitLoginBtn"), closeLoginBtn = $("closeLoginBtn");
 const loginError = $("loginError"), heroCarousel = $("heroCarousel"), carouselDots = $("carouselDots");
@@ -2282,13 +2285,15 @@ function getFormVersionPrices() {
   return {
     Fan: Number(priceFanInput?.value || DEFAULT_VERSION_PRICES.Fan),
     Player: Number(pricePlayerInput?.value || DEFAULT_VERSION_PRICES.Player),
-    Retro: Number(priceRetroInput?.value || DEFAULT_VERSION_PRICES.Retro)
+    Retro: Number(priceRetroInput?.value || DEFAULT_VERSION_PRICES.Retro),
+    "Uniforme Completo": Number(priceUniformeCompletoInput?.value || DEFAULT_VERSION_PRICES["Uniforme Completo"])
   };
 }
 function setFormVersionPrices(prices={}) {
   if(priceFanInput) priceFanInput.value = prices.Fan || DEFAULT_VERSION_PRICES.Fan;
   if(pricePlayerInput) pricePlayerInput.value = prices.Player || DEFAULT_VERSION_PRICES.Player;
   if(priceRetroInput) priceRetroInput.value = prices.Retro || DEFAULT_VERSION_PRICES.Retro;
+  if(priceUniformeCompletoInput) priceUniformeCompletoInput.value = prices["Uniforme Completo"] || DEFAULT_VERSION_PRICES["Uniforme Completo"];
 }
 function normalizeText(value="") {
   return String(value || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -2386,7 +2391,7 @@ async function saveProduct() {
   const status=statusInput.value,sizes=sizesInput.value.trim(),isNew=isNewCheckbox.checked;
   const isPoster=categories.includes("Poster");
   if(!name||!categories.length){alert("Completá nombre y marcá al menos una sección.");return;}
-  if(!isPoster && !versions.length){alert("Marcá al menos una versión: Fan, Player o Retro.");return;}
+  if(!isPoster && !versions.length){alert("Marcá al menos una versión: Fan, Player, Retro o Uniforme completo.");return;}
   try {
     const variants={};
     for(const k of VARIANT_KEYS){
