@@ -1010,6 +1010,107 @@
     }
   </style>
 
+
+
+  <style id="lpj-mobile-menu-panel-final">
+    /* FIX FINAL MÓVIL: muestra todas las opciones arriba y abre submenú con toque */
+    @media (max-width: 768px){
+      .topbar{position:sticky !important;top:0 !important;background:#fff !important;z-index:6000 !important;overflow:visible !important;}
+      .topbar-inner{
+        height:auto !important;
+        min-height:0 !important;
+        padding:12px 14px 8px !important;
+        display:grid !important;
+        grid-template-columns:1fr !important;
+        gap:8px !important;
+      }
+      .brand{width:100% !important;display:flex !important;align-items:center !important;justify-content:flex-start !important;padding:0 0 6px !important;border-bottom:1px solid #eee !important;}
+      .brand-name{font-size:18px !important;color:#111 !important;line-height:1 !important;white-space:nowrap !important;}
+      .brand-logo{width:28px !important;height:28px !important;}
+      .main-nav{
+        width:100% !important;
+        display:grid !important;
+        grid-template-columns:repeat(4, minmax(0, 1fr)) !important;
+        gap:6px !important;
+        overflow:visible !important;
+        padding:0 !important;
+        margin:0 !important;
+        border:0 !important;
+      }
+      .nav-item{position:static !important;width:100% !important;min-width:0 !important;flex:none !important;}
+      .nav-btn{
+        width:100% !important;
+        min-height:34px !important;
+        height:auto !important;
+        padding:6px 4px !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        gap:3px !important;
+        border:1px solid #e7e7e7 !important;
+        border-radius:999px !important;
+        background:#fafafa !important;
+        color:#111 !important;
+        font-size:8px !important;
+        font-weight:900 !important;
+        letter-spacing:.35px !important;
+        line-height:1.05 !important;
+        text-align:center !important;
+        white-space:normal !important;
+        overflow:hidden !important;
+      }
+      .nav-btn .caret{display:inline-block !important;font-size:7px !important;margin-left:1px !important;flex:0 0 auto !important;}
+      .nav-btn.active{background:#111 !important;color:#fff !important;text-decoration:none !important;}
+      .nav-right{display:none !important;}
+      .nav-item:hover > .mega-menu,
+      .nav-item:hover > .simple-menu,
+      .nav-item.mobile-open > .mega-menu,
+      .nav-item.mobile-open > .simple-menu{display:none !important;}
+      #lpjMobileCategoryPanel{
+        display:none;
+        position:fixed;
+        left:0;
+        right:0;
+        top:var(--lpj-mobile-menu-top, 116px);
+        width:100vw;
+        max-height:calc(100dvh - var(--lpj-mobile-menu-top, 116px));
+        overflow-y:auto;
+        background:#fff;
+        border-top:1px solid #eee;
+        border-bottom:1px solid #eee;
+        box-shadow:0 18px 38px rgba(0,0,0,.16);
+        z-index:6500;
+        padding:0 16px 22px;
+      }
+      #lpjMobileCategoryPanel.show{display:block !important;}
+      .lpj-mobile-panel-head{
+        position:sticky;
+        top:0;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        gap:12px;
+        background:#fff;
+        padding:14px 0 10px;
+        border-bottom:1px solid #eee;
+        margin-bottom:14px;
+      }
+      .lpj-mobile-panel-title{font-family:var(--font-display);font-size:18px;font-weight:800;color:#111;letter-spacing:.7px;text-transform:uppercase;}
+      .lpj-mobile-panel-close{border:1px solid #ddd;background:#fafafa;color:#111;border-radius:999px;padding:7px 12px;font-size:12px;font-weight:800;}
+      #lpjMobileCategoryPanel .mega-cols{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr)) !important;gap:18px 16px !important;width:100% !important;}
+      #lpjMobileCategoryPanel .mega-col{min-width:0 !important;}
+      #lpjMobileCategoryPanel .mega-col-title{font-size:12px !important;color:#111 !important;border-bottom:1px solid #eee !important;padding-bottom:7px !important;margin-bottom:8px !important;font-weight:900 !important;}
+      #lpjMobileCategoryPanel ul{list-style:none !important;margin:0 !important;padding:0 !important;}
+      #lpjMobileCategoryPanel a{display:block !important;color:#666 !important;text-decoration:none !important;font-size:14px !important;line-height:1.35 !important;padding:8px 0 !important;}
+      #lpjMobileCategoryPanel a.mas{color:#111 !important;font-weight:900 !important;}
+    }
+    @media (max-width: 380px){
+      .brand-name{font-size:16px !important;}
+      .nav-btn{font-size:7.4px !important;letter-spacing:.15px !important;padding-left:2px !important;padding-right:2px !important;}
+      #lpjMobileCategoryPanel .mega-cols{grid-template-columns:1fr 1fr !important;gap:16px 12px !important;}
+    }
+  </style>
+
 </head>
 <body>
 
@@ -2517,6 +2618,132 @@ document.querySelectorAll("input[data-ft]").forEach(cb=>{
 setTimeout(updateMobileMenuTop, 200);
 setTimeout(updateMobileMenuTop, 800);
 window.addEventListener("load", updateMobileMenuTop);
+
+
+// ── FIX FINAL: panel móvil independiente para categorías ──
+(function(){
+  let lastTap = 0;
+  let currentSource = null;
+
+  function mobileMode(){
+    return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+  }
+
+  function ensurePanel(){
+    let panel = document.getElementById('lpjMobileCategoryPanel');
+    if(panel) return panel;
+    panel = document.createElement('div');
+    panel.id = 'lpjMobileCategoryPanel';
+    panel.setAttribute('aria-hidden', 'true');
+    const header = document.querySelector('.topbar');
+    if(header && header.parentNode){
+      header.parentNode.insertBefore(panel, header.nextSibling);
+    }else{
+      document.body.prepend(panel);
+    }
+    panel.addEventListener('click', function(e){
+      const close = e.target.closest('.lpj-mobile-panel-close');
+      if(close){ closePanel(); return; }
+      const link = e.target.closest('a');
+      if(!link) return;
+      e.preventDefault();
+      const fl = link.dataset.fl || '';
+      const ft = link.dataset.ft || '';
+      const player = link.dataset.player;
+      if(link.classList.contains('pnav-link') || player !== undefined){
+        if(typeof showPage === 'function') showPage('posters');
+        if(typeof filterPosters === 'function') filterPosters(player || '');
+        document.querySelectorAll('.pchip').forEach(c=>c.classList.toggle('active', c.dataset.player === (player || '')));
+      }else if(fl || ft){
+        if(typeof showPage === 'function') showPage('catalog');
+        if(typeof activeLeagueFilter !== 'undefined') activeLeagueFilter = fl;
+        if(typeof activeTeamFilter !== 'undefined') activeTeamFilter = ft;
+        document.querySelectorAll('#leagueChips .lchip').forEach(c=>c.classList.toggle('active', c.dataset.filter === fl));
+        if(typeof renderProducts === 'function') renderProducts();
+        const cat = document.getElementById('catalog-section');
+        if(cat) cat.scrollIntoView({behavior:'smooth'});
+      }
+      closePanel();
+    });
+    return panel;
+  }
+
+  function cleanTitle(btn){
+    return (btn.textContent || '').replace(/\s+/g,' ').trim();
+  }
+
+  function openPanel(item, btn){
+    const menu = item.querySelector(':scope > .mega-menu, :scope > .simple-menu');
+    if(!menu) return;
+    if(typeof updateMobileMenuTop === 'function') updateMobileMenuTop();
+    const panel = ensurePanel();
+    const title = cleanTitle(btn);
+    panel.innerHTML = `
+      <div class="lpj-mobile-panel-head">
+        <div class="lpj-mobile-panel-title">${title}</div>
+        <button type="button" class="lpj-mobile-panel-close">Cerrar</button>
+      </div>
+      <div class="lpj-mobile-panel-body">${menu.innerHTML}</div>
+    `;
+    currentSource = item;
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    panel.classList.add('show');
+    panel.setAttribute('aria-hidden', 'false');
+  }
+
+  function closePanel(){
+    const panel = document.getElementById('lpjMobileCategoryPanel');
+    if(panel){
+      panel.classList.remove('show');
+      panel.setAttribute('aria-hidden', 'true');
+    }
+    currentSource = null;
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  }
+
+  function handleNavTap(e){
+    if(!mobileMode()) return;
+    const btn = e.target.closest('.nav-item > .nav-btn');
+    if(!btn) return;
+    const item = btn.closest('.nav-item');
+    if(!item) return;
+    const menu = item.querySelector(':scope > .mega-menu, :scope > .simple-menu');
+    if(!menu) return;
+
+    const now = Date.now();
+    if(now - lastTap < 260){
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
+    lastTap = now;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    const panel = ensurePanel();
+    if(panel.classList.contains('show') && currentSource === item){
+      closePanel();
+    }else{
+      openPanel(item, btn);
+    }
+  }
+
+  document.addEventListener('click', handleNavTap, true);
+  document.addEventListener('touchend', handleNavTap, true);
+
+  document.addEventListener('click', function(e){
+    if(!mobileMode()) return;
+    const panel = document.getElementById('lpjMobileCategoryPanel');
+    if(!panel || !panel.classList.contains('show')) return;
+    if(e.target.closest('#lpjMobileCategoryPanel') || e.target.closest('.main-nav')) return;
+    closePanel();
+  }, true);
+
+  window.addEventListener('resize', function(){ if(!mobileMode()) closePanel(); });
+  window.addEventListener('orientationchange', function(){ setTimeout(function(){ if(typeof updateMobileMenuTop === 'function') updateMobileMenuTop(); }, 250); });
+})();
 
 
 initCarousel();
