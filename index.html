@@ -1277,6 +1277,71 @@
     }
   </style>
 
+
+  <style id="lpj-search-bar-fix">
+    /* Barra de búsqueda rápida visible en PC y celular */
+    .catalog-search-area{
+      display:block !important;
+      grid-column:1 / -1 !important;
+      margin:0 0 2px !important;
+    }
+    .catalog-search-box{
+      position:relative;
+      width:100%;
+      display:flex;
+      align-items:center;
+      background:#fff;
+      border:1px solid #e5e5e5;
+      border-radius:10px;
+      box-shadow:0 8px 24px rgba(0,0,0,.04);
+      overflow:hidden;
+    }
+    .catalog-search-box i{
+      position:absolute;
+      left:16px;
+      color:#777;
+      font-size:14px;
+      pointer-events:none;
+    }
+    .catalog-search-area .search-bar{
+      display:block !important;
+      width:100%;
+      min-height:52px;
+      padding:14px 48px 14px 44px !important;
+      border:0 !important;
+      border-radius:10px !important;
+      background:#fff !important;
+      color:#111 !important;
+      font-size:14px;
+      outline:none;
+      box-shadow:none !important;
+    }
+    .catalog-search-area .search-bar::placeholder{color:#999;}
+    #clearSearchBtn{
+      position:absolute;
+      right:8px;
+      width:34px;
+      height:34px;
+      border:0;
+      border-radius:50%;
+      background:#f3f3f3;
+      color:#444;
+      font-size:22px;
+      line-height:1;
+      cursor:pointer;
+      display:none;
+      align-items:center;
+      justify-content:center;
+    }
+    #clearSearchBtn.show{display:flex;}
+    #clearSearchBtn:hover{background:#111;color:#fff;}
+    @media (max-width:768px){
+      .catalog-layout{padding-top:18px !important;}
+      .catalog-search-area{order:-1;margin-bottom:8px !important;}
+      .catalog-search-box{border-radius:999px;box-shadow:none;border-color:#ddd;}
+      .catalog-search-area .search-bar{min-height:48px;font-size:13px;border-radius:999px !important;}
+    }
+  </style>
 </head>
 <body>
 
@@ -1577,6 +1642,14 @@
 <!-- ══ CATALOG PAGE ══ -->
 <div id="catalog-page">
   <div class="catalog-layout" id="catalog-section">
+    <!-- Barra de búsqueda rápida -->
+    <div class="catalog-search-area search-wrap">
+      <div class="catalog-search-box">
+        <i class="fas fa-search"></i>
+        <input id="searchInput" class="search-bar" placeholder="Buscar camisa por nombre, equipo o temporada..." autocomplete="off">
+        <button type="button" id="clearSearchBtn" aria-label="Limpiar búsqueda">&times;</button>
+      </div>
+    </div>
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header"><span>Filtros</span><button id="clearFiltersBtn">Limpiar</button></div>
@@ -1685,9 +1758,6 @@
     </aside>
     <!-- Main -->
     <div>
-      <div class="search-wrap">
-        <input id="searchInput" class="search-bar" placeholder="Buscar equipo, liga o camiseta..." autocomplete="off">
-      </div>
       <div class="league-chips" id="leagueChips">
         <button class="lchip active" data-filter="">Todos</button>
         <button class="lchip" data-filter="Fútbol">Fútbol</button>
@@ -2332,13 +2402,24 @@ function renderPreview(inp,pre,urls) {
 
 // ── Filters ──
 function applyFilters(list) {
-  const search=searchInput.value.trim().toLowerCase();
+  const search=normalizeText(searchInput.value.trim());
   return list.filter(p=>{
     const cats=getCategories(p);
     const versions=getProductVersions(p);
-    const nm=(p.name||"").toLowerCase();
-    const lg=[p.league||"", ...cats, ...versions].join(" ").toLowerCase();
-    if(!(nm.includes(search)||lg.includes(search)))return false;
+    const nm=normalizeText(p.name||"");
+    const lgRaw=[
+      p.league||"",
+      p.team||"",
+      p.temporada||"",
+      p.season||"",
+      p.sizes||"",
+      ...(getProductUniformTypes(p)||[]),
+      ...(getProductMangas(p)||[]),
+      ...cats,
+      ...versions
+    ].join(" ");
+    const lg=normalizeText(lgRaw);
+    if(search && !(nm.includes(search)||lg.includes(search)))return false;
     if(activeLeagueFilter){
       if(activeLeagueFilter==="nuevo"){if(!p.isNew)return false;}
       else if(!hasCategory(p, activeLeagueFilter))return false;
@@ -2676,7 +2757,20 @@ document.getElementById("posterChips").querySelectorAll(".pchip").forEach(chip=>
 function filterPosters(player){renderPosters(player);}
 
 // ── Search/sort ──
-searchInput.addEventListener("input",renderProducts);
+searchInput.addEventListener("input",()=>{
+  const clearBtn=document.getElementById("clearSearchBtn");
+  if(clearBtn) clearBtn.classList.toggle("show", !!searchInput.value.trim());
+  renderProducts();
+});
+const clearSearchBtn=document.getElementById("clearSearchBtn");
+if(clearSearchBtn){
+  clearSearchBtn.addEventListener("click",()=>{
+    searchInput.value="";
+    clearSearchBtn.classList.remove("show");
+    searchInput.focus();
+    renderProducts();
+  });
+}
 sortSelect.addEventListener("change",renderProducts);
 
 // ── Sidebar filter groups toggle ──
