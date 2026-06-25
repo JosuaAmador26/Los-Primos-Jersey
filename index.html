@@ -1111,6 +1111,89 @@
     }
   </style>
 
+
+  <style id="lpj-detail-close-visible-fix">
+    /* Botón visible para salir del detalle de la chema */
+    .detail-close{
+      display:flex !important;
+      align-items:center !important;
+      justify-content:center !important;
+      width:42px !important;
+      height:42px !important;
+      border-radius:999px !important;
+      background:#ffffff !important;
+      color:#111111 !important;
+      border:1px solid #dddddd !important;
+      box-shadow:0 10px 28px rgba(0,0,0,.16) !important;
+      font-size:30px !important;
+      font-weight:900 !important;
+      line-height:1 !important;
+      cursor:pointer !important;
+      z-index:12000 !important;
+      text-decoration:none !important;
+    }
+    .detail-back-btn{
+      display:none;
+      border:0;
+      cursor:pointer;
+      font-family:var(--font-body);
+    }
+    .detail-close:hover{background:#111111 !important;color:#ffffff !important;}
+
+    @media (max-width: 768px){
+      .detail-modal{
+        z-index:11000 !important;
+        background:#ffffff !important;
+        padding:0 !important;
+      }
+      .detail-modal.show{
+        display:block !important;
+      }
+      .detail-inner{
+        width:100% !important;
+        min-height:100dvh !important;
+        margin:0 !important;
+        border:0 !important;
+        border-radius:0 !important;
+        box-shadow:none !important;
+      }
+      .detail-close{
+        position:fixed !important;
+        top:calc(env(safe-area-inset-top) + 12px) !important;
+        right:12px !important;
+        width:44px !important;
+        height:44px !important;
+        background:#111111 !important;
+        color:#ffffff !important;
+        border:0 !important;
+        font-size:30px !important;
+        z-index:12050 !important;
+      }
+      .detail-back-btn{
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        gap:8px !important;
+        position:fixed !important;
+        top:calc(env(safe-area-inset-top) + 12px) !important;
+        left:12px !important;
+        min-height:44px !important;
+        padding:0 16px !important;
+        border-radius:999px !important;
+        background:#111111 !important;
+        color:#ffffff !important;
+        font-size:13px !important;
+        font-weight:900 !important;
+        letter-spacing:.2px !important;
+        box-shadow:0 10px 28px rgba(0,0,0,.22) !important;
+        z-index:12050 !important;
+      }
+      .detail-imgs{
+        padding-top:70px !important;
+      }
+    }
+  </style>
+
 </head>
 <body>
 
@@ -1574,7 +1657,8 @@
 <!-- ══ PRODUCT DETAIL MODAL ══ -->
 <div id="detailModal" class="detail-modal">
   <div class="detail-inner">
-    <span class="detail-close" id="detailClose">&times;</span>
+    <span class="detail-close" id="detailClose" role="button" aria-label="Cerrar detalle">&times;</span>
+    <button class="detail-back-btn" id="detailBackBtn" type="button"><i class="fas fa-arrow-left"></i> Volver</button>
     <!-- Imágenes -->
     <div class="detail-imgs">
       <div class="detail-main-img-wrap">
@@ -1841,7 +1925,7 @@ const saveBtn = $("saveBtn"), cancelEditBtn = $("cancelEditBtn"), formTitle = $(
 const loginModal = $("loginModal"), submitLoginBtn = $("submitLoginBtn"), closeLoginBtn = $("closeLoginBtn");
 const loginError = $("loginError"), heroCarousel = $("heroCarousel"), carouselDots = $("carouselDots");
 const catalogPage = $("catalog-page"), postersPage = $("posters-page");
-const detailModal = $("detailModal"), detailClose = $("detailClose");
+const detailModal = $("detailModal"), detailClose = $("detailClose"), detailBackBtn = $("detailBackBtn");
 
 // ── Accordion ──
 window.toggleAcc = (id) => {
@@ -2362,7 +2446,8 @@ function updateDetailHint() {
   }
 }
 function closeDetail() { detailModal.classList.remove("show"); document.body.style.overflow=""; }
-detailClose.addEventListener("click",closeDetail);
+if(detailClose) detailClose.addEventListener("click",closeDetail);
+if(detailBackBtn) detailBackBtn.addEventListener("click",closeDetail);
 detailModal.addEventListener("click",e=>{if(e.target===detailModal)closeDetail();});
 
 // WA buy from detail
