@@ -453,6 +453,25 @@
     .stat-box strong { font-family: var(--font-display); font-size: 28px; color: #c4b5fd; }
     .form-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
     .full { grid-column: 1/-1; }
+    .admin-check-panel {
+      background: var(--surface3); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 14px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .admin-check-title {
+      font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: .7px;
+      color: var(--text); margin-bottom: 2px;
+    }
+    .admin-check-hint { font-size: 12px; color: var(--muted); line-height: 1.45; }
+    .admin-check-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(130px,1fr)); gap: 8px; }
+    .admin-check {
+      display: flex; align-items: center; gap: 8px; cursor: pointer;
+      color: var(--muted2); font-size: 13px; font-weight: 600;
+      border: 1px solid var(--border2); border-radius: var(--radius-sm); padding: 9px 10px;
+      background: var(--surface);
+    }
+    .admin-check input { width: 14px !important; height: 14px !important; padding: 0 !important; accent-color: var(--accent); }
+    .admin-check:has(input:checked) { color: var(--text); border-color: var(--accent); background: var(--accent-light); }
+    .version-price-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 8px; }
     .dash-main input, .dash-main select, .dash-main textarea {
       width: 100%; padding: 12px 15px; background: var(--surface3);
       border: 1px solid var(--border2); border-radius: var(--radius-sm);
@@ -1291,19 +1310,37 @@
       <div id="adminFormWrap" style="display:none;">
         <div class="form-grid">
           <input id="name" placeholder="Nombre del producto">
-          <input id="price" type="number" placeholder="Precio en colones">
-          <select id="league">
-            <option value="">Seleccioná una liga</option>
-            <option value="Fútbol">Fútbol</option>
-            <option value="Mujer">Mujer</option>
-            <option value="Niños">Niños</option>
-            <option value="Retro">Retro</option>
-            <option value="NBA">NBA</option>
-            <option value="NFL">NFL</option>
-            <option value="MLB">MLB</option>
-            <option value="F1">F1</option>
-            <option value="Poster">Poster</option>
-          </select>
+          <input id="price" type="number" placeholder="Precio fijo / fallback en colones">
+          <input id="league" type="hidden">
+          <div class="admin-check-panel full">
+            <div class="admin-check-title">Secciones donde aparecerá</div>
+            <div class="admin-check-hint">Podés marcar varias. Ejemplo: una misma chema puede aparecer en Hombre/Fútbol, Mujer y Niños.</div>
+            <div class="admin-check-grid">
+              <label class="admin-check"><input type="checkbox" data-cat value="Fútbol"> Hombre / Fútbol</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="Mujer"> Mujer</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="Niños"> Niños</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="Retro"> Retro</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="NBA"> NBA</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="NFL"> NFL</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="MLB"> MLB</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="F1"> F1</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="Poster"> Poster</label>
+            </div>
+          </div>
+          <div class="admin-check-panel full">
+            <div class="admin-check-title">Versiones disponibles</div>
+            <div class="admin-check-hint">Marcá Fan, Player o Retro. En la tienda se mostrará el precio correspondiente a la versión seleccionada.</div>
+            <div class="admin-check-grid">
+              <label class="admin-check"><input type="checkbox" data-version value="Fan"> Fan</label>
+              <label class="admin-check"><input type="checkbox" data-version value="Player"> Player</label>
+              <label class="admin-check"><input type="checkbox" data-version value="Retro"> Retro</label>
+            </div>
+            <div class="version-price-grid">
+              <input id="priceFan" type="number" placeholder="Precio Fan: 22400">
+              <input id="pricePlayer" type="number" placeholder="Precio Player: 23900">
+              <input id="priceRetro" type="number" placeholder="Precio Retro: 23900">
+            </div>
+          </div>
           <select id="status">
             <option value="Disponible">Disponible</option>
             <option value="Agotado">Agotado</option>
@@ -1313,7 +1350,7 @@
             <input id="isNew" type="checkbox" style="accent-color:var(--accent);width:14px;height:14px;"> Marcar como NUEVO
           </label>
         </div>
-        <div class="dash-helper"><strong style="color:#c4b5fd;">Versiones:</strong> Fútbol, Mujer y Retro → Fan/Player/Retro (Fan ₡22,400 · Player/Retro ₡23,900). Niños → solo Fan. NBA/NFL/MLB/F1/Poster → precio fijo.</div>
+        <div class="dash-helper"><strong style="color:#c4b5fd;">Tip:</strong> Para una chema normal marcá las secciones donde querés que aparezca y las versiones disponibles. Para posters o productos con precio fijo, podés dejar las versiones sin marcar y usar el precio fijo.</div>
         <div class="variant-block"><div class="variant-block-title">🏠 Local</div><input id="imgLocal" type="file" accept="image/*" multiple style="width:100%;"><div id="previewLocal" class="preview-grid"></div></div>
         <div class="variant-block"><div class="variant-block-title">✈️ Visitante</div><input id="imgVisitante" type="file" accept="image/*" multiple style="width:100%;"><div id="previewVisitante" class="preview-grid"></div></div>
         <div class="variant-block"><div class="variant-block-title">⚡ Tercera</div><input id="imgTercera" type="file" accept="image/*" multiple style="width:100%;"><div id="previewTercera" class="preview-grid"></div></div>
@@ -1357,7 +1394,10 @@ import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from
 
 const ADMIN_EMAIL = "losprimosjersey@gmail.com";
 const VARIANT_KEYS = ["Local","Visitante","Tercera"];
-const QUALITY_PRICES = { Fan: 22400, Player: 23900, Retro: 23900 };
+const DEFAULT_VERSION_PRICES = { Fan: 22400, Player: 23900, Retro: 23900 };
+const QUALITY_PRICES = DEFAULT_VERSION_PRICES; // Compatibilidad con productos antiguos
+const PRODUCT_CATEGORIES = ["Fútbol","Mujer","Niños","Retro","NBA","NFL","MLB","F1","Poster"];
+const PRODUCT_VERSIONS = ["Fan","Player","Retro"];
 const QUALITY_BY_LEAGUE = { "Fútbol":["Fan","Player","Retro"], "Mujer":["Fan","Player","Retro"], "Retro":["Fan","Player","Retro"], "Niños":["Fan"] };
 
 const firebaseConfig = {
@@ -1391,6 +1431,7 @@ const statTotal = $("statTotal"), statAvailable = $("statAvailable"), statSoldOu
 const openFormBtn = $("openFormBtn"), closePanelBtn = $("closePanelBtn"), adminFormWrap = $("adminFormWrap");
 const nameInput = $("name"), priceInput = $("price"), leagueInput = $("league");
 const statusInput = $("status"), sizesInput = $("sizes"), isNewCheckbox = $("isNew");
+const priceFanInput = $("priceFan"), pricePlayerInput = $("pricePlayer"), priceRetroInput = $("priceRetro");
 const saveBtn = $("saveBtn"), cancelEditBtn = $("cancelEditBtn"), formTitle = $("formTitle");
 const loginModal = $("loginModal"), submitLoginBtn = $("submitLoginBtn"), closeLoginBtn = $("closeLoginBtn");
 const loginError = $("loginError"), heroCarousel = $("heroCarousel"), carouselDots = $("carouselDots");
@@ -1485,8 +1526,61 @@ function getVariants(p) {
 }
 function getFirstImg(p) { const v=getVariants(p); for(const k of VARIANT_KEYS) if(v[k]?.length) return v[k][0]; return ""; }
 function fmt(val) { return "₡"+Number(val||0).toLocaleString("es-CR"); }
-function getDisplayPrice(p) { const opts=QUALITY_BY_LEAGUE[p.league]||[]; return opts.length?QUALITY_PRICES[opts[0]]:p.price; }
-function getQualityOpts(league) { return QUALITY_BY_LEAGUE[league]||[]; }
+function getCategories(p) {
+  if(Array.isArray(p?.categories) && p.categories.length) return p.categories.filter(Boolean);
+  if(Array.isArray(p?.leagues) && p.leagues.length) return p.leagues.filter(Boolean);
+  return p?.league ? [p.league] : [];
+}
+function hasCategory(p, cat) { return getCategories(p).includes(cat); }
+function getProductVersions(p) {
+  if(Array.isArray(p?.versions) && p.versions.length) return p.versions.filter(v=>PRODUCT_VERSIONS.includes(v));
+  const legacy = QUALITY_BY_LEAGUE[p?.league] || [];
+  return legacy.length ? legacy : [];
+}
+function getVersionPrices(p) {
+  return {
+    ...DEFAULT_VERSION_PRICES,
+    ...(p?.versionPrices || {})
+  };
+}
+function getVersionPrice(p, quality) {
+  const prices = getVersionPrices(p);
+  return Number(prices[quality] || p?.price || 0);
+}
+function getDisplayPrice(p, quality=null) {
+  const opts = getProductVersions(p);
+  if(quality) return getVersionPrice(p, quality);
+  return opts.length ? getVersionPrice(p, opts[0]) : Number(p?.price || 0);
+}
+function getQualityOpts(arg) {
+  if(arg && typeof arg === "object") return getProductVersions(arg);
+  return QUALITY_BY_LEAGUE[arg] || [];
+}
+function getSelectedCategories() {
+  return Array.from(document.querySelectorAll("input[data-cat]:checked")).map(x=>x.value);
+}
+function setSelectedCategories(categories=[]) {
+  document.querySelectorAll("input[data-cat]").forEach(x=>x.checked = categories.includes(x.value));
+  if(leagueInput) leagueInput.value = categories[0] || "";
+}
+function getSelectedVersions() {
+  return Array.from(document.querySelectorAll("input[data-version]:checked")).map(x=>x.value);
+}
+function setSelectedVersions(versions=[]) {
+  document.querySelectorAll("input[data-version]").forEach(x=>x.checked = versions.includes(x.value));
+}
+function getFormVersionPrices() {
+  return {
+    Fan: Number(priceFanInput?.value || DEFAULT_VERSION_PRICES.Fan),
+    Player: Number(pricePlayerInput?.value || DEFAULT_VERSION_PRICES.Player),
+    Retro: Number(priceRetroInput?.value || DEFAULT_VERSION_PRICES.Retro)
+  };
+}
+function setFormVersionPrices(prices={}) {
+  if(priceFanInput) priceFanInput.value = prices.Fan || DEFAULT_VERSION_PRICES.Fan;
+  if(pricePlayerInput) pricePlayerInput.value = prices.Player || DEFAULT_VERSION_PRICES.Player;
+  if(priceRetroInput) priceRetroInput.value = prices.Retro || DEFAULT_VERSION_PRICES.Retro;
+}
 function updateStats() {
   statTotal.textContent=products.length;
   statAvailable.textContent=products.filter(p=>(p.status||"")==="Disponible").length;
@@ -1513,17 +1607,38 @@ async function uploadImgs(files) {
 }
 async function saveProduct() {
   if(!isAdmin){alert("Sin permiso.");return;}
-  const name=nameInput.value.trim(),price=priceInput.value.trim(),league=leagueInput.value;
+  const name=nameInput.value.trim();
+  const price=priceInput.value.trim();
+  const categories=getSelectedCategories();
+  const versions=getSelectedVersions();
+  const versionPrices=getFormVersionPrices();
   const status=statusInput.value,sizes=sizesInput.value.trim(),isNew=isNewCheckbox.checked;
-  if(!name||!price||!league){alert("Completá nombre, precio y liga.");return;}
+  const isPoster=categories.includes("Poster");
+  if(!name||!categories.length){alert("Completá nombre y marcá al menos una sección.");return;}
+  if(!isPoster && !versions.length){alert("Marcá al menos una versión: Fan, Player o Retro.");return;}
   try {
     const variants={};
     for(const k of VARIANT_KEYS){
       const inp=document.getElementById(`img${k}`),files=Array.from(inp.files||[]);
       variants[k]=files.length?await uploadImgs(files):(currentVariants[k]||[]);
     }
+    const primaryCategory=categories[0];
+    const fallbackPrice=Number(price || (versions.length ? versionPrices[versions[0]] : 0));
     const fi=getFirstImg({variants});
-    const data={name,price:Number(price),league,status,sizes,isNew,variants,imageUrl:fi,imageUrls:Object.values(variants).flat()};
+    const data={
+      name,
+      price:fallbackPrice,
+      league:primaryCategory, // se conserva para productos antiguos y filtros viejos
+      categories,
+      versions,
+      versionPrices,
+      status,
+      sizes,
+      isNew,
+      variants,
+      imageUrl:fi,
+      imageUrls:Object.values(variants).flat()
+    };
     if(editingId){await updateDoc(doc(db,"products",editingId),data);alert("Actualizado.");}
     else{await addDoc(collection(db,"products"),data);alert("Guardado.");}
     resetForm(); await loadProducts();
@@ -1534,7 +1649,10 @@ function startEdit(id) {
   editingId=id;
   const v=getVariants(p); currentVariants={};
   VARIANT_KEYS.forEach(k=>currentVariants[k]=v[k]||[]);
-  nameInput.value=p.name||""; priceInput.value=p.price||""; leagueInput.value=p.league||"";
+  nameInput.value=p.name||""; priceInput.value=p.price||""; if(leagueInput) leagueInput.value=p.league||"";
+  setSelectedCategories(getCategories(p));
+  setSelectedVersions(getProductVersions(p));
+  setFormVersionPrices(getVersionPrices(p));
   statusInput.value=p.status||"Disponible"; sizesInput.value=p.sizes||""; isNewCheckbox.checked=p.isNew===true;
   VARIANT_KEYS.forEach(k=>{
     const inp=document.getElementById(`img${k}`),pre=document.getElementById(`preview${k}`);
@@ -1551,7 +1669,8 @@ async function removeProduct(id) {
 }
 function resetForm() {
   editingId=null; currentVariants={Local:[],Visitante:[],Tercera:[]};
-  nameInput.value=""; priceInput.value=""; leagueInput.value="";
+  nameInput.value=""; priceInput.value=""; if(leagueInput) leagueInput.value="";
+  setSelectedCategories([]); setSelectedVersions([]); setFormVersionPrices(DEFAULT_VERSION_PRICES);
   statusInput.value="Disponible"; sizesInput.value=""; isNewCheckbox.checked=false;
   VARIANT_KEYS.forEach(k=>{
     const inp=document.getElementById(`img${k}`),pre=document.getElementById(`preview${k}`);
@@ -1570,18 +1689,21 @@ function renderPreview(inp,pre,urls) {
 function applyFilters(list) {
   const search=searchInput.value.trim().toLowerCase();
   return list.filter(p=>{
-    const nm=(p.name||"").toLowerCase(),lg=(p.league||"").toLowerCase();
+    const cats=getCategories(p);
+    const versions=getProductVersions(p);
+    const nm=(p.name||"").toLowerCase();
+    const lg=[p.league||"", ...cats, ...versions].join(" ").toLowerCase();
     if(!(nm.includes(search)||lg.includes(search)))return false;
     if(activeLeagueFilter){
       if(activeLeagueFilter==="nuevo"){if(!p.isNew)return false;}
-      else if(p.league!==activeLeagueFilter)return false;
+      else if(!hasCategory(p, activeLeagueFilter))return false;
     }
     if(activeTeamFilter&&!nm.includes(activeTeamFilter.toLowerCase()))return false;
     if(activeSizeFilter&&!(p.sizes||"").toLowerCase().includes(activeSizeFilter.toLowerCase()))return false;
     if(activeStatusFilters.length&&!activeStatusFilters.includes(p.status||"Disponible"))return false;
     if(activeUniformFilters.length){
       const v=getVariants(p);
-      const txt=`${p.name||""} ${p.league||""} ${p.tipo||""} ${p.category||""}`.toLowerCase();
+      const txt=`${p.name||""} ${cats.join(" ")} ${p.tipo||""} ${p.category||""}`.toLowerCase();
       const ok=activeUniformFilters.some(u=>{
         if(v[u]&&v[u].length>0) return true;
         const term=(u==="Tercera"?"alternativa":u).toLowerCase();
@@ -1598,9 +1720,7 @@ function applyFilters(list) {
       if(!activeSeasonFilters.some(s=>txt.includes(s.toLowerCase())))return false;
     }
     if(activeVersionFilters.length){
-      if(activeVersionFilters.includes("Retro")&&p.league==="Retro")return true;
-      const opts=getQualityOpts(p.league);
-      if(!activeVersionFilters.every(vf=>opts.includes(vf)))return false;
+      if(!activeVersionFilters.every(vf=>versions.includes(vf)))return false;
     }
     return true;
   });
@@ -1615,7 +1735,7 @@ function applySort(list) {
 
 // ── Render products ──
 function renderProducts() {
-  let filtered=products.filter(p=>p.league!=="Poster");
+  let filtered=products.filter(p=>!hasCategory(p,"Poster"));
   filtered=applyFilters(filtered); filtered=applySort(filtered);
   resultCount.textContent=filtered.length; productsContainer.innerHTML="";
   if(!filtered.length){ productsContainer.innerHTML=`<div class="empty-state"><i class="fas fa-box-open"></i><p>No hay productos para mostrar.</p></div>`; return; }
@@ -1623,19 +1743,20 @@ function renderProducts() {
     const card=document.createElement("div");
     card.className="product-card"; if(p.isNew)card.classList.add("is-new");
     const variants=getVariants(p),firstImg=getFirstImg(p),dp=getDisplayPrice(p);
-    const qualOpts=getQualityOpts(p.league),availVars=VARIANT_KEYS.filter(k=>variants[k]?.length>0);
+    const qualOpts=getQualityOpts(p),availVars=VARIANT_KEYS.filter(k=>variants[k]?.length>0);
+    const cats=getCategories(p);
     const thumbsHTML=availVars.length>1?`<div class="thumb-strip" id="ts-${p.id}">${availVars.map((v,i)=>`<img src="${variants[v][0]}" class="${i===0?"active":""}" data-variant="${v}" data-images='${JSON.stringify(variants[v])}' alt="${v}">`).join("")}</div>`:"";
     const qualHtml=qualOpts.length?`<div class="card-qrow" data-pid="${p.id}">${qualOpts.map((q,i)=>`<button class="qpill ${i===0?"selected":""}" data-quality="${q}" data-pid="${p.id}">${q}</button>`).join("")}</div>`:"";
     const av=availVars[0]||"Local";
-    const badgeText=p.status==="Agotado"?"AGOTADO":(qualOpts[0]||p.league||"PRODUCTO");
-    card.innerHTML=`<div class="card-img-wrap"><span class="card-badge ${p.status==="Agotado"?"agotado":""}">${badgeText}</span><img class="card-img" src="${firstImg||"https://via.placeholder.com/400x280?text=Sin+imagen"}" alt="${p.name||""}" onerror="this.src='https://via.placeholder.com/400x280?text=Sin+imagen'" data-pid="${p.id}" data-active-variant="${av}"><button class="wa-float" data-pid="${p.id}"><i class="fab fa-whatsapp"></i></button></div>${thumbsHTML}<div class="card-body"><div class="card-title">${p.name||""}</div><div class="card-league">${p.league||""} ${availVars[0]?`· ${availVars[0]}`:""}</div><div class="card-price" data-pid="${p.id}">${fmt(dp)}</div>${qualHtml}<div class="card-sizes">Tallas: ${p.sizes||"No definidas"}</div>${isAdmin?`<div class="card-admin-btns"><button class="btn-ed" data-id="${p.id}">Editar</button><button class="btn-del" data-id="${p.id}">Eliminar</button></div>`:""}</div>`;
+    const badgeText=p.status==="Agotado"?"AGOTADO":(qualOpts[0]||cats[0]||p.league||"PRODUCTO");
+    card.innerHTML=`<div class="card-img-wrap"><span class="card-badge ${p.status==="Agotado"?"agotado":""}">${badgeText}</span><img class="card-img" src="${firstImg||"https://via.placeholder.com/400x280?text=Sin+imagen"}" alt="${p.name||""}" onerror="this.src='https://via.placeholder.com/400x280?text=Sin+imagen'" data-pid="${p.id}" data-active-variant="${av}"><button class="wa-float" data-pid="${p.id}"><i class="fab fa-whatsapp"></i></button></div>${thumbsHTML}<div class="card-body"><div class="card-title">${p.name||""}</div><div class="card-league">${cats.join(" · ")||p.league||""} ${availVars[0]?`· ${availVars[0]}`:""}</div><div class="card-price" data-pid="${p.id}">${fmt(dp)}</div>${qualHtml}<div class="card-sizes">Tallas: ${p.sizes||"No definidas"}</div>${isAdmin?`<div class="card-admin-btns"><button class="btn-ed" data-id="${p.id}">Editar</button><button class="btn-del" data-id="${p.id}">Eliminar</button></div>`:""}</div>`;
     card.style.animationDelay=`${idx*25}ms`;
     productsContainer.appendChild(card);
     // Quality pills
     if(qualOpts.length){
       const row=card.querySelector(`.card-qrow[data-pid="${p.id}"]`),priceEl=card.querySelector(`.card-price[data-pid="${p.id}"]`);
       row?.querySelectorAll(".qpill").forEach(pill=>{
-        pill.addEventListener("click",e=>{e.stopPropagation();row.querySelectorAll(".qpill").forEach(x=>x.classList.remove("selected"));pill.classList.add("selected");if(priceEl)priceEl.textContent=fmt(QUALITY_PRICES[pill.dataset.quality]);});
+        pill.addEventListener("click",e=>{e.stopPropagation();row.querySelectorAll(".qpill").forEach(x=>x.classList.remove("selected"));pill.classList.add("selected");if(priceEl)priceEl.textContent=fmt(getVersionPrice(p, pill.dataset.quality));});
       });
     }
     // Thumb strip
@@ -1662,7 +1783,7 @@ function renderProducts() {
 
 // ── Posters ──
 function renderPosters(playerFilter="") {
-  const posters=products.filter(p=>p.league==="Poster");
+  const posters=products.filter(p=>hasCategory(p,"Poster"));
   const filtered=playerFilter?posters.filter(p=>(p.name||"").toLowerCase().includes(playerFilter.toLowerCase())):posters;
   postersGrid.innerHTML="";
   if(!filtered.length){postersGrid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-image"></i><p>Agregá productos con liga "Poster" desde el panel admin.</p></div>`;return;}
@@ -1678,12 +1799,13 @@ function renderPosters(playerFilter="") {
 // ── Detail modal ──
 function openDetailModal(product, initVariant) {
   detailProduct=product; detailVersion=null; detailSize=null;
-  detailQualityOptions=getQualityOpts(product.league);
+  detailQualityOptions=getQualityOpts(product);
   detailQuality=detailQualityOptions.length?detailQualityOptions[0]:null;
 
-  $("detailLeague").textContent=product.league||"";
+  const cats=getCategories(product);
+  $("detailLeague").textContent=cats.join(" · ")||product.league||"";
   $("detailName").textContent=product.name||"";
-  $("detailSeason").textContent=product.league||"";
+  $("detailSeason").textContent=cats.join(" / ")||product.league||"";
 
   const vtag=$("detailVersionTag");
   if(detailQuality){vtag.textContent=detailQuality;vtag.style.display="";}
@@ -1740,7 +1862,7 @@ function openDetailModal(product, initVariant) {
 }
 
 function updateDetailPrice() {
-  const price=detailQuality?QUALITY_PRICES[detailQuality]:(detailProduct?.price||0);
+  const price=detailQuality?getVersionPrice(detailProduct, detailQuality):(detailProduct?.price||0);
   $("detailPrice").textContent=fmt(price);
 }
 function loadDetailImgs(urls) {
@@ -1771,7 +1893,7 @@ detailModal.addEventListener("click",e=>{if(e.target===detailModal)closeDetail()
 
 // WA buy from detail
 $("detailBuyBtn").addEventListener("click",()=>{
-  if(detailProduct?.league!=="Poster"&&!detailSize){$("detailHint").style.color="#f87171";$("detailHint").textContent="⚠️ Elegí una talla primero";return;}
+  if(!hasCategory(detailProduct,"Poster")&&!detailSize){$("detailHint").style.color="#f87171";$("detailHint").textContent="⚠️ Elegí una talla primero";return;}
   if(detailQualityOptions.length&&!detailQuality){$("detailHint").style.color="#f87171";$("detailHint").textContent="⚠️ Elegí una versión";return;}
   const nombre=$("detailNombre").value.trim()||"No especificado";
   const numero=$("detailNumero").value.trim()||"No especificado";
