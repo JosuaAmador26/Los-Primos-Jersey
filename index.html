@@ -732,6 +732,175 @@
     @media (max-width:1100px){.mega-cols{grid-template-columns:repeat(3,1fr)}.catalog-layout{grid-template-columns:1fr}.sidebar{position:static}.hero-carousel{display:none}.hero{padding:40px 24px}.detail-inner{grid-template-columns:1fr}.detail-imgs{border-right:0;border-bottom:1px solid #eee}.detail-info{padding:24px}.products-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));}}
     @media (max-width:768px){.topbar-inner{height:auto;min-height:56px;padding:0 16px}.brand-name{font-size:20px}.mega-menu{display:none!important}.main-nav{display:flex;overflow-x:auto;gap:18px}.nav-btn{font-size:10px;padding:18px 0}.catalog-layout,#posters-page{padding-left:16px;padding-right:16px}.hero h1{font-size:36px}.products-grid,.posters-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.detail-custom{grid-template-columns:1fr}}
   </style>
+
+
+  <style id="lpj-mobile-menu-fix">
+    /* Menú móvil: en celular no existe hover, por eso se abre con toque */
+    @media (max-width: 768px){
+      .topbar,
+      .topbar-inner{
+        overflow: visible !important;
+      }
+      .main-nav{
+        display:flex !important;
+        overflow-x:auto !important;
+        overflow-y:visible !important;
+        -webkit-overflow-scrolling:touch;
+        scrollbar-width:none;
+      }
+      .main-nav::-webkit-scrollbar{display:none;}
+      .nav-item.mobile-open > .mega-menu{
+        display:flex !important;
+        position:fixed !important;
+        left:0 !important;
+        right:0 !important;
+        top:56px !important;
+        width:100vw !important;
+        max-height:calc(100dvh - 56px) !important;
+        overflow-y:auto !important;
+        padding:22px 18px 28px !important;
+        border-top:1px solid #eeeeee !important;
+        border-bottom:1px solid #eeeeee !important;
+        background:#ffffff !important;
+        box-shadow:0 16px 30px rgba(0,0,0,.08) !important;
+        z-index:999 !important;
+      }
+      .nav-item.mobile-open > .simple-menu{
+        display:block !important;
+        position:fixed !important;
+        left:0 !important;
+        right:0 !important;
+        top:56px !important;
+        width:100vw !important;
+        max-height:calc(100dvh - 56px) !important;
+        overflow-y:auto !important;
+        padding:18px 24px 24px !important;
+        border:0 !important;
+        border-top:1px solid #eeeeee !important;
+        border-bottom:1px solid #eeeeee !important;
+        border-radius:0 !important;
+        background:#ffffff !important;
+        box-shadow:0 16px 30px rgba(0,0,0,.08) !important;
+        z-index:999 !important;
+      }
+      .nav-item.mobile-open > .nav-btn{
+        color:#000 !important;
+        text-decoration:underline;
+        text-underline-offset:5px;
+      }
+      .nav-item.mobile-open .caret{transform:rotate(180deg);}
+      .mega-cols{
+        width:100% !important;
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        gap:20px 18px !important;
+      }
+      .mega-col-title{
+        font-size:12px !important;
+      }
+      .mega-col ul li a,
+      .simple-menu a{
+        font-size:13px !important;
+        padding:6px 0 !important;
+      }
+    }
+  </style>
+
+
+
+  <style id="lpj-mobile-nav-visible-v2">
+    /* Móvil: la marca queda arriba y todas las opciones del menú quedan visibles debajo */
+    @media (max-width: 768px){
+      .topbar{overflow:visible !important;}
+      .topbar-inner{
+        height:auto !important;
+        min-height:0 !important;
+        padding:10px 16px 0 !important;
+        display:flex !important;
+        flex-wrap:wrap !important;
+        align-items:center !important;
+        gap:0 !important;
+      }
+      .brand{
+        width:100% !important;
+        justify-content:flex-start !important;
+        padding-bottom:8px !important;
+      }
+      .brand-logo{width:32px !important;height:32px !important;}
+      .brand-name{font-size:20px !important;line-height:1 !important;white-space:nowrap !important;}
+      .main-nav{
+        order:2 !important;
+        width:100% !important;
+        flex:0 0 100% !important;
+        display:flex !important;
+        align-items:center !important;
+        justify-content:space-between !important;
+        gap:8px !important;
+        overflow-x:auto !important;
+        overflow-y:visible !important;
+        -webkit-overflow-scrolling:touch !important;
+        scrollbar-width:none !important;
+        border-top:1px solid #eee !important;
+        padding:0 !important;
+      }
+      .main-nav::-webkit-scrollbar{display:none !important;}
+      .nav-item{flex:0 0 auto !important;}
+      .nav-btn{
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        min-height:42px !important;
+        padding:12px 0 !important;
+        font-size:10px !important;
+        letter-spacing:.9px !important;
+        color:#111 !important;
+        background:transparent !important;
+      }
+      .nav-btn .caret{display:inline-block !important;font-size:8px !important;margin-left:2px !important;}
+      .nav-right{display:none !important;}
+      .nav-item.mobile-open > .mega-menu,
+      .nav-item.mobile-open > .simple-menu{
+        position:fixed !important;
+        left:0 !important;
+        right:0 !important;
+        top:var(--lpj-mobile-menu-top, 98px) !important;
+        width:100vw !important;
+        max-height:calc(100dvh - var(--lpj-mobile-menu-top, 98px)) !important;
+        overflow-y:auto !important;
+        background:#fff !important;
+        color:#111 !important;
+        border:0 !important;
+        border-top:1px solid #eee !important;
+        border-bottom:1px solid #eee !important;
+        border-radius:0 !important;
+        box-shadow:0 18px 35px rgba(0,0,0,.12) !important;
+        z-index:1005 !important;
+      }
+      .nav-item.mobile-open > .mega-menu{display:flex !important;padding:18px 16px 24px !important;}
+      .nav-item.mobile-open > .simple-menu{display:block !important;padding:14px 22px 22px !important;}
+      .nav-item.mobile-open > .nav-btn{
+        font-weight:900 !important;
+        text-decoration:underline !important;
+        text-underline-offset:6px !important;
+      }
+      .mega-cols{
+        display:grid !important;
+        grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+        width:100% !important;
+        gap:18px 16px !important;
+      }
+      .mega-col{min-width:0 !important;}
+      .mega-col-title{font-size:11px !important;color:#111 !important;border-bottom:1px solid #eee !important;}
+      .mega-col ul li a,.simple-menu a{font-size:13px !important;color:#666 !important;padding:6px 0 !important;}
+      .mega-col ul li a:hover,.simple-menu a:hover{color:#111 !important;background:transparent !important;}
+      .mega-col ul li a.mas{color:#111 !important;font-weight:800 !important;}
+    }
+    @media (max-width: 380px){
+      .main-nav{gap:6px !important;}
+      .nav-btn{font-size:9px !important;letter-spacing:.6px !important;}
+      .brand-name{font-size:18px !important;}
+    }
+  </style>
+
 </head>
 <body>
 
@@ -1341,6 +1510,30 @@
               <input id="priceRetro" type="number" placeholder="Precio Retro: 23900">
             </div>
           </div>
+          <div class="admin-check-panel full">
+            <div class="admin-check-title">Tipo de uniforme</div>
+            <div class="admin-check-hint">Esto alimenta los filtros. Marcá lo que corresponde a la chema.</div>
+            <div class="admin-check-grid">
+              <label class="admin-check"><input type="checkbox" data-form-uniform value="Local"> Local</label>
+              <label class="admin-check"><input type="checkbox" data-form-uniform value="Visitante"> Visita</label>
+              <label class="admin-check"><input type="checkbox" data-form-uniform value="Tercera"> Alternativa</label>
+              <label class="admin-check"><input type="checkbox" data-form-uniform value="Portero"> Portero</label>
+              <label class="admin-check"><input type="checkbox" data-form-uniform value="Edición Especial"> Edición Especial</label>
+              <label class="admin-check"><input type="checkbox" data-form-uniform value="Shorts"> Shorts</label>
+            </div>
+          </div>
+          <div class="admin-check-panel full">
+            <div class="admin-check-title">Manga</div>
+            <div class="admin-check-grid">
+              <label class="admin-check"><input type="checkbox" data-form-manga value="Corta"> Corta</label>
+              <label class="admin-check"><input type="checkbox" data-form-manga value="Larga"> Larga</label>
+            </div>
+          </div>
+          <div class="admin-check-panel full">
+            <div class="admin-check-title">Temporada</div>
+            <div class="admin-check-hint">Podés escribir una o varias temporadas separadas por coma. Ejemplo: 25/26, 24/25.</div>
+            <input id="seasonInput" class="full" placeholder="Temporada(s): 25/26, 24/25, 20/21">
+          </div>
           <select id="status">
             <option value="Disponible">Disponible</option>
             <option value="Agotado">Agotado</option>
@@ -1398,6 +1591,8 @@ const DEFAULT_VERSION_PRICES = { Fan: 22400, Player: 23900, Retro: 23900 };
 const QUALITY_PRICES = DEFAULT_VERSION_PRICES; // Compatibilidad con productos antiguos
 const PRODUCT_CATEGORIES = ["Fútbol","Mujer","Niños","Retro","NBA","NFL","MLB","F1","Poster"];
 const PRODUCT_VERSIONS = ["Fan","Player","Retro"];
+const PRODUCT_UNIFORM_TYPES = ["Local","Visitante","Tercera","Portero","Edición Especial","Shorts"];
+const PRODUCT_MANGAS = ["Corta","Larga"];
 const QUALITY_BY_LEAGUE = { "Fútbol":["Fan","Player","Retro"], "Mujer":["Fan","Player","Retro"], "Retro":["Fan","Player","Retro"], "Niños":["Fan"] };
 
 const firebaseConfig = {
@@ -1431,7 +1626,7 @@ const statTotal = $("statTotal"), statAvailable = $("statAvailable"), statSoldOu
 const openFormBtn = $("openFormBtn"), closePanelBtn = $("closePanelBtn"), adminFormWrap = $("adminFormWrap");
 const nameInput = $("name"), priceInput = $("price"), leagueInput = $("league");
 const statusInput = $("status"), sizesInput = $("sizes"), isNewCheckbox = $("isNew");
-const priceFanInput = $("priceFan"), pricePlayerInput = $("pricePlayer"), priceRetroInput = $("priceRetro");
+const priceFanInput = $("priceFan"), pricePlayerInput = $("pricePlayer"), priceRetroInput = $("priceRetro"), seasonInput = $("seasonInput");
 const saveBtn = $("saveBtn"), cancelEditBtn = $("cancelEditBtn"), formTitle = $("formTitle");
 const loginModal = $("loginModal"), submitLoginBtn = $("submitLoginBtn"), closeLoginBtn = $("closeLoginBtn");
 const loginError = $("loginError"), heroCarousel = $("heroCarousel"), carouselDots = $("carouselDots");
@@ -1581,6 +1776,65 @@ function setFormVersionPrices(prices={}) {
   if(pricePlayerInput) pricePlayerInput.value = prices.Player || DEFAULT_VERSION_PRICES.Player;
   if(priceRetroInput) priceRetroInput.value = prices.Retro || DEFAULT_VERSION_PRICES.Retro;
 }
+function normalizeText(value="") {
+  return String(value || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+function normalizeArray(list=[]) {
+  return Array.isArray(list) ? list.map(x=>String(x||"").trim()).filter(Boolean) : [];
+}
+function getSelectedUniformTypes() {
+  return Array.from(document.querySelectorAll("input[data-form-uniform]:checked")).map(x=>x.value);
+}
+function setSelectedUniformTypes(types=[]) {
+  const normalized = normalizeArray(types);
+  document.querySelectorAll("input[data-form-uniform]").forEach(x=>x.checked = normalized.includes(x.value));
+}
+function getSelectedMangas() {
+  return Array.from(document.querySelectorAll("input[data-form-manga]:checked")).map(x=>x.value);
+}
+function setSelectedMangas(mangas=[]) {
+  const normalized = normalizeArray(mangas);
+  document.querySelectorAll("input[data-form-manga]").forEach(x=>x.checked = normalized.includes(x.value));
+}
+function getSelectedSeasons() {
+  return String(seasonInput?.value || "").split(",").map(x=>x.trim()).filter(Boolean);
+}
+function setSelectedSeasons(seasons=[]) {
+  if(seasonInput) seasonInput.value = normalizeArray(seasons).join(", ");
+}
+function inferUniformsFromVariants(variants={}) {
+  return PRODUCT_UNIFORM_TYPES.filter(t => Array.isArray(variants[t]) && variants[t].length > 0);
+}
+function getProductUniformTypes(p) {
+  const direct = normalizeArray(p?.uniformTypes || p?.uniformes || p?.tiposUniforme);
+  const inferred = inferUniformsFromVariants(getVariants(p));
+  const legacyText = normalizeText(`${p?.tipo||""} ${p?.uniforme||""} ${p?.category||""} ${p?.name||""}`);
+  const fromText = PRODUCT_UNIFORM_TYPES.filter(t => {
+    const n = normalizeText(t);
+    if(legacyText.includes(n)) return true;
+    if(t === "Visitante" && (legacyText.includes("visita") || legacyText.includes("visitante"))) return true;
+    if(t === "Tercera" && (legacyText.includes("alternativa") || legacyText.includes("tercera"))) return true;
+    if(t === "Edición Especial" && (legacyText.includes("especial") || legacyText.includes("edicion especial"))) return true;
+    return false;
+  });
+  return Array.from(new Set([...direct, ...inferred, ...fromText]));
+}
+function getProductMangas(p) {
+  const direct = normalizeArray(p?.mangas || p?.mangaTypes);
+  const txt = normalizeText(`${p?.manga||""} ${p?.name||""}`);
+  const fromText = PRODUCT_MANGAS.filter(m => txt.includes(normalizeText(m)) || txt.includes(`manga ${normalizeText(m)}`));
+  return Array.from(new Set([...direct, ...fromText]));
+}
+function getProductSeasons(p) {
+  const direct = normalizeArray(p?.seasons || p?.temporadas);
+  const single = normalizeArray([p?.temporada, p?.season]);
+  return Array.from(new Set([...direct, ...single]));
+}
+function productMatchesAny(values=[], filters=[]) {
+  if(!filters.length) return true;
+  const normalizedValues = values.map(normalizeText);
+  return filters.some(f => normalizedValues.includes(normalizeText(f)));
+}
 function updateStats() {
   statTotal.textContent=products.length;
   statAvailable.textContent=products.filter(p=>(p.status||"")==="Disponible").length;
@@ -1612,6 +1866,9 @@ async function saveProduct() {
   const categories=getSelectedCategories();
   const versions=getSelectedVersions();
   const versionPrices=getFormVersionPrices();
+  let uniformTypes=getSelectedUniformTypes();
+  const mangas=getSelectedMangas();
+  const seasons=getSelectedSeasons();
   const status=statusInput.value,sizes=sizesInput.value.trim(),isNew=isNewCheckbox.checked;
   const isPoster=categories.includes("Poster");
   if(!name||!categories.length){alert("Completá nombre y marcá al menos una sección.");return;}
@@ -1622,6 +1879,7 @@ async function saveProduct() {
       const inp=document.getElementById(`img${k}`),files=Array.from(inp.files||[]);
       variants[k]=files.length?await uploadImgs(files):(currentVariants[k]||[]);
     }
+    if(!uniformTypes.length) uniformTypes=inferUniformsFromVariants(variants);
     const primaryCategory=categories[0];
     const fallbackPrice=Number(price || (versions.length ? versionPrices[versions[0]] : 0));
     const fi=getFirstImg({variants});
@@ -1632,6 +1890,12 @@ async function saveProduct() {
       categories,
       versions,
       versionPrices,
+      uniformTypes,
+      mangas,
+      seasons,
+      tipo: uniformTypes[0] || "",
+      manga: mangas.join(", "),
+      temporada: seasons.join(", "),
       status,
       sizes,
       isNew,
@@ -1653,6 +1917,9 @@ function startEdit(id) {
   setSelectedCategories(getCategories(p));
   setSelectedVersions(getProductVersions(p));
   setFormVersionPrices(getVersionPrices(p));
+  setSelectedUniformTypes(getProductUniformTypes(p));
+  setSelectedMangas(getProductMangas(p));
+  setSelectedSeasons(getProductSeasons(p));
   statusInput.value=p.status||"Disponible"; sizesInput.value=p.sizes||""; isNewCheckbox.checked=p.isNew===true;
   VARIANT_KEYS.forEach(k=>{
     const inp=document.getElementById(`img${k}`),pre=document.getElementById(`preview${k}`);
@@ -1671,6 +1938,7 @@ function resetForm() {
   editingId=null; currentVariants={Local:[],Visitante:[],Tercera:[]};
   nameInput.value=""; priceInput.value=""; if(leagueInput) leagueInput.value="";
   setSelectedCategories([]); setSelectedVersions([]); setFormVersionPrices(DEFAULT_VERSION_PRICES);
+  setSelectedUniformTypes([]); setSelectedMangas([]); setSelectedSeasons([]);
   statusInput.value="Disponible"; sizesInput.value=""; isNewCheckbox.checked=false;
   VARIANT_KEYS.forEach(k=>{
     const inp=document.getElementById(`img${k}`),pre=document.getElementById(`preview${k}`);
@@ -1702,25 +1970,21 @@ function applyFilters(list) {
     if(activeSizeFilter&&!(p.sizes||"").toLowerCase().includes(activeSizeFilter.toLowerCase()))return false;
     if(activeStatusFilters.length&&!activeStatusFilters.includes(p.status||"Disponible"))return false;
     if(activeUniformFilters.length){
-      const v=getVariants(p);
-      const txt=`${p.name||""} ${cats.join(" ")} ${p.tipo||""} ${p.category||""}`.toLowerCase();
-      const ok=activeUniformFilters.some(u=>{
-        if(v[u]&&v[u].length>0) return true;
-        const term=(u==="Tercera"?"alternativa":u).toLowerCase();
-        return txt.includes(term);
-      });
-      if(!ok)return false;
+      const uniforms=getProductUniformTypes(p);
+      if(!productMatchesAny(uniforms, activeUniformFilters))return false;
     }
     if(activeMangaFilters.length){
-      const txt=`${p.name||""} ${p.manga||""}`.toLowerCase();
-      if(!activeMangaFilters.some(m=>txt.includes(m.toLowerCase()) || txt.includes(`manga ${m.toLowerCase()}`)))return false;
+      const mangas=getProductMangas(p);
+      if(!productMatchesAny(mangas, activeMangaFilters))return false;
     }
     if(activeSeasonFilters.length){
-      const txt=`${p.name||""} ${p.temporada||""} ${p.season||""}`.toLowerCase();
-      if(!activeSeasonFilters.some(s=>txt.includes(s.toLowerCase())))return false;
+      const seasons=getProductSeasons(p);
+      const seasonText=normalizeText(`${p.name||""} ${p.temporada||""} ${p.season||""}`);
+      const ok=productMatchesAny(seasons, activeSeasonFilters) || activeSeasonFilters.some(f=>seasonText.includes(normalizeText(f)));
+      if(!ok)return false;
     }
     if(activeVersionFilters.length){
-      if(!activeVersionFilters.every(vf=>versions.includes(vf)))return false;
+      if(!activeVersionFilters.some(vf=>versions.includes(vf)))return false;
     }
     return true;
   });
@@ -1749,7 +2013,7 @@ function renderProducts() {
     const qualHtml=qualOpts.length?`<div class="card-qrow" data-pid="${p.id}">${qualOpts.map((q,i)=>`<button class="qpill ${i===0?"selected":""}" data-quality="${q}" data-pid="${p.id}">${q}</button>`).join("")}</div>`:"";
     const av=availVars[0]||"Local";
     const badgeText=p.status==="Agotado"?"AGOTADO":(qualOpts[0]||cats[0]||p.league||"PRODUCTO");
-    card.innerHTML=`<div class="card-img-wrap"><span class="card-badge ${p.status==="Agotado"?"agotado":""}">${badgeText}</span><img class="card-img" src="${firstImg||"https://via.placeholder.com/400x280?text=Sin+imagen"}" alt="${p.name||""}" onerror="this.src='https://via.placeholder.com/400x280?text=Sin+imagen'" data-pid="${p.id}" data-active-variant="${av}"><button class="wa-float" data-pid="${p.id}"><i class="fab fa-whatsapp"></i></button></div>${thumbsHTML}<div class="card-body"><div class="card-title">${p.name||""}</div><div class="card-league">${cats.join(" · ")||p.league||""} ${availVars[0]?`· ${availVars[0]}`:""}</div><div class="card-price" data-pid="${p.id}">${fmt(dp)}</div>${qualHtml}<div class="card-sizes">Tallas: ${p.sizes||"No definidas"}</div>${isAdmin?`<div class="card-admin-btns"><button class="btn-ed" data-id="${p.id}">Editar</button><button class="btn-del" data-id="${p.id}">Eliminar</button></div>`:""}</div>`;
+    card.innerHTML=`<div class="card-img-wrap"><span class="card-badge ${p.status==="Agotado"?"agotado":""}">${badgeText}</span><img class="card-img" src="${firstImg||"https://via.placeholder.com/400x280?text=Sin+imagen"}" alt="${p.name||""}" onerror="this.src='https://via.placeholder.com/400x280?text=Sin+imagen'" data-pid="${p.id}" data-active-variant="${av}"><button class="wa-float" data-pid="${p.id}"><i class="fab fa-whatsapp"></i></button></div>${thumbsHTML}<div class="card-body"><div class="card-title">${p.name||""}</div><div class="card-league">${cats.join(" · ")||p.league||""} ${getProductUniformTypes(p)[0]?`· ${getProductUniformTypes(p)[0]}`:(availVars[0]?`· ${availVars[0]}`:"")}</div><div class="card-price" data-pid="${p.id}">${fmt(dp)}</div>${qualHtml}<div class="card-sizes">Tallas: ${p.sizes||"No definidas"}</div>${isAdmin?`<div class="card-admin-btns"><button class="btn-ed" data-id="${p.id}">Editar</button><button class="btn-del" data-id="${p.id}">Eliminar</button></div>`:""}</div>`;
     card.style.animationDelay=`${idx*25}ms`;
     productsContainer.appendChild(card);
     // Quality pills
@@ -1937,6 +2201,57 @@ submitLoginBtn.addEventListener("click",async()=>{
   catch(e){loginError.textContent="Correo o contraseña incorrectos, o ese usuario no existe en Firebase Authentication.";loginError.style.display="block";}
 });
 logoutBtn.addEventListener("click",async()=>{try{await signOut(auth);}catch(e){}});
+
+
+
+// ── Menú móvil ──
+// En escritorio el mega menú abre con hover. En celular se abre con toque.
+function isMobileNav(){
+  return window.matchMedia("(max-width: 768px)").matches;
+}
+function updateMobileMenuTop(){
+  const topbar=document.querySelector(".topbar");
+  const h=topbar ? Math.ceil(topbar.getBoundingClientRect().height) : 98;
+  document.documentElement.style.setProperty("--lpj-mobile-menu-top", `${h}px`);
+}
+updateMobileMenuTop();
+window.addEventListener("resize", updateMobileMenuTop);
+window.addEventListener("orientationchange", ()=>setTimeout(updateMobileMenuTop, 250));
+function closeMobileMenus(exceptItem=null){
+  document.querySelectorAll(".nav-item.mobile-open").forEach(item=>{
+    if(item !== exceptItem){
+      item.classList.remove("mobile-open");
+      const btn = item.querySelector(":scope > .nav-btn");
+      if(btn) btn.classList.remove("active");
+    }
+  });
+}
+document.querySelectorAll(".nav-item > .nav-btn").forEach(btn=>{
+  const item = btn.closest(".nav-item");
+  const hasMenu = item && item.querySelector(".mega-menu, .simple-menu");
+  if(!hasMenu) return;
+  btn.addEventListener("click", e=>{
+    if(!isMobileNav()) return;
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    updateMobileMenuTop();
+    const willOpen = !item.classList.contains("mobile-open");
+    closeMobileMenus(item);
+    item.classList.toggle("mobile-open", willOpen);
+    btn.classList.toggle("active", willOpen);
+    if(btn.id === "postersNavBtn") showPage("posters");
+  });
+});
+document.addEventListener("click", e=>{
+  if(!isMobileNav()) return;
+  if(!e.target.closest(".nav-item")) closeMobileMenus();
+});
+document.querySelectorAll(".mega-menu a, .simple-menu a").forEach(link=>{
+  link.addEventListener("click",()=>setTimeout(()=>closeMobileMenus(),0));
+});
+window.addEventListener("resize",()=>{
+  if(!isMobileNav()) closeMobileMenus();
+});
 
 // ── Nav links ──
 $("heroCatalogBtn").addEventListener("click",()=>{showPage("catalog");$("catalog-section").scrollIntoView({behavior:"smooth"});});
