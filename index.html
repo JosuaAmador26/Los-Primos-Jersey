@@ -2197,6 +2197,80 @@ body.lpj-halloween-active .hero{
 @keyframes lpjFade{from{opacity:0}to{opacity:1}}
 @media(prefers-reduced-motion:reduce){#lpj-halloween-intro *{animation:none!important}}
 </style>
+
+<style id="lpj-halloween-final-adjustments">
+/* Correcciones puntuales solicitadas: filtros móviles visibles + tipografía temática */
+
+@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root{
+  --lpj-orange:#ff7a00;
+  --lpj-purple:#8b5cf6;
+}
+
+/* Tipografía general sin afectar funciones */
+body{
+  font-family:'Inter', sans-serif !important;
+}
+
+.brand-name,
+.hero h1,
+.posters-hdr h2,
+.detail-name,
+.card-price,
+.poster-price,
+.stat-box strong{
+  font-family:'Bebas Neue', 'Oswald', sans-serif !important;
+  letter-spacing:1px;
+}
+
+/* Filtros superiores en móvil */
+@media(max-width:768px){
+
+  .main-nav{
+    overflow:visible !important;
+  }
+
+  .nav-btn{
+    color:#111 !important;
+    background:#fafafa !important;
+    border:1px solid #ddd !important;
+    border-radius:999px !important;
+    opacity:1 !important;
+    visibility:visible !important;
+  }
+
+  .nav-btn.active,
+  .nav-item.mobile-open > .nav-btn{
+    background:#111 !important;
+    color:#fff !important;
+    border-color:#111 !important;
+  }
+
+  .lchip,
+  .pchip{
+    color:#111 !important;
+    background:#fff !important;
+    border:1px solid #ddd !important;
+    opacity:1 !important;
+  }
+
+  .lchip.active,
+  .pchip.active{
+    background:var(--lpj-orange) !important;
+    color:#111 !important;
+    border-color:var(--lpj-orange) !important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  *{
+    animation:none !important;
+    transition:none !important;
+  }
+}
+</style>
+
 </head>
 <body>
 <div id="lpj-halloween-intro">
