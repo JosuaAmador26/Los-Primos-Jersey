@@ -696,28 +696,28 @@
     .acc-body ul li strong{color:#111;}
 
 
-    /* Corrección garantía: mostrar todo el contenido sin cortes */
-    .detail-accordion{overflow:visible !important;}
-    #acc-garantia .acc-body,
-    #acc-garantia.open .acc-body{
-      display:block !important;
-      height:auto !important;
-      max-height:none !important;
-      overflow:visible !important;
-      padding-bottom:22px !important;
-    }
-    #acc-garantia .acc-body ul{
-      display:flex !important;
-      flex-direction:column !important;
-      gap:7px !important;
-      margin:0 !important;
-      padding:0 !important;
-    }
-    #acc-garantia .acc-body li{
-      display:block !important;
-      line-height:1.55 !important;
-      white-space:normal !important;
-    }
+    /* Corrección textos descripción y garantía del producto */
+.detail-accordion .acc-body,
+.detail-accordion .acc-body li,
+.detail-accordion .acc-body p {
+    color: #ffffff !important;
+}
+
+.detail-accordion .acc-body li strong {
+    color: #ffffff !important;
+}
+
+.detail-accordion .acc-body {
+    background: transparent !important;
+}
+
+.detail-accordion .acc-trigger {
+    color: #ffffff !important;
+}
+
+.detail-accordion .acc-trigger i {
+    color: #ff7a00 !important;
+}
 
     .dashboard{max-width:1220px;}
     .dash-side,.dash-main,.stat-box,.variant-block,.modal-box{background:#fff;border-color:#eee;color:#111;}
@@ -2198,79 +2198,268 @@ body.lpj-halloween-active .hero{
 @media(prefers-reduced-motion:reduce){#lpj-halloween-intro *{animation:none!important}}
 </style>
 
-<style id="lpj-halloween-final-adjustments">
-/* Correcciones puntuales solicitadas: filtros móviles visibles + tipografía temática */
-
-@import url('https://fonts.googleapis.com/css2?family=Creepster&family=Bebas+Neue&family=Inter:wght@400;500;600;700;800;900&display=swap');
-
-:root{
-  --lpj-orange:#ff7a00;
-  --lpj-purple:#8b5cf6;
+<style id="lpj-clean-detail-fix">
+/* Corrección limpia de textos del detalle de producto */
+.detail-info .detail-league{
+  color:#888 !important;
 }
 
-/* Tipografía general sin afectar funciones */
-body{
-  font-family:'Inter', sans-serif !important;
+.detail-info .detail-name{
+  color:#111 !important;
 }
 
-.brand-name,
-.hero h1,
-.posters-hdr h2,
-.detail-name,
-.card-price,
-.poster-price,
-.stat-box strong{
-  font-family:'Bebas Neue', 'Oswald', sans-serif !important;
-  letter-spacing:1px;
+.detail-info .detail-price{
+  color:#111 !important;
 }
 
-/* Filtros superiores en móvil */
-@media(max-width:768px){
-
-  .main-nav{
-    overflow:visible !important;
-  }
-
-  .nav-btn{
-    color:#111 !important;
-    background:#fafafa !important;
-    border:1px solid #ddd !important;
-    border-radius:999px !important;
-    opacity:1 !important;
-    visibility:visible !important;
-  }
-
-  .nav-btn.active,
-  .nav-item.mobile-open > .nav-btn{
-    background:#111 !important;
-    color:#fff !important;
-    border-color:#111 !important;
-  }
-
-  .lchip,
-  .pchip{
-    color:#111 !important;
-    background:#fff !important;
-    border:1px solid #ddd !important;
-    opacity:1 !important;
-  }
-
-  .lchip.active,
-  .pchip.active{
-    background:var(--lpj-orange) !important;
-    color:#111 !important;
-    border-color:var(--lpj-orange) !important;
-  }
+.detail-info .detail-section-label{
+  color:#555 !important;
 }
 
-@media(prefers-reduced-motion:reduce){
-  *{
-    animation:none !important;
-    transition:none !important;
-  }
+.detail-info .detail-season-tag,
+.detail-info .detail-version-tag{
+  color:#555 !important;
+  background:#fafafa !important;
+  border-color:#e5e5e5 !important;
+}
+
+.detail-info .acc-trigger{
+  color:#111 !important;
+  background:#fff !important;
+}
+
+.detail-info .acc-body,
+.detail-info .acc-body p,
+.detail-info .acc-body li{
+  color:#666 !important;
+}
+
+.detail-info .acc-body strong{
+  color:#111 !important;
+}
+
+.detail-info .detail-hint{
+  color:#888 !important;
+}
+
+.detail-info input{
+  color:#111 !important;
+  background:#fff !important;
+}
+
+.detail-info input::placeholder{
+  color:#999 !important;
 }
 </style>
 
+
+<style id="lpj-clean-product-detail-fix">
+/* Correccion limpia: tarjetas y detalle de producto */
+
+/* Tarjetas de catalogo integradas */
+.product-card{
+  background:#111 !important;
+  border:1px solid #252525 !important;
+}
+
+.card-img-wrap{
+  background:#161616 !important;
+  padding:12px !important;
+}
+
+.card-img{
+  background:#161616 !important;
+  border-radius:6px;
+}
+
+.card-body{
+  background:#111 !important;
+  color:#fff !important;
+  border-top:1px solid #252525 !important;
+}
+
+.card-league{
+  color:#b0b0b0 !important;
+}
+
+.card-title{
+  color:#ffffff !important;
+}
+
+.card-price{
+  color:#ff7a00 !important;
+}
+
+.card-sizes{
+  color:#a0a0a0 !important;
+}
+
+.qpill{
+  background:#1a1a1a !important;
+  border-color:#444 !important;
+  color:#ddd !important;
+}
+
+.qpill.selected{
+  background:#ff7a00 !important;
+  border-color:#ff7a00 !important;
+  color:#111 !important;
+}
+
+/* Modal detalle oscuro consistente */
+.detail-modal{
+  background:rgba(0,0,0,.92) !important;
+}
+
+.detail-inner{
+  background:#111 !important;
+  border-color:#333 !important;
+}
+
+.detail-imgs,
+#detailMainImg{
+  background:#161616 !important;
+}
+
+.detail-info{
+  background:#111 !important;
+}
+
+.detail-league,
+.detail-section-label{
+  color:#a0a0a0 !important;
+}
+
+.detail-name{
+  color:#fff !important;
+}
+
+.detail-price{
+  color:#ff7a00 !important;
+}
+
+.detail-season-tag,
+.detail-version-tag{
+  background:#1b1b1b !important;
+  color:#ddd !important;
+  border-color:#444 !important;
+}
+
+.acc-trigger{
+  background:#fff !important;
+  color:#111 !important;
+}
+
+.acc-body{
+  background:#111 !important;
+}
+
+.acc-body ul li{
+  color:#d0d0d0 !important;
+}
+
+.acc-body ul li strong{
+  color:#fff !important;
+}
+
+.detail-hint{
+  color:#aaa !important;
+}
+</style>
+
+<style id="lpj-halloween-final-refresh">
+/* Mejoras finales: contraste y experiencia Halloween, sin alterar funciones */
+:root { --h-orange:#ff8000; --h-orange-light:#ffad42; }
+body.lpj-halloween-active { background:#09090c !important; color:#f7f7fa !important; }
+body.lpj-halloween-active .topbar { background:rgba(9,9,12,.96)!important; border-bottom:1px solid rgba(255,128,0,.38)!important; }
+body.lpj-halloween-active .brand-name,body.lpj-halloween-active .nav-btn { color:#fff!important; }
+body.lpj-halloween-active .nav-btn:hover { color:#ffad42!important; }
+body.lpj-halloween-active .hero { position:relative; isolation:isolate; min-height:570px!important; background:radial-gradient(ellipse at 80% 35%,rgba(255,106,0,.17),transparent 35%),linear-gradient(90deg,rgba(5,5,9,.97) 0%,rgba(9,8,13,.90) 48%,rgba(11,7,14,.65) 100%),url('https://firebasestorage.googleapis.com/v0/b/los-primos-jersey.firebasestorage.app/o/heroe%2Ffondo-estadio.png.jpg?alt=media&token=fcc8e0cb-ddaa-495d-af88-3edf1232ce10') center/cover no-repeat!important; border-bottom:1px solid rgba(255,128,0,.3); }
+body.lpj-halloween-active .hero::before { content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(circle at 78% 25%,rgba(255,144,32,.24),transparent 19%),linear-gradient(0deg,rgba(255,110,0,.12),transparent 42%); }
+body.lpj-halloween-active .hero::after { content:'✦  ✧  ✦';position:absolute;right:7%;top:10%;color:rgba(255,160,70,.34);letter-spacing:35px;font-size:22px;pointer-events:none; }
+body.lpj-halloween-active .hero-content { position:relative;z-index:2;max-width:630px; }
+body.lpj-halloween-active .hero-tag { background:rgba(255,125,0,.13)!important;color:#ffae50!important;border:1px solid rgba(255,125,0,.55)!important;letter-spacing:1.5px; }
+body.lpj-halloween-active .hero h1,body.lpj-halloween-active .hero h1 span { color:#fff!important; text-shadow:0 3px 22px rgba(0,0,0,.7); }
+body.lpj-halloween-active .hero h1 span { color:#ff8a19!important; }
+body.lpj-halloween-active .hero p { color:#e6e1e8!important;font-size:16px;max-width:540px; }
+body.lpj-halloween-active .hero .btn-primary { background:linear-gradient(120deg,#ff9b1b,#f26700)!important;color:#150900!important;box-shadow:0 9px 30px rgba(255,117,0,.34);font-weight:800; }
+body.lpj-halloween-active .hero .btn-outline { background:rgba(20,15,21,.75)!important;color:#fff!important;border:1px solid rgba(255,168,77,.7)!important; }
+body.lpj-halloween-active .shirt-version-card { box-shadow:0 0 40px rgba(255,112,0,.16)!important; }
+body.lpj-halloween-active .product-card { transition:transform .2s,border-color .2s,box-shadow .2s; }
+body.lpj-halloween-active .product-card:hover { border-color:#ff8000!important;box-shadow:0 12px 32px rgba(255,105,0,.17)!important; }
+/* El modal de producto conserva fondo claro; las políticas usan un panel oscuro con letras blancas */
+.detail-info .detail-accordion { border:0!important; margin-top:16px; }
+.detail-info .detail-accordion .acc-item { background:#101016!important;border:1px solid #373039!important;border-radius:12px!important;margin-bottom:12px!important;overflow:hidden;box-shadow:0 8px 22px rgba(0,0,0,.12); }
+.detail-info .detail-accordion .acc-trigger { background:#17141a!important;color:#fff!important;padding:16px 18px!important;font-size:14px!important;font-weight:800!important; }
+.detail-info .detail-accordion .acc-trigger i { color:#ff942f!important; }
+.detail-info .detail-accordion .acc-trigger .acc-caret { color:#ff942f!important; }
+.detail-info .detail-accordion .acc-body { background:#101016!important;padding:8px 18px 18px 22px!important; }
+.detail-info .detail-accordion .acc-body ul { list-style:disc!important;padding-left:18px!important;gap:11px!important; }
+.detail-info .detail-accordion .acc-body li,.detail-info .detail-accordion .acc-body p { color:#fff!important;font-size:13px!important;line-height:1.75!important; }
+.detail-info .detail-accordion .acc-body li::marker { color:#ff942f!important; }
+.detail-info .detail-accordion .acc-body strong { color:#ffb45c!important;font-weight:800!important; }
+@media(max-width:768px){body.lpj-halloween-active .hero{min-height:450px!important;padding:45px 20px!important;}body.lpj-halloween-active .hero h1{font-size:clamp(34px,9vw,50px)!important;}body.lpj-halloween-active .hero::after{display:none;}body.lpj-halloween-active .topbar .nav-btn{color:#151515!important;}body.lpj-halloween-active .topbar .nav-btn.active{color:#fff!important;}.detail-info .detail-accordion .acc-body li{font-size:13px!important;}}
+@media(prefers-reduced-motion:reduce){body.lpj-halloween-active .hero-content{animation:none!important;}}
+</style>
+<style id="lpj-contraste-definitivo-v4">
+/* CONTRASTE DEFINITIVO: ficha completa legible sobre fondo oscuro */
+.detail-modal .detail-inner,.detail-modal .detail-info {background:#111114!important;color:#fff!important;}
+.detail-modal .detail-info .detail-name,.detail-modal .detail-info #detailName {color:#fff!important;font-size:clamp(24px,2.5vw,34px)!important;font-weight:900!important;line-height:1.2!important;min-height:1.2em!important;}
+.detail-modal .detail-info .detail-league,.detail-modal .detail-info #detailLeague,.detail-modal .detail-info .detail-section-label,.detail-modal .detail-info label,.detail-modal .detail-info .detail-hint {color:#f2f2f2!important;opacity:1!important;}
+.detail-modal .detail-info .detail-price {color:#ff962b!important;}
+.detail-modal .detail-info .detail-season-tag,.detail-modal .detail-info .detail-version-tag {color:#fff!important;background:#29252b!important;border-color:#6c626c!important;}
+.detail-modal .detail-info .dpill {color:#111!important;background:#fff!important;border-color:#d5d5d5!important;}
+.detail-modal .detail-info .dpill.selected {background:#ff8500!important;color:#111!important;border-color:#ff8500!important;}
+.detail-modal .detail-info .detail-custom input {color:#161616!important;background:#fff!important;}
+.detail-modal .detail-info .detail-accordion .acc-item,.detail-modal .detail-info .detail-accordion .acc-body {background:#0e0e15!important;}
+.detail-modal .detail-info .detail-accordion .acc-trigger {background:#1d1721!important;color:#fff!important;}
+.detail-modal .detail-info .detail-accordion .acc-body,.detail-modal .detail-info .detail-accordion .acc-body ul,.detail-modal .detail-info .detail-accordion .acc-body li,.detail-modal .detail-info .detail-accordion .acc-body p,.detail-modal .detail-info .detail-accordion .garantia-body li {color:#fff!important;opacity:1!important;visibility:visible!important;text-shadow:none!important;}
+.detail-modal .detail-info .detail-accordion .acc-body li strong {color:#ffb563!important;}
+.detail-modal .detail-info .detail-accordion .acc-body ul {list-style:disc!important;padding-left:18px!important;}
+.detail-modal .detail-info .detail-accordion .acc-body li::marker {color:#ff9000!important;}
+.detail-modal .detail-close {color:#111!important;background:#fff!important;border-radius:50%;width:42px;height:42px;display:grid;place-items:center;}
+</style>
+
+<style id="lpj-cuidados-garantia-halloween-definitivo">
+/* Paneles independientes, siempre legibles, estilo Halloween */
+.detail-modal .detail-info .detail-accordion { display:flex!important; flex-direction:column!important; gap:20px!important; margin-top:24px!important; border:0!important; overflow:visible!important; }
+.detail-modal .detail-info .detail-accordion .acc-item { display:block!important; background:#0b0a10!important; border:1.5px solid #ff8500!important; border-radius:16px!important; overflow:hidden!important; box-shadow:0 0 24px rgba(255,119,0,.14)!important; }
+.detail-modal .detail-info .detail-accordion .acc-trigger { display:flex!important; width:100%!important; min-height:68px!important; padding:19px 22px!important; background:linear-gradient(110deg,#21120b,#171018 75%)!important; color:#fff!important; font-family:Inter,Arial,sans-serif!important; font-size:clamp(17px,1.5vw,21px)!important; font-weight:900!important; line-height:1.4!important; letter-spacing:.2px!important; text-transform:uppercase!important; text-align:left!important; opacity:1!important; }
+.detail-modal .detail-info .detail-accordion .acc-trigger i { color:#ff8500!important; font-size:22px!important; }
+.detail-modal .detail-info .detail-accordion .acc-trigger .acc-caret { font-size:14px!important; margin-left:auto!important; }
+.detail-modal .detail-info .detail-accordion .acc-item.open > .acc-body { display:block!important; }
+.detail-modal .detail-info .detail-accordion .acc-body { background:#0b0a10!important; padding:14px 24px 25px!important; opacity:1!important; visibility:visible!important; }
+.detail-modal .detail-info .detail-accordion .acc-body ul { display:flex!important; flex-direction:column!important; gap:16px!important; list-style:disc outside!important; padding-left:22px!important; margin:0!important; }
+.detail-modal .detail-info .detail-accordion .acc-body ul li { display:list-item!important; color:#fff!important; -webkit-text-fill-color:#fff!important; opacity:1!important; visibility:visible!important; font-size:clamp(15px,1.15vw,17px)!important; font-weight:500!important; line-height:1.7!important; text-shadow:none!important; }
+.detail-modal .detail-info .detail-accordion .acc-body ul li::marker { color:#ff8500!important; font-size:18px!important; }
+.detail-modal .detail-info .detail-accordion .acc-body ul li strong { color:#ff9a22!important; -webkit-text-fill-color:#ff9a22!important; font-weight:900!important; }
+@media(max-width:768px){.detail-modal .detail-info .detail-accordion .acc-trigger{font-size:17px!important;padding:16px!important}.detail-modal .detail-info .detail-accordion .acc-body{padding:12px 17px 20px!important}.detail-modal .detail-info .detail-accordion .acc-body ul li{font-size:15px!important}}
+</style>
+<style id="lpj-compact-readable-final">
+/* Ajustes finales: legibilidad real en todos los tamaños */
+#posters-page .lpj-poster-pricing{background:#16131a!important;border:1px solid #65401c!important;border-radius:12px!important;padding:13px 15px!important;color:#fff!important;display:block!important;height:auto!important;line-height:1.45!important}
+#posters-page .lpj-price-heading{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;font-weight:800;color:#fff!important;margin-bottom:10px}
+#posters-page .lpj-price-heading i{color:#ff8a00}
+#posters-page .lpj-price-heading small{font-size:11px;color:#d9d2cc!important;font-weight:500}
+#posters-page .lpj-price-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;align-items:stretch}
+#posters-page .lpj-price-option,#posters-page .lpj-price-extra{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;background:#221b21!important;border:1px solid #59402e!important;border-radius:8px!important;padding:9px 11px!important;min-width:0;color:#fff!important;font:inherit;text-align:left}
+#posters-page .lpj-price-option{cursor:pointer;transition:background .15s,border-color .15s,transform .15s}
+#posters-page .lpj-price-option:hover,#posters-page .lpj-price-option:focus-visible{border-color:#ff8a00!important;background:#322017!important;outline:2px solid #ff8a00;outline-offset:1px}
+#posters-page .lpj-price-option[aria-pressed="true"]{background:#4a290d!important;border-color:#ff8a00!important}
+#posters-page .lpj-price-option span{font-size:11px!important;color:#f3eae4!important;font-weight:600}
+#posters-page .lpj-price-option strong,#posters-page .lpj-price-extra strong{font-size:14px!important;color:#ffab43!important;font-weight:800;white-space:nowrap}
+#posters-page .lpj-price-extra{font-size:11px!important;color:#f3eae4!important}
+#posters-page .lpj-price-feedback{font-size:11px!important;color:#e4d8cf!important;margin:9px 0 0!important;min-height:16px}
+.detail-modal .detail-info .detail-accordion .acc-trigger{min-height:46px!important;padding:11px 14px!important;font-size:13px!important;line-height:1.4!important;gap:8px!important}
+.detail-modal .detail-info .detail-accordion .acc-trigger i{font-size:15px!important}
+.detail-modal .detail-info .detail-accordion .acc-body{padding:10px 16px 15px!important}
+.detail-modal .detail-info .detail-accordion .acc-body ul{gap:8px!important;padding-left:17px!important}
+.detail-modal .detail-info .detail-accordion .acc-body ul li{font-size:12px!important;line-height:1.6!important;font-weight:500!important}
+.detail-modal .detail-info .detail-accordion .acc-body ul li::marker{font-size:12px!important}
+.detail-modal .detail-info .detail-accordion .acc-trigger:focus-visible{outline:2px solid #ff9a22!important;outline-offset:-2px}
+@media(max-width:650px){#posters-page .lpj-price-options{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-modal .detail-info .detail-accordion .acc-trigger{font-size:12px!important;padding:10px 12px!important}.detail-modal .detail-info .detail-accordion .acc-body ul li{font-size:12px!important}}
+@media(max-width:360px){#posters-page .lpj-price-option strong,#posters-page .lpj-price-extra strong{font-size:12px!important}}
+</style>
 </head>
 <body>
 <div id="lpj-halloween-intro">
@@ -2285,7 +2474,7 @@ body{
     <div class="lpj-sub-intro">HALLOWEEN JERSEY NIGHT</div>
     <div class="lpj-intro-line"></div>
     <p>El verdadero miedo es quedarte sin tu jersey favorito</p>
-    <button onclick="lpjEnterStore()">Explorar productos</button>
+    <button onclick="lpjEnterStore()">Descubrí la colección</button>
   </div>
 </div>
 
@@ -2574,12 +2763,12 @@ body{
 
     <div class="hero-web-head">
       <div class="hero-content">
-        <div class="hero-tag"><i class="fas fa-ghost"></i> Especial Halloween Jersey</div>
+        <div class="hero-tag"><i class="fas fa-ghost"></i> Halloween Jersey Night · Edición 2026</div>
         <h1><span>EL VERDADERO MIEDO ES</span><br>QUEDARTE SIN TU JERSEY FAVORITO.</h1>
-        <p>La temporada más escalofriante llegó a Los Primos Jersey. Descubre camisetas de fútbol, NBA, NFL, MLB, F1, abrigos, llaveros y más productos con estilo deportivo.</p>
+        <p>La noche cae, la pasión no. Encontrá camisetas de fútbol, NBA, NFL, MLB, F1 y mucho más. Tu próximo jersey favorito te está esperando.</p>
         <div class="hero-btns">
           <button class="btn-primary" id="heroCatalogBtn">Explorar productos</button>
-          <a class="btn-outline" href="#catalog-section">Explorar secciones</a>
+          <a class="btn-outline" href="#catalog-section">Ver todos los jerseys</a>
         </div>
       </div>
 
@@ -2802,7 +2991,16 @@ body{
 <!-- ══ POSTERS PAGE ══ -->
 <div id="posters-page">
   <div class="posters-hdr"><h2>POSTERS</h2><p>Posters de tus jugadores favoritos</p></div>
-  <div class="pricing-bar">Precios (envío incluido): <span>1 poster ₡8900</span> · <span>2 posters ₡11,900</span> · <span>3 posters ₡15,900</span> · Extra ₡6,000 c/u</div>
+  <div class="pricing-bar lpj-poster-pricing" aria-label="Precios de pósters con envío incluido">
+  <div class="lpj-price-heading"><i class="fas fa-tags" aria-hidden="true"></i> Precios de pósters <small>Envío incluido</small></div>
+  <div class="lpj-price-options" role="group" aria-label="Seleccioná una cantidad para consultar su precio">
+    <button type="button" class="lpj-price-option" data-count="1" data-price="₡8 900" aria-pressed="false"><span>1 póster</span><strong>₡8 900</strong></button>
+    <button type="button" class="lpj-price-option" data-count="2" data-price="₡11 900" aria-pressed="false"><span>2 pósters</span><strong>₡11 900</strong></button>
+    <button type="button" class="lpj-price-option" data-count="3" data-price="₡15 900" aria-pressed="false"><span>3 pósters</span><strong>₡15 900</strong></button>
+    <div class="lpj-price-extra">Adicional <strong>₡6 000 c/u</strong></div>
+  </div>
+  <p class="lpj-price-feedback" id="lpjPriceFeedback" aria-live="polite">Tocá una opción para ver el precio.</p>
+</div>
   <div class="poster-chips" id="posterChips">
     <button class="pchip active" data-player="">Todos</button>
     <button class="pchip" data-player="Cristiano Ronaldo">Cristiano Ronaldo</button>
@@ -2891,7 +3089,7 @@ body{
       <div class="detail-accordion">
         <div class="acc-item open" id="acc-cuidados">
           <button class="acc-trigger" onclick="toggleAcc('acc-cuidados')">
-            <i class="fas fa-tshirt"></i> Descripción y cuidados <i class="fas fa-chevron-down acc-caret"></i>
+            <i class="fas fa-tshirt"></i> CUIDADO DE TU JERSEY <i class="fas fa-chevron-down acc-caret"></i>
           </button>
           <div class="acc-body" id="detailDesc">
             <ul>
@@ -4272,6 +4470,25 @@ function lpjEnterStore(){
 }
 window.addEventListener("load",()=>{
  setTimeout(()=>{lpjEnterStore();},6000);
+});
+</script>
+<script id="lpj-price-interaction">
+document.addEventListener('DOMContentLoaded', function(){
+  var buttons=document.querySelectorAll('#posters-page .lpj-price-option');
+  var feedback=document.getElementById('lpjPriceFeedback');
+  buttons.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      buttons.forEach(function(b){b.setAttribute('aria-pressed','false');});
+      btn.setAttribute('aria-pressed','true');
+      if(feedback) feedback.textContent=btn.dataset.count+' póster'+(btn.dataset.count==='1'?'':'s')+': '+btn.dataset.price+' con envío incluido. Cada póster adicional cuesta ₡6 000.';
+    });
+  });
+  document.querySelectorAll('.detail-accordion .acc-trigger').forEach(function(btn){
+    var item=btn.closest('.acc-item');
+    if(!item)return;
+    btn.setAttribute('aria-expanded',item.classList.contains('open')?'true':'false');
+    btn.addEventListener('click',function(){requestAnimationFrame(function(){btn.setAttribute('aria-expanded',item.classList.contains('open')?'true':'false');});});
+  });
 });
 </script>
 </body>
