@@ -1871,8 +1871,350 @@
     }
   </style>
 
+  <style id="lpj-extra-categories">
+    .fcheck input[type="radio"]{width:14px;height:14px;accent-color:var(--accent);cursor:pointer;flex-shrink:0;}
+    .fcheck input[type="radio"]:checked + span{color:var(--white);}
+    @media (min-width:769px){
+      .topbar-inner{height:auto;min-height:56px;flex-wrap:wrap;gap:0 22px;}
+      .main-nav{min-width:0;flex-wrap:wrap;gap:0 10px;}
+      .nav-btn{padding:18px 3px;}
+      .mega-menu{top:var(--lpj-mobile-menu-top,56px);}
+    }
+  </style>
+
+<style id="lpj-halloween-theme">
+/* ================================
+   LOS PRIMOS JERSEY - HALLOWEEN
+   Desactivar eliminando este bloque
+================================ */
+
+:root{
+ --h-orange:#ff7a00;
+ --h-orange-soft:rgba(255,122,0,.25);
+ --h-purple:#8b5cf6;
+}
+
+body{
+ background:#080808;
+}
+
+/* Fondo general Halloween */
+.topbar{
+ background:rgba(8,8,8,.96)!important;
+ border-bottom:1px solid rgba(255,122,0,.35)!important;
+}
+
+.brand-name,.nav-btn{
+ color:#fff!important;
+}
+
+.nav-btn:hover,.nav-btn.active{
+ color:#ff9d2e!important;
+}
+
+/* Decoración superior */
+.hero{
+ background:
+ linear-gradient(90deg,rgba(5,5,5,.95),rgba(5,5,5,.45)),
+ url("https://firebasestorage.googleapis.com/v0/b/los-primos-jersey.firebasestorage.app/o/heroe%2Ffondo-estadio.png.jpg?alt=media&token=fcc8e0cb-ddaa-495d-af88-3edf1232ce10") center/cover!important;
+}
+
+.hero:before{
+ content:"";
+ position:absolute;
+ inset:0;
+ pointer-events:none;
+ background:
+ radial-gradient(circle at 15% 20%,rgba(255,122,0,.18),transparent 25%),
+ radial-gradient(circle at 90% 30%,rgba(139,92,246,.15),transparent 20%);
+}
+
+.hero:after{
+ content:"🦇   🕸   🎃";
+ position:absolute;
+ top:25px;
+ right:40px;
+ font-size:42px;
+ opacity:.45;
+ letter-spacing:20px;
+ pointer-events:none;
+ animation:lpjGlow 3s infinite alternate;
+}
+
+@keyframes lpjGlow{
+ from{filter:drop-shadow(0 0 5px #ff7a00)}
+ to{filter:drop-shadow(0 0 18px #ff7a00)}
+}
+
+.hero h1 span{
+ color:#ff8c00!important;
+ text-shadow:0 0 15px rgba(255,122,0,.4);
+}
+
+.hero p{
+ color:#ddd!important;
+}
+
+.hero-tag{
+ background:rgba(255,122,0,.15)!important;
+ border-color:#ff7a00!important;
+ color:#ffb15c!important;
+}
+
+.btn-primary{
+ background:#ff7a00!important;
+ color:#000!important;
+ box-shadow:0 0 20px rgba(255,122,0,.35);
+}
+
+.btn-outline{
+ color:#fff!important;
+ border-color:#ff7a00!important;
+}
+
+/* Menús */
+.mega-menu,.simple-menu{
+ background:#111!important;
+ border-color:#333!important;
+ box-shadow:0 20px 50px rgba(0,0,0,.8)!important;
+}
+
+.mega-col-title{
+ color:#ff9d2e!important;
+}
+
+.mega-col ul li a{
+ color:#ddd!important;
+}
+
+.mega-col ul li a:hover{
+ color:#ff9d2e!important;
+}
+
+/* Filtros */
+.sidebar,
+.product-card,
+.poster-card,
+.pricing-bar,
+.dash-side,
+.dash-main{
+ background:#111!important;
+ border-color:#292929!important;
+}
+
+.sidebar-header,
+.filter-group-title,
+.results-count,
+.card-league,
+.poster-type{
+ color:#aaa!important;
+}
+
+.fcheck span{
+ color:#ddd!important;
+}
+
+.fcheck:hover{
+ background:rgba(255,122,0,.12)!important;
+}
+
+.fcheck input:checked+span{
+ color:#ff9d2e!important;
+}
+
+/* Productos */
+.product-card:hover{
+ border-color:#ff7a00!important;
+ box-shadow:0 12px 35px rgba(255,122,0,.22)!important;
+}
+
+.card-img-wrap,
+.poster-img-wrap{
+ background:#181818!important;
+}
+
+.card-price,
+.poster-price,
+.detail-price{
+ color:#ff9d2e!important;
+}
+
+.qpill:hover,
+.qpill.selected,
+.lchip.active,
+.pchip.active{
+ background:#ff7a00!important;
+ border-color:#ff7a00!important;
+ color:#000!important;
+}
+
+/* Detalle producto */
+.detail-inner{
+ background:#111!important;
+ border-color:#333!important;
+}
+
+.detail-name,
+.card-title,
+.poster-player{
+ color:#fff!important;
+}
+
+.dpill:hover,
+.dpill.selected{
+ background:#ff7a00!important;
+ color:#000!important;
+}
+
+/* Footer */
+.footer{
+ background:#080808!important;
+ border-color:#222!important;
+}
+
+/* Reducir movimiento */
+@media(prefers-reduced-motion:reduce){
+ *,*:before,*:after{
+ animation:none!important;
+ transition:none!important;
+ }
+}
+
+@media(max-width:768px){
+ .hero:after{
+  font-size:25px;
+  right:10px;
+ }
+}
+</style>
+
+
+<style id="lpj-halloween-premium-theme">
+#lpj-halloween-loader{
+ position:fixed;inset:0;background:#050505;z-index:99999;
+ display:flex;align-items:center;justify-content:center;overflow:hidden;
+ transition:opacity .8s ease,visibility .8s ease;
+}
+#lpj-halloween-loader.hide{opacity:0;visibility:hidden;pointer-events:none}
+.lpj-loader-content{text-align:center;z-index:5;color:#fff}
+.lpj-loader-content h1{
+ font-family:Impact,'Arial Black',sans-serif;
+ font-size:clamp(42px,7vw,90px);letter-spacing:4px;
+ color:#fff;text-shadow:0 0 15px #ff6a00,0 0 35px #ff6a00;
+ animation:lpjGlow 1.8s infinite alternate;
+}
+.lpj-loader-content p{
+ color:#ff8c00;font-weight:800;letter-spacing:4px;
+ text-transform:uppercase;margin:20px 0;font-size:18px;
+}
+.lpj-loader-content small{color:#aaa;font-size:14px}
+.lpj-loading-bar{
+ width:min(340px,80vw);height:8px;background:#222;border-radius:20px;
+ margin:25px auto;overflow:hidden;border:1px solid #333;
+}
+.lpj-loading-bar span{
+ display:block;height:100%;width:0;background:#ff6a00;
+ animation:lpjLoad 2.8s ease forwards;
+ box-shadow:0 0 20px #ff6a00;
+}
+@keyframes lpjLoad{to{width:100%}}
+@keyframes lpjGlow{
+ from{text-shadow:0 0 10px #ff6a00}
+ to{text-shadow:0 0 35px #ff6a00,0 0 70px #7c3aed}
+}
+.lpj-moon{
+ position:absolute;width:230px;height:230px;border-radius:50%;
+ background:#222;right:12%;top:10%;
+ box-shadow:0 0 80px #ff6a00;
+}
+.lpj-pumpkin{
+ position:absolute;bottom:10%;font-size:70px;
+ animation:lpjFloat 2s infinite ease-in-out;
+}
+.lpj-bat{position:absolute;font-size:34px;animation:lpjBat 8s infinite linear}
+.bat1{top:20%;left:-50px}.bat2{top:35%;left:-80px;animation-delay:3s}
+@keyframes lpjBat{to{transform:translateX(120vw)}}
+@keyframes lpjFloat{50%{transform:translateY(-15px)}}
+.lpj-web{
+ position:absolute;width:180px;height:180px;border:2px solid #333;
+ border-radius:50%;opacity:.5;
+}
+.web1{top:-60px;left:-60px}
+body.lpj-halloween-active .topbar{
+ box-shadow:0 0 20px rgba(255,106,0,.25);
+}
+body.lpj-halloween-active .hero{
+ filter:saturate(1.08);
+}
+@media(prefers-reduced-motion:reduce){
+ #lpj-halloween-loader *{animation:none!important}
+}
+</style>
+
+
+<style id="lpj-halloween-cinematic">
+#lpj-halloween-intro{
+ position:fixed;inset:0;background:#050505;z-index:99999;
+ overflow:hidden;display:flex;align-items:center;justify-content:center;
+ transition:opacity 1s ease,visibility 1s ease;
+}
+#lpj-halloween-intro.hide{opacity:0;visibility:hidden;pointer-events:none}
+.lpj-intro-content{position:relative;z-index:10;text-align:center;color:white;padding:20px}
+.lpj-brand-intro{
+ font-family:Impact,'Arial Black',sans-serif;
+ font-size:clamp(45px,8vw,100px);
+ letter-spacing:5px;
+ animation:lpjReveal 1.8s ease both,lpjGlow 2s infinite alternate;
+}
+.lpj-sub-intro{
+ margin-top:18px;color:#ff7a00;letter-spacing:5px;font-weight:900;
+ font-size:16px;animation:lpjFade 2s ease both;
+}
+.lpj-intro-line{height:2px;width:180px;background:#ff7a00;margin:25px auto;box-shadow:0 0 20px #ff7a00}
+.lpj-intro-content p{color:#ddd;font-size:18px;margin-bottom:28px}
+.lpj-intro-content button{
+ background:#ff7a00;color:#fff;border:0;padding:14px 34px;
+ border-radius:999px;font-weight:900;font-size:15px;cursor:pointer;
+ box-shadow:0 0 25px rgba(255,122,0,.6);transition:.3s
+}
+.lpj-intro-content button:hover{transform:scale(1.05)}
+.lpj-moon{
+ position:absolute;width:260px;height:260px;border-radius:50%;
+ background:#171717;right:12%;top:12%;
+ box-shadow:0 0 80px rgba(255,122,0,.45)
+}
+.lpj-stadium-light{
+ position:absolute;bottom:-20%;width:100%;height:45%;
+ background:radial-gradient(ellipse,rgba(255,122,0,.22),transparent 65%);
+}
+.lpj-haze{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.8),transparent,rgba(0,0,0,.8));}
+.lpj-spiderweb{position:absolute;top:-80px;left:-80px;width:250px;height:250px;border:2px solid #333;border-radius:50%}
+.lpj-bat{position:absolute;font-size:38px;animation:lpjFly 10s linear infinite}
+.b1{top:20%;left:-50px}.b2{top:45%;left:-80px;animation-delay:3s}
+@keyframes lpjFly{to{transform:translateX(120vw)}}
+@keyframes lpjReveal{from{opacity:0;transform:scale(.7);filter:blur(8px)}to{opacity:1;transform:scale(1);filter:blur(0)}}
+@keyframes lpjGlow{from{text-shadow:0 0 15px #ff7a00}to{text-shadow:0 0 45px #ff7a00,0 0 80px #7c3aed}}
+@keyframes lpjFade{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){#lpj-halloween-intro *{animation:none!important}}
+</style>
 </head>
 <body>
+<div id="lpj-halloween-intro">
+  <div class="lpj-haze"></div>
+  <div class="lpj-moon"></div>
+  <div class="lpj-spiderweb"></div>
+  <div class="lpj-bat b1">🦇</div>
+  <div class="lpj-bat b2">🦇</div>
+  <div class="lpj-stadium-light"></div>
+  <div class="lpj-intro-content">
+    <div class="lpj-brand-intro">LOS PRIMOS JERSEY</div>
+    <div class="lpj-sub-intro">HALLOWEEN JERSEY NIGHT</div>
+    <div class="lpj-intro-line"></div>
+    <p>El verdadero miedo es quedarte sin tu jersey favorito</p>
+    <button onclick="lpjEnterStore()">Explorar productos</button>
+  </div>
+</div>
+
 
 <!-- ══ TOPBAR ══ -->
 <header class="topbar">
@@ -2135,6 +2477,9 @@
           <a href="#" class="pnav-link" data-player="Mbappé">Mbappé</a>
         </div>
       </div>
+      <div class="nav-item"><button type="button" class="nav-btn" data-home-cat="Llaveros">Llaveros</button></div>
+      <div class="nav-item"><button type="button" class="nav-btn" data-home-cat="Jarras">Jarras</button></div>
+      <div class="nav-item"><button type="button" class="nav-btn" data-home-cat="Abrigos">Abrigos</button></div>
       <div class="nav-item"><button class="nav-btn" id="nuevoNavBtn">Nuevo</button></div>
     </nav>
     <div class="nav-right">
@@ -2155,11 +2500,11 @@
 
     <div class="hero-web-head">
       <div class="hero-content">
-        <div class="hero-tag"><i class="fas fa-bolt"></i> Nueva navegación</div>
-        <h1><span>ESTILO. PASIÓN.</span> ACTITUD.</h1>
-        <p>Tu catálogo principal con más estilo: mirá las versiones Fan, Player y Retro en carrusel, y destacá tus camisas favoritas desde el panel admin.</p>
+        <div class="hero-tag"><i class="fas fa-ghost"></i> Especial Halloween Jersey</div>
+        <h1><span>EL VERDADERO MIEDO ES</span><br>QUEDARTE SIN TU JERSEY FAVORITO.</h1>
+        <p>La temporada más escalofriante llegó a Los Primos Jersey. Descubre camisetas de fútbol, NBA, NFL, MLB, F1, abrigos, llaveros y más productos con estilo deportivo.</p>
         <div class="hero-btns">
-          <button class="btn-primary" id="heroCatalogBtn">Ver catálogo</button>
+          <button class="btn-primary" id="heroCatalogBtn">Explorar productos</button>
           <a class="btn-outline" href="#catalog-section">Explorar secciones</a>
         </div>
       </div>
@@ -2223,6 +2568,25 @@
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header"><span>Filtros</span><button id="clearFiltersBtn">Limpiar</button></div>
+
+      <div class="filter-group filter-scroll">
+        <div class="filter-group-title collapsed" data-toggle="filter-categoria">Categoría <i class="fas fa-chevron-down fgt-icon"></i></div>
+        <div class="filter-options hidden" id="filter-categoria">
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value=""><span>Todos</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="Fútbol"><span>Fútbol</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="Uniforme Completo"><span>Uniforme Completo</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="Mujer"><span>Mujer</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="Niños"><span>Niños</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="Retro"><span>Retro</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="NBA"><span>NBA</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="NFL"><span>NFL</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="MLB"><span>MLB</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="F1"><span>F1</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="Llaveros"><span>Llaveros</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="Jarras"><span>Jarras</span></label>
+          <label class="fcheck"><input type="radio" name="catalog-category" data-ft="categoria" value="Abrigos"><span>Abrigos</span></label>
+        </div>
+      </div>
 
       <div class="filter-group">
         <div class="filter-group-title collapsed" data-toggle="filter-version">Versión <i class="fas fa-chevron-down fgt-icon"></i></div>
@@ -2342,6 +2706,9 @@
         <button class="lchip" data-filter="NFL">NFL</button>
         <button class="lchip" data-filter="MLB">MLB</button>
         <button class="lchip" data-filter="F1">F1</button>
+        <button class="lchip" data-filter="Llaveros">Llaveros</button>
+        <button class="lchip" data-filter="Jarras">Jarras</button>
+        <button class="lchip" data-filter="Abrigos">Abrigos</button>
         <button class="lchip" data-filter="nuevo">Nuevo</button>
       </div>
       <div class="results-bar">
@@ -2516,6 +2883,9 @@
               <label class="admin-check"><input type="checkbox" data-cat value="MLB"> MLB</label>
               <label class="admin-check"><input type="checkbox" data-cat value="F1"> F1</label>
               <label class="admin-check"><input type="checkbox" data-cat value="Poster"> Poster</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="Llaveros"> Llaveros</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="Jarras"> Jarras</label>
+              <label class="admin-check"><input type="checkbox" data-cat value="Abrigos"> Abrigos</label>
             </div>
           </div>
           <div class="admin-check-panel full">
@@ -2571,7 +2941,7 @@
             <input id="isFeatured" type="checkbox" style="accent-color:var(--accent);width:14px;height:14px;"> Anclar en DESTACADOS de la portada
           </label>
         </div>
-        <div class="dash-helper"><strong style="color:#c4b5fd;">Tip:</strong> Para una chema normal marcá las secciones donde querés que aparezca y las versiones disponibles. Para posters o productos con precio fijo, podés dejar las versiones sin marcar y usar el precio fijo.</div>
+        <div class="dash-helper"><strong style="color:#c4b5fd;">Tip:</strong> Para una chema normal marcá las secciones donde querés que aparezca y las versiones disponibles. Para posters, llaveros, jarras o abrigos con precio fijo, podés dejar las versiones sin marcar y usar el precio fijo. Las fotos de estos productos se pueden subir en el primer espacio de imágenes.</div>
         <div class="variant-block"><div class="variant-block-title">🏠 Local</div><input id="imgLocal" type="file" accept="image/*" multiple style="width:100%;"><div id="previewLocal" class="preview-grid"></div></div>
         <div class="variant-block"><div class="variant-block-title">✈️ Visitante</div><input id="imgVisitante" type="file" accept="image/*" multiple style="width:100%;"><div id="previewVisitante" class="preview-grid"></div></div>
         <div class="variant-block"><div class="variant-block-title">⚡ Tercera</div><input id="imgTercera" type="file" accept="image/*" multiple style="width:100%;"><div id="previewTercera" class="preview-grid"></div></div>
@@ -2620,7 +2990,7 @@ const VARIANT_INPUT_IDS = { "Uniforme Completo": "UniformeCompleto" };
 function getVariantDomId(key){ return VARIANT_INPUT_IDS[key] || key; }
 const DEFAULT_VERSION_PRICES = { Fan: 22400, Player: 23900, Retro: 23900, "Uniforme Completo": 28900 };
 const QUALITY_PRICES = DEFAULT_VERSION_PRICES; // Compatibilidad con productos antiguos
-const PRODUCT_CATEGORIES = ["Fútbol","Uniforme Completo","Mujer","Niños","Retro","NBA","NFL","MLB","F1","Poster"];
+const PRODUCT_CATEGORIES = ["Fútbol","Uniforme Completo","Mujer","Niños","Retro","NBA","NFL","MLB","F1","Poster","Llaveros","Jarras","Abrigos"];
 const PRODUCT_VERSIONS = ["Fan","Player","Retro","Uniforme Completo"];
 const PRODUCT_UNIFORM_TYPES = ["Local","Visitante","Tercera","Portero","Edición Especial","Shorts","Uniforme Completo"];
 const PRODUCT_MANGAS = ["Corta","Larga"];
@@ -2673,6 +3043,7 @@ window.toggleAcc = (id) => {
 // ── Page switcher ──
 function showPage(page) {
   currentPage = page;
+  document.querySelectorAll(".main-nav [data-home-cat]").forEach(btn=>btn.classList.toggle("active",page==="catalog" && btn.dataset.homeCat===activeLeagueFilter));
   catalogPage.style.display = page === "catalog" ? "block" : "none";
   postersPage.classList.toggle("show", page === "posters");
   $("postersNavBtn").classList.toggle("active", page === "posters");
@@ -2758,6 +3129,8 @@ function getCategories(p) {
   return p?.league ? [p.league] : [];
 }
 function hasCategory(p, cat) { return getCategories(p).includes(cat); }
+function isMerchandise(p) { return ["Llaveros","Jarras","Abrigos"].some(cat=>hasCategory(p,cat)); }
+function needsProductSize(p) { return !["Poster","Llaveros","Jarras"].some(cat=>hasCategory(p,cat)); }
 function getProductVersions(p) {
   if(Array.isArray(p?.versions) && p.versions.length) return p.versions.filter(v=>PRODUCT_VERSIONS.includes(v));
   const legacy = QUALITY_BY_LEAGUE[p?.league] || [];
@@ -2903,9 +3276,9 @@ async function saveProduct() {
   const mangas=getSelectedMangas();
   const seasons=getSelectedSeasons();
   const status=statusInput.value,sizes=sizesInput.value.trim(),isNew=isNewCheckbox.checked,isFeatured=isFeaturedCheckbox?.checked===true;
-  const isPoster=categories.includes("Poster");
+  const allowsFixedPrice=categories.some(cat=>["Poster","Llaveros","Jarras","Abrigos"].includes(cat));
   if(!name||!categories.length){alert("Completá nombre y marcá al menos una sección.");return;}
-  if(!isPoster && !versions.length){alert("Marcá al menos una versión: Fan, Player, Retro o Uniforme completo.");return;}
+  if(!allowsFixedPrice && !versions.length){alert("Marcá al menos una versión: Fan, Player, Retro o Uniforme completo.");return;}
   try {
     const variants={};
     for(const k of VARIANT_KEYS){
@@ -3077,6 +3450,9 @@ function renderHeroFeatured() {
 
 // ── Render products ──
 function renderProducts() {
+  document.querySelectorAll("input[data-ft='categoria']").forEach(input=>input.checked=input.value===activeLeagueFilter);
+  leagueChips.querySelectorAll(".lchip").forEach(chip=>chip.classList.toggle("active",chip.dataset.filter===activeLeagueFilter));
+  document.querySelectorAll(".main-nav [data-home-cat]").forEach(btn=>btn.classList.toggle("active",currentPage==="catalog" && btn.dataset.homeCat===activeLeagueFilter));
   let filtered=products.filter(p=>!hasCategory(p,"Poster"));
   filtered=applyFilters(filtered); filtered=applySort(filtered);
   resultCount.textContent=filtered.length; productsContainer.innerHTML="";
@@ -3091,7 +3467,7 @@ function renderProducts() {
     const qualHtml=qualOpts.length?`<div class="card-qrow" data-pid="${p.id}">${qualOpts.map((q,i)=>`<button class="qpill ${i===0?"selected":""}" data-quality="${q}" data-pid="${p.id}">${q}</button>`).join("")}</div>`:"";
     const av=availVars[0]||"Local";
     const badgeText=p.status==="Agotado"?"AGOTADO":(qualOpts[0]||cats[0]||p.league||"PRODUCTO");
-    card.innerHTML=`<div class="card-img-wrap"><span class="card-badge ${p.status==="Agotado"?"agotado":""}">${badgeText}</span><img class="card-img" src="${firstImg||"https://via.placeholder.com/400x280?text=Sin+imagen"}" alt="${p.name||""}" onerror="this.src='https://via.placeholder.com/400x280?text=Sin+imagen'" data-pid="${p.id}" data-active-variant="${av}"><button class="wa-float" data-pid="${p.id}"><i class="fab fa-whatsapp"></i></button></div>${thumbsHTML}<div class="card-body"><div class="card-title">${p.name||""}</div><div class="card-league">${cats.join(" · ")||p.league||""} ${getProductUniformTypes(p)[0]?`· ${getProductUniformTypes(p)[0]}`:(availVars[0]?`· ${availVars[0]}`:"")}</div><div class="card-price" data-pid="${p.id}">${fmt(dp)}</div>${qualHtml}<div class="card-sizes">Tallas: ${p.sizes||"No definidas"}</div>${isAdmin?`<div class="card-admin-btns"><button class="btn-ed" data-id="${p.id}">Editar</button><button class="btn-del" data-id="${p.id}">Eliminar</button></div>`:""}</div>`;
+    card.innerHTML=`<div class="card-img-wrap"><span class="card-badge ${p.status==="Agotado"?"agotado":""}">${badgeText}</span><img class="card-img" src="${firstImg||"https://via.placeholder.com/400x280?text=Sin+imagen"}" alt="${p.name||""}" onerror="this.src='https://via.placeholder.com/400x280?text=Sin+imagen'" data-pid="${p.id}" data-active-variant="${av}"><button class="wa-float" data-pid="${p.id}"><i class="fab fa-whatsapp"></i></button></div>${thumbsHTML}<div class="card-body"><div class="card-title">${p.name||""}</div><div class="card-league">${cats.join(" · ")||p.league||""} ${getProductUniformTypes(p)[0]?`· ${getProductUniformTypes(p)[0]}`:(availVars[0]?`· ${availVars[0]}`:"")}</div><div class="card-price" data-pid="${p.id}">${fmt(dp)}</div>${qualHtml}<div class="card-sizes">${needsProductSize(p)?`Tallas: ${p.sizes||"No definidas"}`:""}</div>${isAdmin?`<div class="card-admin-btns"><button class="btn-ed" data-id="${p.id}">Editar</button><button class="btn-del" data-id="${p.id}">Eliminar</button></div>`:""}</div>`;
     card.style.animationDelay=`${idx*25}ms`;
     productsContainer.appendChild(card);
     // Quality pills
@@ -3167,6 +3543,12 @@ function openDetailModal(product, initVariant) {
     });
   } else qSec.style.display="none";
 
+  const merchandise=isMerchandise(product);
+  $("detailUniformPills").parentElement.style.display=merchandise?"none":"";
+  $("detailSizePills").parentElement.style.display=needsProductSize(product)?"":"none";
+  $("detailNombre").closest(".detail-custom").parentElement.style.display=merchandise?"none":"";
+  $("detailParchesPills").parentElement.style.display=merchandise?"none":"";
+
   // Variant (uniform) pills
   const variants=getVariants(product),availVars=VARIANT_KEYS.filter(k=>variants[k]?.length>0);
   const uPills=$("detailUniformPills");uPills.innerHTML="";
@@ -3198,7 +3580,7 @@ function openDetailModal(product, initVariant) {
   if(sv){ const btn=Array.from(uPills.querySelectorAll(".dpill")).find(b=>b.textContent===sv); if(btn)btn.click(); }
   else { $("detailMainImg").src=getFirstImg(product)||""; $("detailThumbs").innerHTML=""; }
 
-  $("detailHint").textContent="Seleccioná las opciones para continuar";
+  updateDetailHint();
   detailModal.classList.add("show");
   document.body.classList.add("lpj-detail-open");
   document.body.style.overflow="hidden";
@@ -3224,6 +3606,10 @@ function loadDetailImgs(urls) {
   }
 }
 function updateDetailHint() {
+  if(isMerchandise(detailProduct)){
+    $("detailHint").textContent=needsProductSize(detailProduct)?(detailSize?`Talla ${detailSize}`:"Elegí una talla para continuar"):"Consultá la disponibilidad por WhatsApp";
+    return;
+  }
   const needQ=detailQualityOptions.length>0,qOk=!needQ||!!detailQuality;
   if(qOk&&detailVersion&&detailSize){
     const qt=detailQuality?`${detailQuality} · `:"";
@@ -3241,7 +3627,7 @@ detailModal.addEventListener("click",e=>{if(e.target===detailModal)closeDetail()
 
 // WA buy from detail
 $("detailBuyBtn").addEventListener("click",()=>{
-  if(!hasCategory(detailProduct,"Poster")&&!detailSize){$("detailHint").style.color="#f87171";$("detailHint").textContent="⚠️ Elegí una talla primero";return;}
+  if(needsProductSize(detailProduct)&&!detailSize){$("detailHint").style.color="#f87171";$("detailHint").textContent="⚠️ Elegí una talla primero";return;}
   if(detailQualityOptions.length&&!detailQuality){$("detailHint").style.color="#f87171";$("detailHint").textContent="⚠️ Elegí una versión";return;}
   const nombre=$("detailNombre").value.trim()||"No especificado";
   const numero=$("detailNumero").value.trim()||"No especificado";
@@ -3249,6 +3635,12 @@ $("detailBuyBtn").addEventListener("click",()=>{
   const qLine=detailQuality?`Versión: ${detailQuality}\n`:"";
   const version=detailVersion||"No especificada";
   const price=$("detailPrice").textContent;
+  if(isMerchandise(detailProduct)){
+    const sizeLine=needsProductSize(detailProduct)?`Talla: ${detailSize}\n`:"";
+    const msg=encodeURIComponent(`Hola! Me interesa este producto\n\nProducto: ${detailProduct?.name||""}\n${qLine}Precio: ${price}\n${sizeLine}\n¿Está disponible?`);
+    window.open(`https://wa.me/50660668547?text=${msg}`,"_blank");
+    return;
+  }
   const msg=encodeURIComponent(`Hola! Me interesa esta camiseta 👕\n\nCamiseta: ${detailProduct?.name||""}\n${qLine}Precio: ${price}\nUniforme: ${version}\nTalla: ${detailSize||"No aplica"}\nNombre del dorsal: ${nombre}\nNúmero del dorsal: ${numero}\nParches: ${parche}\n\n¿Está disponible? Quedo atento 👍`);
   window.open(`https://wa.me/50660668547?text=${msg}`,"_blank");
 });
@@ -3421,6 +3813,15 @@ function initCollapsedFilters(){
   });
 }
 initCollapsedFilters();
+
+// ── Sidebar category selection ──
+document.querySelectorAll("input[data-ft='categoria']").forEach(input=>{
+  input.addEventListener("change",()=>{
+    showPage("catalog");
+    activeLeagueFilter=input.value;activeTeamFilter="";
+    renderProducts();
+  });
+});
 
 // ── Sidebar checkboxes ──
 document.querySelectorAll("input[data-ft='version']").forEach(cb=>{
@@ -3777,6 +4178,27 @@ window.addEventListener("load", updateMobileMenuTop);
 
 initCarousel();
 loadProducts();
+</script>
+
+<script id="lpj-halloween-script">
+window.addEventListener("load",()=>{
+ document.body.classList.add("lpj-halloween-active");
+ setTimeout(()=>{
+   const loader=document.getElementById("lpj-halloween-loader");
+   if(loader) loader.classList.add("hide");
+ },3000);
+});
+</script>
+
+
+<script id="lpj-halloween-intro-script">
+function lpjEnterStore(){
+ const intro=document.getElementById("lpj-halloween-intro");
+ if(intro) intro.classList.add("hide");
+}
+window.addEventListener("load",()=>{
+ setTimeout(()=>{lpjEnterStore();},6000);
+});
 </script>
 </body>
 </html>
