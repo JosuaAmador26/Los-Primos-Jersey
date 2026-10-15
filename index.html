@@ -2460,6 +2460,41 @@ body.lpj-halloween-active .product-card:hover { border-color:#ff8000!important;b
 @media(max-width:650px){#posters-page .lpj-price-options{grid-template-columns:repeat(2,minmax(0,1fr))}.detail-modal .detail-info .detail-accordion .acc-trigger{font-size:12px!important;padding:10px 12px!important}.detail-modal .detail-info .detail-accordion .acc-body ul li{font-size:12px!important}}
 @media(max-width:360px){#posters-page .lpj-price-option strong,#posters-page .lpj-price-extra strong{font-size:12px!important}}
 </style>
+<style id="lpj-poster-admin-and-accessories-fix">
+  /* Acciones privadas para editar o eliminar cada póster. */
+  .poster-admin-btns { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:12px; }
+  .poster-admin-btns button { min-height:34px; }
+  .poster-admin-btns button:focus-visible { outline:2px solid #ff8a00; outline-offset:2px; }
+  .poster-card .poster-badge.agotado { background:#d72638!important; }
+  /* Los accesorios no deben mostrar las instrucciones específicas de camisetas. */
+  body .detail-modal .detail-info .detail-accordion.lpj-accessory-hidden { display:none!important; }
+</style>
+<style id="lpj-custom-poster-jar-messages">
+  #posters-page .lpj-custom-message,
+  #catalog-page .lpj-jarras-banner {
+    display:flex;align-items:flex-start;gap:10px;
+    margin:12px 0 0;padding:12px 14px;border-radius:9px;
+    background:#211913;border:1px solid #8a4a14;
+    color:#f8e8d7;font-size:12px;line-height:1.65;
+  }
+  #posters-page .lpj-custom-message i,
+  #catalog-page .lpj-jarras-banner i,
+  .detail-modal .lpj-detail-custom-message i {color:#ff9200;flex-shrink:0;margin-top:2px;font-size:15px;}
+  #posters-page .lpj-custom-message strong,
+  #catalog-page .lpj-jarras-banner strong,
+  .detail-modal .lpj-detail-custom-message strong {color:#ffaf4e;}
+  #catalog-page .lpj-jarras-banner {margin:0 0 18px;}
+  .detail-modal .lpj-detail-custom-message {
+    display:flex;align-items:flex-start;gap:10px;padding:12px 14px;
+    border:1px solid #8a4a14;border-radius:9px;background:#211913;
+    color:#f8e8d7;font-size:12px;line-height:1.65;
+  }
+  .detail-modal .lpj-bundle-selected {color:#fff;font-weight:700;margin-top:6px;}
+  @media(max-width:650px){
+    #posters-page .lpj-custom-message,#catalog-page .lpj-jarras-banner,
+    .detail-modal .lpj-detail-custom-message {font-size:12px;padding:11px;}
+  }
+</style>
 </head>
 <body>
 <div id="lpj-halloween-intro">
@@ -2983,6 +3018,12 @@ body.lpj-halloween-active .product-card:hover { border-color:#ff8000!important;b
           <option value="name-asc">A - Z</option>
         </select>
       </div>
+      <div id="lpjJarrasBanner" class="lpj-custom-message lpj-jarras-banner" style="display:none" role="note">
+        <i class="fas fa-palette" aria-hidden="true"></i>
+        <div><strong>¡Jarras y botellas personalizadas a tu gusto!</strong><br>
+          Elegí una foto, nombre, frase o diseño especial. Escribinos por WhatsApp y contanos tu idea.
+        </div>
+      </div>
       <div class="products-grid" id="products"></div>
     </div>
   </div>
@@ -2990,16 +3031,17 @@ body.lpj-halloween-active .product-card:hover { border-color:#ff8000!important;b
 
 <!-- ══ POSTERS PAGE ══ -->
 <div id="posters-page">
-  <div class="posters-hdr"><h2>POSTERS</h2><p>Posters de tus jugadores favoritos</p></div>
+  <div class="posters-hdr"><h2>POSTERS</h2><p>Pósters de tus jugadores favoritos, también personalizados a tu gusto.</p></div>
   <div class="pricing-bar lpj-poster-pricing" aria-label="Precios de pósters con envío incluido">
   <div class="lpj-price-heading"><i class="fas fa-tags" aria-hidden="true"></i> Precios de pósters <small>Envío incluido</small></div>
   <div class="lpj-price-options" role="group" aria-label="Seleccioná una cantidad para consultar su precio">
-    <button type="button" class="lpj-price-option" data-count="1" data-price="₡8 900" aria-pressed="false"><span>1 póster</span><strong>₡8 900</strong></button>
-    <button type="button" class="lpj-price-option" data-count="2" data-price="₡11 900" aria-pressed="false"><span>2 pósters</span><strong>₡11 900</strong></button>
-    <button type="button" class="lpj-price-option" data-count="3" data-price="₡15 900" aria-pressed="false"><span>3 pósters</span><strong>₡15 900</strong></button>
-    <div class="lpj-price-extra">Adicional <strong>₡6 000 c/u</strong></div>
+    <button type="button" class="lpj-price-option" data-count="1" data-price="₡8 900" data-price-value="8900" aria-pressed="true"><span>1 póster</span><strong>₡8 900</strong></button>
+    <button type="button" class="lpj-price-option" data-count="2" data-price="₡16 900" data-price-value="16900" aria-pressed="false"><span>2 pósters</span><strong>₡16 900</strong></button>
+    <button type="button" class="lpj-price-option" data-count="3" data-price="₡23 900" data-price-value="23900" aria-pressed="false"><span>3 pósters</span><strong>₡23 900</strong></button>
+    <div class="lpj-price-extra">Adicional <strong>₡7 900 c/u</strong></div>
   </div>
-  <p class="lpj-price-feedback" id="lpjPriceFeedback" aria-live="polite">Tocá una opción para ver el precio.</p>
+  <p class="lpj-price-feedback" id="lpjPriceFeedback" aria-live="polite">1 póster: ₡8 900 con envío incluido. Cada póster adicional después del paquete de 3 cuesta ₡7 900.</p>
+  <p class="lpj-custom-message"><i class="fas fa-palette" aria-hidden="true"></i> <strong>¡Personalizamos tus pósters a tu gusto!</strong> Podés solicitar tu foto, jugador, frase o diseño favorito. Consultanos por WhatsApp.</p>
 </div>
   <div class="poster-chips" id="posterChips">
     <button class="pchip active" data-player="">Todos</button>
@@ -3043,6 +3085,7 @@ body.lpj-halloween-active .product-card:hover { border-color:#ff8000!important;b
         <span class="detail-version-tag" id="detailVersionTag" style="display:none;"></span>
       </div>
       <div class="detail-price" id="detailPrice"></div>
+      <div id="detailCustomMessage" class="lpj-detail-custom-message" style="display:none" role="note"></div>
 
       <!-- Versión de calidad -->
       <div id="detailQualitySection">
@@ -3126,6 +3169,7 @@ body.lpj-halloween-active .product-card:hover { border-color:#ff8000!important;b
       <div class="dash-menu">
         <button class="active" type="button">Productos</button>
         <button type="button" id="openFormBtn">Agregar / editar</button>
+        <button type="button" id="managePostersBtn">Administrar pósters</button>
         <button type="button" id="closePanelBtn">Ocultar formulario</button>
       </div>
     </aside>
@@ -3286,6 +3330,7 @@ let activeLeagueFilter = "", activeTeamFilter = "", activeSizeFilter = "";
 let activeVersionFilters = [], activeUniformFilters = [], activeStatusFilters = [], activeMangaFilters = [], activeSeasonFilters = [];
 let currentCarouselIdx = 0, carouselInterval = null;
 let currentPage = "catalog";
+let activePosterPlayerFilter = "";
 // Detail modal state
 let detailProduct = null, detailVersion = null, detailSize = null, detailQuality = null;
 let detailQualityOptions = [];
@@ -3401,9 +3446,12 @@ function getCategories(p) {
   return p?.league ? [p.league] : [];
 }
 function hasCategory(p, cat) { return getCategories(p).includes(cat); }
-function isMerchandise(p) { return ["Llaveros","Jarras","Abrigos"].some(cat=>hasCategory(p,cat)); }
-function needsProductSize(p) { return !["Poster","Llaveros","Jarras"].some(cat=>hasCategory(p,cat)); }
+// Pósters, llaveros y jarras son artículos de precio fijo, no camisetas personalizables.
+function isSimpleAccessory(p) { return ["Poster","Llaveros","Jarras"].some(cat=>hasCategory(p,cat)); }
+function isMerchandise(p) { return isSimpleAccessory(p) || hasCategory(p,"Abrigos"); }
+function needsProductSize(p) { return !isSimpleAccessory(p); }
 function getProductVersions(p) {
+  if(isSimpleAccessory(p)) return [];
   if(Array.isArray(p?.versions) && p.versions.length) return p.versions.filter(v=>PRODUCT_VERSIONS.includes(v));
   const legacy = QUALITY_BY_LEAGUE[p?.league] || [];
   return legacy.length ? legacy : [];
@@ -3421,6 +3469,8 @@ function getVersionPrice(p, quality) {
 function getDisplayPrice(p, quality=null) {
   const opts = getProductVersions(p);
   if(quality) return getVersionPrice(p, quality);
+  // Corrige un precio antiguo cargado por error como ₡8 898, sin sobrescribir Firebase.
+  if(hasCategory(p,"Poster") && Number(p?.price)===8898) return 8900;
   return opts.length ? getVersionPrice(p, opts[0]) : Number(p?.price || 0);
 }
 function getQualityOpts(arg) {
@@ -3542,7 +3592,8 @@ async function saveProduct() {
   const name=nameInput.value.trim();
   const price=priceInput.value.trim();
   const categories=getSelectedCategories();
-  const versions=getSelectedVersions();
+  // Evita guardar versiones de camiseta en pósters, llaveros y jarras.
+  const versions=categories.some(cat=>["Poster","Llaveros","Jarras"].includes(cat)) ? [] : getSelectedVersions();
   const versionPrices=getFormVersionPrices();
   let uniformTypes=getSelectedUniformTypes();
   const mangas=getSelectedMangas();
@@ -3589,11 +3640,12 @@ async function saveProduct() {
   }catch(e){console.error(e);alert("No se pudo guardar.");}
 }
 function startEdit(id) {
+  if(!isAdmin){ alert("Necesitás iniciar sesión como administrador."); return; }
   const p=products.find(x=>x.id===id); if(!p)return;
   editingId=id;
   const v=getVariants(p); currentVariants={};
   VARIANT_KEYS.forEach(k=>currentVariants[k]=v[k]||[]);
-  nameInput.value=p.name||""; priceInput.value=p.price||""; if(leagueInput) leagueInput.value=p.league||"";
+  nameInput.value=p.name||""; priceInput.value=getDisplayPrice(p)||""; if(leagueInput) leagueInput.value=p.league||"";
   setSelectedCategories(getCategories(p));
   setSelectedVersions(getProductVersions(p));
   setFormVersionPrices(getVersionPrices(p));
@@ -3610,9 +3662,16 @@ function startEdit(id) {
   dashboard.scrollIntoView({behavior:"smooth"});
 }
 async function removeProduct(id) {
-  if(!confirm("¿Eliminar?"))return;
-  try{ await deleteDoc(doc(db,"products",id)); if(editingId===id)resetForm(); await loadProducts(); alert("Eliminado."); }
-  catch(e){ console.error(e); alert("Error."); }
+  if(!isAdmin){ alert("Necesitás iniciar sesión como administrador."); return; }
+  const product=products.find(x=>x.id===id);
+  if(!product) return;
+  if(!confirm(`¿Seguro que querés eliminar "${product.name||"este producto"}"? Esta acción no se puede deshacer.`)) return;
+  try{
+    await deleteDoc(doc(db,"products",id));
+    if(editingId===id) resetForm();
+    await loadProducts();
+    alert("Producto eliminado del catálogo.");
+  } catch(e){ console.error(e); alert("No se pudo eliminar. Revisá tus permisos de Firebase."); }
 }
 function resetForm() {
   editingId=null; currentVariants={Local:[],Visitante:[],Tercera:[],"Uniforme Completo":[]};
@@ -3727,6 +3786,9 @@ function renderProducts() {
   document.querySelectorAll(".main-nav [data-home-cat]").forEach(btn=>btn.classList.toggle("active",currentPage==="catalog" && btn.dataset.homeCat===activeLeagueFilter));
   let filtered=products.filter(p=>!hasCategory(p,"Poster"));
   filtered=applyFilters(filtered); filtered=applySort(filtered);
+  // Mostrar el aviso solo cuando se visita la sección de jarras y botellas.
+  const jarBanner=$("lpjJarrasBanner");
+  if(jarBanner) jarBanner.style.display=activeLeagueFilter==="Jarras"?"flex":"none";
   resultCount.textContent=filtered.length; productsContainer.innerHTML="";
   if(!filtered.length){ productsContainer.innerHTML=`<div class="empty-state"><i class="fas fa-box-open"></i><p>No hay productos para mostrar.</p></div>`; return; }
   filtered.forEach((p,idx)=>{
@@ -3735,11 +3797,12 @@ function renderProducts() {
     const variants=getVariants(p),firstImg=getFirstImg(p),dp=getDisplayPrice(p);
     const qualOpts=getQualityOpts(p),availVars=VARIANT_KEYS.filter(k=>variants[k]?.length>0);
     const cats=getCategories(p);
+    const uniformLabel=isMerchandise(p)?"":(getProductUniformTypes(p)[0]||availVars[0]||"");
     const thumbsHTML=availVars.length>1?`<div class="thumb-strip" id="ts-${p.id}">${availVars.map((v,i)=>`<img src="${variants[v][0]}" class="${i===0?"active":""}" data-variant="${v}" data-images='${JSON.stringify(variants[v])}' alt="${v}">`).join("")}</div>`:"";
     const qualHtml=qualOpts.length?`<div class="card-qrow" data-pid="${p.id}">${qualOpts.map((q,i)=>`<button class="qpill ${i===0?"selected":""}" data-quality="${q}" data-pid="${p.id}">${q}</button>`).join("")}</div>`:"";
     const av=availVars[0]||"Local";
     const badgeText=p.status==="Agotado"?"AGOTADO":(qualOpts[0]||cats[0]||p.league||"PRODUCTO");
-    card.innerHTML=`<div class="card-img-wrap"><span class="card-badge ${p.status==="Agotado"?"agotado":""}">${badgeText}</span><img class="card-img" src="${firstImg||"https://via.placeholder.com/400x280?text=Sin+imagen"}" alt="${p.name||""}" onerror="this.src='https://via.placeholder.com/400x280?text=Sin+imagen'" data-pid="${p.id}" data-active-variant="${av}"><button class="wa-float" data-pid="${p.id}"><i class="fab fa-whatsapp"></i></button></div>${thumbsHTML}<div class="card-body"><div class="card-title">${p.name||""}</div><div class="card-league">${cats.join(" · ")||p.league||""} ${getProductUniformTypes(p)[0]?`· ${getProductUniformTypes(p)[0]}`:(availVars[0]?`· ${availVars[0]}`:"")}</div><div class="card-price" data-pid="${p.id}">${fmt(dp)}</div>${qualHtml}<div class="card-sizes">${needsProductSize(p)?`Tallas: ${p.sizes||"No definidas"}`:""}</div>${isAdmin?`<div class="card-admin-btns"><button class="btn-ed" data-id="${p.id}">Editar</button><button class="btn-del" data-id="${p.id}">Eliminar</button></div>`:""}</div>`;
+    card.innerHTML=`<div class="card-img-wrap"><span class="card-badge ${p.status==="Agotado"?"agotado":""}">${badgeText}</span><img class="card-img" src="${firstImg||"https://via.placeholder.com/400x280?text=Sin+imagen"}" alt="${p.name||""}" onerror="this.src='https://via.placeholder.com/400x280?text=Sin+imagen'" data-pid="${p.id}" data-active-variant="${av}"><button class="wa-float" data-pid="${p.id}"><i class="fab fa-whatsapp"></i></button></div>${thumbsHTML}<div class="card-body"><div class="card-title">${p.name||""}</div><div class="card-league">${cats.join(" · ")||p.league||""}${uniformLabel?` · ${uniformLabel}`:""}</div><div class="card-price" data-pid="${p.id}">${fmt(dp)}</div>${qualHtml}<div class="card-sizes">${needsProductSize(p)?`Tallas: ${p.sizes||"No definidas"}`:""}</div>${isAdmin?`<div class="card-admin-btns"><button class="btn-ed" data-id="${p.id}">Editar</button><button class="btn-del" data-id="${p.id}">Eliminar</button></div>`:""}</div>`;
     card.style.animationDelay=`${idx*25}ms`;
     productsContainer.appendChild(card);
     // Quality pills
@@ -3772,16 +3835,49 @@ function renderProducts() {
 }
 
 // ── Posters ──
-function renderPosters(playerFilter="") {
+function renderPosters(playerFilter=activePosterPlayerFilter) {
+  activePosterPlayerFilter=playerFilter||"";
   const posters=products.filter(p=>hasCategory(p,"Poster"));
-  const filtered=playerFilter?posters.filter(p=>(p.name||"").toLowerCase().includes(playerFilter.toLowerCase())):posters;
+  const search=normalizeText(activePosterPlayerFilter);
+  const filtered=search?posters.filter(p=>normalizeText(p.name||"").includes(search)):posters;
   postersGrid.innerHTML="";
-  if(!filtered.length){postersGrid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-image"></i><p>Agregá productos con liga "Poster" desde el panel admin.</p></div>`;return;}
+  if(!filtered.length){
+    postersGrid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-image"></i><p>${search?"No hay pósters de este jugador.":"Todavía no hay pósters registrados."}</p></div>`;
+    return;
+  }
   filtered.forEach(p=>{
-    const img=getFirstImg(p);
-    const card=document.createElement("div");card.className="poster-card";
-    card.innerHTML=`<div class="poster-img-wrap"><span class="poster-badge">POSTER</span><img src="${img||"https://via.placeholder.com/200x240?text=Poster"}" alt="${p.name||""}"></div><div class="poster-body"><div class="poster-player">${p.name||""}</div><div class="poster-type">Póster · Póster</div><div class="poster-price">${fmt(p.price||10900)}</div></div>`;
+    const card=document.createElement("div");
+    card.className="poster-card";
+    card.innerHTML=`
+      <div class="poster-img-wrap">
+        <span class="poster-badge"></span>
+        <img alt="">
+      </div>
+      <div class="poster-body">
+        <div class="poster-player"></div>
+        <div class="poster-type">Póster</div>
+        <div class="poster-price"></div>
+        ${isAdmin?`<div class="poster-admin-btns"><button type="button" class="btn-ed">Editar</button><button type="button" class="btn-del">Eliminar</button></div>`:""}
+      </div>`;
+    const img=card.querySelector(".poster-img-wrap img");
+    img.src=getFirstImg(p)||"https://via.placeholder.com/200x240?text=Poster";
+    img.alt=p.name||"Póster";
+    card.querySelector(".poster-player").textContent=p.name||"Póster";
+    card.querySelector(".poster-price").textContent=fmt(getDisplayPrice(p));
+    const badge=card.querySelector(".poster-badge");
+    badge.textContent=p.status==="Agotado"?"AGOTADO":"PÓSTER";
+    if(p.status==="Agotado") badge.classList.add("agotado");
     card.addEventListener("click",()=>openDetailModal(p,null));
+    if(isAdmin){
+      card.querySelector(".btn-ed").addEventListener("click",e=>{
+        e.stopPropagation();
+        startEdit(p.id);
+      });
+      card.querySelector(".btn-del").addEventListener("click",e=>{
+        e.stopPropagation();
+        removeProduct(p.id);
+      });
+    }
     postersGrid.appendChild(card);
   });
 }
@@ -3789,7 +3885,7 @@ function renderPosters(playerFilter="") {
 // ── Detail modal ──
 function openDetailModal(product, initVariant) {
   detailProduct=product; detailVersion=null; detailSize=null;
-  detailQualityOptions=getQualityOpts(product);
+  detailQualityOptions=isSimpleAccessory(product)?[]:getQualityOpts(product);
   detailQuality=detailQualityOptions.length?detailQualityOptions[0]:null;
 
   const cats=getCategories(product);
@@ -3802,6 +3898,27 @@ function openDetailModal(product, initVariant) {
   else vtag.style.display="none";
 
   updateDetailPrice();
+
+  // Información de personalización para pósters, jarras y botellas (sin campos de camiseta).
+  const customMessage=$("detailCustomMessage");
+  const posterProduct=hasCategory(product,"Poster");
+  const jarProduct=hasCategory(product,"Jarras") || hasCategory(product,"Botellas");
+  if(customMessage){
+    if(posterProduct){
+      const bundle=window.lpjPosterBundle;
+      const bundleText=bundle?.count>1
+        ? `<div class="lpj-bundle-selected">Promoción elegida: ${bundle.count} pósters por ${escapeHtml(bundle.price)} con envío incluido.</div>`
+        : "";
+      customMessage.innerHTML=`<i class="fas fa-palette" aria-hidden="true"></i><div><strong>Pósters personalizados a tu gusto</strong><br>Podés enviarnos tu foto, frase o diseño por WhatsApp para consultar la personalización.${bundleText}</div>`;
+      customMessage.style.display="flex";
+    } else if(jarProduct){
+      customMessage.innerHTML='<i class="fas fa-palette" aria-hidden="true"></i><div><strong>Jarras y botellas personalizadas a tu gusto</strong><br>Compartinos tu idea, nombre, foto o diseño por WhatsApp y consultá las opciones.</div>';
+      customMessage.style.display="flex";
+    } else {
+      customMessage.innerHTML="";
+      customMessage.style.display="none";
+    }
+  }
 
   // Quality pills
   const qSec=$("detailQualitySection"),qPills=$("detailQualityPills");
@@ -3820,6 +3937,9 @@ function openDetailModal(product, initVariant) {
   $("detailSizePills").parentElement.style.display=needsProductSize(product)?"":"none";
   $("detailNombre").closest(".detail-custom").parentElement.style.display=merchandise?"none":"";
   $("detailParchesPills").parentElement.style.display=merchandise?"none":"";
+  // No aplicar políticas de cuidado y cambio de camisetas a accesorios.
+  const jerseyPolicies=$("detailDesc").closest(".detail-accordion");
+  if(jerseyPolicies) jerseyPolicies.classList.toggle("lpj-accessory-hidden",merchandise);
 
   // Variant (uniform) pills
   const variants=getVariants(product),availVars=VARIANT_KEYS.filter(k=>variants[k]?.length>0);
@@ -3863,7 +3983,7 @@ function openDetailModal(product, initVariant) {
 }
 
 function updateDetailPrice() {
-  const price=detailQuality?getVersionPrice(detailProduct, detailQuality):(detailProduct?.price||0);
+  const price=detailQuality?getVersionPrice(detailProduct, detailQuality):getDisplayPrice(detailProduct);
   $("detailPrice").textContent=fmt(price);
 }
 function loadDetailImgs(urls) {
@@ -3909,7 +4029,12 @@ $("detailBuyBtn").addEventListener("click",()=>{
   const price=$("detailPrice").textContent;
   if(isMerchandise(detailProduct)){
     const sizeLine=needsProductSize(detailProduct)?`Talla: ${detailSize}\n`:"";
-    const msg=encodeURIComponent(`Hola! Me interesa este producto\n\nProducto: ${detailProduct?.name||""}\n${qLine}Precio: ${price}\n${sizeLine}\n¿Está disponible?`);
+    const isPoster=hasCategory(detailProduct,"Poster");
+    const isJar=hasCategory(detailProduct,"Jarras") || hasCategory(detailProduct,"Botellas");
+    const bundle=isPoster?window.lpjPosterBundle:null;
+    const promoLine=bundle?.count>1?`Promoción: ${bundle.count} pósters por ${bundle.price}, envío incluido\n`:"";
+    const customLine=isPoster||isJar?"Me gustaría consultar las opciones para personalizarlo a mi gusto.\n":"";
+    const msg=encodeURIComponent(`Hola! Me interesa este producto\n\nProducto: ${detailProduct?.name||""}\n${qLine}Precio unitario: ${price}\n${promoLine}${sizeLine}${customLine}\n¿Está disponible?`);
     window.open(`https://wa.me/50660668547?text=${msg}`,"_blank");
     return;
   }
@@ -3926,7 +4051,7 @@ onAuthStateChanged(auth,user=>{
   } else {
     isAdmin=false;dashboard.classList.remove("show");logoutBtn.style.display="none";adminFormWrap.style.display="none";
   }
-  renderProducts();updateStats();
+  renderProducts();renderPosters();updateStats();
 });
 
 // ── Login ──
@@ -4131,6 +4256,12 @@ $("clearFiltersBtn").addEventListener("click",()=>{
 
 // ── Admin form ──
 openFormBtn.addEventListener("click",()=>{adminFormWrap.style.display="block";formTitle.textContent=editingId?"Editando":"Agregar producto";dashboard.scrollIntoView({behavior:"smooth"});});
+$("managePostersBtn").addEventListener("click",()=>{
+  if(!isAdmin) return;
+  showPage("posters");
+  renderPosters();
+  postersPage.scrollIntoView({behavior:"smooth",block:"start"});
+});
 closePanelBtn.addEventListener("click",()=>adminFormWrap.style.display="none");
 saveBtn.addEventListener("click",saveProduct);
 cancelEditBtn.addEventListener("click",resetForm);
@@ -4476,11 +4607,14 @@ window.addEventListener("load",()=>{
 document.addEventListener('DOMContentLoaded', function(){
   var buttons=document.querySelectorAll('#posters-page .lpj-price-option');
   var feedback=document.getElementById('lpjPriceFeedback');
+  // La selección acompaña al cliente hasta el mensaje de WhatsApp.
+  window.lpjPosterBundle={count:1,price:'₡8 900',amount:8900};
   buttons.forEach(function(btn){
     btn.addEventListener('click',function(){
       buttons.forEach(function(b){b.setAttribute('aria-pressed','false');});
       btn.setAttribute('aria-pressed','true');
-      if(feedback) feedback.textContent=btn.dataset.count+' póster'+(btn.dataset.count==='1'?'':'s')+': '+btn.dataset.price+' con envío incluido. Cada póster adicional cuesta ₡6 000.';
+      window.lpjPosterBundle={count:Number(btn.dataset.count),price:btn.dataset.price,amount:Number(btn.dataset.priceValue)};
+      if(feedback) feedback.textContent=btn.dataset.count+' póster'+(btn.dataset.count==='1'?'':'s')+': '+btn.dataset.price+' con envío incluido. Después de 3 pósters, cada adicional cuesta ₡7 900.';
     });
   });
   document.querySelectorAll('.detail-accordion .acc-trigger').forEach(function(btn){
