@@ -2163,6 +2163,112 @@ html body .detail-modal .lpj-share-url { width: 100%; min-width: 0; min-height: 
   .lpj-share-action { flex: 1 1 auto; min-height: 44px; }
   .lpj-product-link-notice { padding: 20px 18px; }
 }
+</style><script id="lpjCatalogPagerCore">/* Paginación del catálogo: filtrar y ordenar antes de dividir en páginas. */
+(function (root, factory) {
+  if (typeof module === 'object' && module.exports) module.exports = factory();
+  else root.LPJCatalogPager = factory();
+})(typeof window !== 'undefined' ? window : globalThis, function () {
+  'use strict';
+  const PAGE_SIZE = 24;
+  function paginate(items, requestedPage = 1) {
+    const total = items.length, pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    const value = Number(requestedPage);
+    const page = Math.min(pageCount, Math.max(1, Number.isFinite(value) ? Math.trunc(value) : 1));
+    const offset = (page - 1) * PAGE_SIZE;
+    return { items: items.slice(offset, offset + PAGE_SIZE), total, page, pageCount, start: total ? offset + 1 : 0, end: Math.min(offset + PAGE_SIZE, total) };
+  }
+  function numbers(current, pageCount) {
+    if (pageCount <= 7) return Array.from({length:pageCount}, (_, index) => index + 1);
+    const pages = new Set([1, pageCount, current - 1, current, current + 1]);
+    if (current <= 3) [2,3,4].forEach(page => pages.add(page));
+    if (current >= pageCount - 2) [pageCount-3,pageCount-2,pageCount-1].forEach(page => pages.add(page));
+    const ordered = [...pages].filter(page => page >= 1 && page <= pageCount).sort((a,b) => a-b), result = [];
+    ordered.forEach((page, index) => {
+      if (index && page - ordered[index-1] === 2) result.push(page-1);
+      else if (index && page - ordered[index-1] > 2) result.push('…');
+      result.push(page);
+    });
+    return result;
+  }
+  return { PAGE_SIZE, paginate, numbers };
+});
+</script><style id="lpjCatalogPaginationStyles">/* Catálogo de 24 productos por página. */
+#lpjCatalogResultsBar { scroll-margin-top: calc(var(--lpj-header-bottom,145px) + 18px); }
+#lpjCatalogResultSummary { line-height: 1.7; }
+#lpjCatalogResultSummary:focus { outline: none; }
+#lpjCatalogResultSummary:focus-visible { outline: 2px solid #171717; outline-offset: 5px; }
+.lpj-pagination { margin-top: 38px; padding-top: 25px; border-top: 1px solid #e3e3dd; }
+.lpj-pagination[hidden] { display: none !important; }
+.lpj-pagination-summary { text-align: center; font-size: 11px; color: #666; line-height: 1.7; margin: 0 0 16px; }
+.lpj-pagination-controls { display: flex; justify-content: center; align-items: center; gap: 12px; }
+.lpj-pagination-pages { display: flex; align-items: center; justify-content: center; gap: 4px; }
+.lpj-page-number, .lpj-page-step { display: inline-flex; align-items: center; justify-content: center; min-width: 38px; min-height: 42px; padding: 9px; background: #fff; color: #222; border: 1px solid #deded8; font-size: 12px; cursor: pointer; font-weight: 500; }
+.lpj-page-step { gap: 8px; padding-left: 13px; padding-right: 13px; }
+.lpj-page-step i { font-size: 9px; }
+.lpj-page-number:hover, .lpj-page-step:hover { border-color: #222; }
+.lpj-page-number[aria-current="page"] { background: #171717; color: #fff; border-color: #171717; }
+.lpj-page-step:disabled { color: #a0a09a; background: #fafaf8; border-color: #e9e9e4; cursor: default; }
+.lpj-page-gap { display: inline-flex; min-width: 18px; justify-content: center; color: #777; font-size: 13px; }
+.lpj-pagination button:focus-visible { outline: 2px solid #171717; outline-offset: 3px; }
+@media (max-width: 1000px) {
+  .lpj-pagination-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 13px 16px; }
+  .lpj-pagination-pages { grid-column: 1/-1; grid-row: 1; }
+  #lpjCatalogPrevious { grid-column: 1; grid-row: 2; justify-self: start; }
+  #lpjCatalogNext { grid-column: 2; grid-row: 2; justify-self: end; }
+}
+@media (max-width: 768px) {
+  .lpj-pagination { margin-top: 28px; padding-top: 21px; }
+  .lpj-page-number { min-width: 32px; min-height: 44px; padding-left: 7px; padding-right: 7px; }
+  .lpj-page-step { min-height: 44px; }
+  #lpjCatalogResultSummary { font-size: 11px; }
+}
+</style><style id="lpjHomeCartStyles">/* Editor de portada y cantidades: controles solicitados por Los Primos Jersey. */
+.lpj-home-heading-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; justify-content: flex-end; }
+.lpj-home-admin-button { background: #171717; color: #fff; border: 1px solid #171717; min-height: 40px; padding: 10px 15px; font-size: 12px; font-weight: 500; cursor: pointer; }
+.lpj-home-admin-button[hidden], .lpj-home-thumbnail[hidden], .lpj-featured-no-image[hidden], .lpj-featured-image-wrap img[hidden] { display: none !important; }
+.lpj-home-saved-message { font-size: 12px; color: #3b5f3a; line-height: 1.7; margin: 0 0 15px; }
+.lpj-home-saved-message:empty { display: none; }
+.lpj-featured-image-wrap { position: relative; }
+.lpj-featured-no-image { display: flex; align-items: center; justify-content: center; aspect-ratio: 4/4.8; background: #f3f3ef; color: #666; font-size: 12px; }
+.lpj-featured-edit { position: absolute; top: 12px; right: 12px; border: 1px solid #d5d5cf; background: #fff; color: #171717; padding: 8px 12px; min-height: 36px; font-size: 11px; cursor: pointer; box-shadow: 0 2px 8px #0000000a; }
+.lpj-featured-empty { grid-column: 1/-1; background: #f4f4ef; color: #666; padding: 30px; font-size: 13px; }
+.lpj-home-editor { width: min(740px,calc(100% - 28px)); }
+.lpj-home-count { font-size: 11px; color: #666; margin: 0 0 13px; }
+.lpj-home-selected { display: grid; gap: 10px; }
+.lpj-home-row { display: flex; align-items: center; gap: 12px; border: 1px solid #dfdfd8; padding: 12px; }
+.lpj-home-order { font-size: 12px; font-weight: 600; width: 15px; text-align: center; flex: 0 0 15px; }
+.lpj-home-thumbnail { width: 52px; height: 64px; object-fit: contain; background: #f3f3ef; flex: 0 0 52px; }
+.lpj-home-row-copy { flex: 1; min-width: 0; }
+.lpj-home-row-copy strong, .lpj-home-row-copy span { display: block; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.lpj-home-row-copy strong { font-weight: 500; }
+.lpj-home-row-copy span { color: #666; font-size: 11px; }
+.lpj-home-row-controls { display: flex; gap: 6px; align-items: center; }
+.lpj-home-order-button { width: 34px; min-height: 38px; border: 1px solid #d5d5ce; background: #fff; color: #171717; font-size: 17px; cursor: pointer; }
+.lpj-home-order-button:disabled { color: #aaa; background: #fafaf8; cursor: default; }
+.lpj-home-picker { margin-top: 22px; padding-top: 17px; border-top: 1px solid #deded8; }
+.lpj-home-picker label { display: block; margin: 13px 0 7px; font-size: 11px; color: #555; }
+.lpj-home-picker input, .lpj-home-picker select { width: 100%; min-height: 43px; padding: 10px 12px; background: #fff; color: #222; border: 1px solid #ccc; border-radius: 0; font-size: 13px; }
+.lpj-home-editor-actions { display: flex; gap: 20px; align-items: center; margin-top: 20px; }
+.lpj-home-editor-actions .lpj-wide-button { width: auto; flex: 1; }
+.lpj-quantity-stepper { display: grid; grid-template-columns: 43px minmax(34px,1fr) 43px; width: 150px; min-height: 46px; align-items: center; border: 3px solid #ffe337; border-radius: 999px; overflow: hidden; background: #fff; color: #111; }
+.lpj-quantity-stepper button { display: flex; align-items: center; justify-content: center; min-width: 0; min-height: 40px; padding: 0; border: 0; background: #fff; color: #111; font-size: 21px; cursor: pointer; }
+.lpj-quantity-stepper button:hover { background: #fffbe3; }
+.lpj-quantity-stepper button:disabled { color: #b0b0ab; background: #fff; cursor: default; }
+.lpj-quantity-stepper button:focus-visible { outline: 2px solid #111; outline-offset: -5px; border-radius: 999px; }
+.lpj-quantity-stepper output { display: block; text-align: center; font-size: 20px; font-weight: 600; line-height: 1.5; }
+.lpj-cart-quantity-label { display: flex; flex-direction: column; gap: 5px; }
+.lpj-detail-shopping-fields { grid-template-columns: 150px minmax(0,1fr); }
+html body .detail-modal #lpjDetailQuantity { width: 100%; min-width: 0; min-height: 36px; height: 36px; padding: 0; margin: 0; border: 0; background: #fff; color: #111; border-radius: 0; text-align: center; font-size: 20px; font-weight: 600; appearance: textfield; -moz-appearance: textfield; }
+#lpjDetailQuantity::-webkit-inner-spin-button, #lpjDetailQuantity::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+.lpj-home-editor button:focus-visible, .lpj-featured-edit:focus-visible, .lpj-home-admin-button:focus-visible { outline: 2px solid #171717; outline-offset: 3px; }
+@media (max-width: 600px) {
+  .lpj-home-row { gap: 9px; flex-wrap: wrap; }
+  .lpj-home-row-controls { margin-left: auto; }
+  .lpj-home-picker input, .lpj-home-picker select { font-size: 16px; }
+  .lpj-home-heading-actions { gap: 12px; }
+  .lpj-home-admin-button { font-size: 11px; }
+}
+@media (max-width: 520px) { .lpj-detail-shopping-fields { grid-template-columns: 1fr; } }
 </style></head>
 <body>
 <a class="lpj-skip-link" href="#catalog-section">Ir al catálogo</a>
@@ -2463,9 +2569,9 @@ html body .detail-modal .lpj-share-url { width: 100%; min-width: 0; min-height: 
 <div class="lpj-season-ribbon">LOS COLORES CAMBIAN. LA PASIÓN SE QUEDA.</div><section class="lpj-featured-section" aria-labelledby="lpjFeaturedTitle">
   <div class="lpj-section-heading">
     <div><span class="lpj-section-kicker">SELECCIONADOS PARA VOS</span><h2 id="lpjFeaturedTitle">Encontrá tu próxima camiseta.</h2></div>
-    <a class="lpj-text-link" href="#catalog-section">Ver todo <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
-  </div>
-      <div class="featured-mini-grid" id="heroFeaturedGrid">
+    <div class="lpj-home-heading-actions"><button id="lpjEditHomeFeatured" type="button" hidden="hidden" class="lpj-home-admin-button">Editar portada</button><a class="lpj-text-link" href="#catalog-section">Ver todo <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+  </div></div>
+      <p id="lpjHomeSavedMessage" class="lpj-home-saved-message" role="status" aria-live="polite"></p><div class="featured-mini-grid" id="heroFeaturedGrid">
         <div class="mini-product-card featured-empty">
           <i class="fas fa-star"></i>
           <span>Cargando destacados</span><strong>Panel admin</strong>
@@ -2664,8 +2770,8 @@ html body .detail-modal .lpj-share-url { width: 100%; min-width: 0; min-height: 
         <button class="lchip" data-filter="Abrigos">Abrigos</button>
         <button class="lchip" data-filter="nuevo">Nuevo</button>
       </div>
-      <div class="results-bar">
-        <div class="results-count"><strong id="resultCount">0</strong> productos</div>
+      <div class="results-bar" id="lpjCatalogResultsBar">
+        <div class="results-count" id="lpjCatalogResultSummary" tabindex="-1" role="status" aria-live="polite" aria-atomic="true"><span id="lpjCatalogRange"></span><strong id="resultCount">0</strong> productos</div>
         <select class="sort-sel" id="sortSelect" aria-label="Ordenar productos">
           <option value="default">Más reciente</option>
           <option value="price-asc">Menor precio</option>
@@ -2680,7 +2786,14 @@ html body .detail-modal .lpj-share-url { width: 100%; min-width: 0; min-height: 
         </div>
       </div>
       <div id="lpjCatalogError" class="lpj-catalog-error" role="status" hidden><p>No pudimos cargar el catálogo. Podés reintentar o escribirnos por WhatsApp.</p><button type="button" id="lpjRetryCatalog" class="lpj-text-button">Volver a intentar</button></div><div class="products-grid" id="products"></div>
-    </div>
+    <nav id="lpjCatalogPagination" class="lpj-pagination" aria-label="Páginas del catálogo" hidden>
+  <p id="lpjCatalogPageSummary" class="lpj-pagination-summary"></p>
+  <div class="lpj-pagination-controls">
+    <button id="lpjCatalogPrevious" class="lpj-page-step" type="button" aria-label="Página anterior" aria-controls="products" disabled><i class="fas fa-chevron-left" aria-hidden="true"></i> Anterior</button>
+    <div id="lpjCatalogPages" class="lpj-pagination-pages"></div>
+    <button id="lpjCatalogNext" class="lpj-page-step" type="button" aria-label="Página siguiente" aria-controls="products" disabled>Siguiente <i class="fas fa-chevron-right" aria-hidden="true"></i></button>
+  </div>
+</nav></div>
   </div>
 </div>
 
@@ -2780,7 +2893,7 @@ html body .detail-modal .lpj-share-url { width: 100%; min-width: 0; min-height: 
       </div>
 
       <!-- Botón WA -->
-      <div class="lpj-detail-shopping-fields"><div><label for="lpjDetailQuantity">Cantidad</label><input id="lpjDetailQuantity" type="number" min="1" max="99" value="1" inputmode="numeric"></div><div><label for="lpjDetailNotes">Notas para tu pedido</label><textarea id="lpjDetailNotes" maxlength="500" placeholder="Diseño, foto, frase u otra consulta (opcional)"></textarea></div></div><button id="lpjAddToCart" type="button" class="lpj-wide-button">Agregar al carrito</button><button class="wa-buy-btn" id="detailBuyBtn" type="button"><i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar este producto</button><p id="lpjDetailFeedback" class="lpj-inline-feedback" role="status" aria-live="polite"></p><div class="detail-hint" id="detailHint">Seleccioná las opciones para continuar</div>
+      <div class="lpj-detail-shopping-fields"><div><label for="lpjDetailQuantity">Cantidad</label><div class="lpj-quantity-stepper" role="group" aria-label="Cantidad para agregar al carrito"><button id="lpjDetailDecrease" type="button" disabled aria-label="Restar una unidad" aria-controls="lpjDetailQuantity"><i class="fas fa-minus" aria-hidden="true"></i></button><input id="lpjDetailQuantity" type="number" min="1" max="99" value="1" inputmode="numeric"><button id="lpjDetailIncrease" type="button" aria-label="Sumar una unidad" aria-controls="lpjDetailQuantity"><i class="fas fa-plus" aria-hidden="true"></i></button></div></div><div><label for="lpjDetailNotes">Notas para tu pedido</label><textarea id="lpjDetailNotes" maxlength="500" placeholder="Diseño, foto, frase u otra consulta (opcional)"></textarea></div></div><button id="lpjAddToCart" type="button" class="lpj-wide-button">Agregar al carrito</button><button class="wa-buy-btn" id="detailBuyBtn" type="button"><i class="fab fa-whatsapp" aria-hidden="true"></i> Consultar este producto</button><p id="lpjDetailFeedback" class="lpj-inline-feedback" role="status" aria-live="polite"></p><div class="detail-hint" id="detailHint">Seleccioná las opciones para continuar</div>
 
       <section class="lpj-product-share" aria-label="Compartir este producto">
   <button id="lpjShareProduct" class="lpj-share-toggle" type="button" aria-expanded="false" aria-controls="lpjProductSharePanel"><i class="fas fa-arrow-up-from-bracket" aria-hidden="true"></i> Compartir producto <i class="fas fa-chevron-down" aria-hidden="true"></i></button>
@@ -2836,7 +2949,7 @@ html body .detail-modal .lpj-share-url { width: 100%; min-width: 0; min-height: 
       <h3>Panel Admin</h3>
       <div class="dash-menu">
         <button class="active" type="button">Productos</button>
-        <button type="button" id="openFormBtn">Agregar / editar</button>
+        <button id="lpjManageHome" type="button">Productos de portada</button><button type="button" id="openFormBtn">Agregar / editar</button>
         <button type="button" id="managePostersBtn">Administrar pósters</button>
         <button type="button" id="closePanelBtn">Ocultar formulario</button>
       <button id="logoutBtn">Salir de administración</button>
@@ -2980,7 +3093,7 @@ html body .detail-modal .lpj-share-url { width: 100%; min-width: 0; min-height: 
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, writeBatch } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -3285,6 +3398,10 @@ async function saveProduct() {
   const mangas=getSelectedMangas();
   const seasons=getSelectedSeasons();
   const status=statusInput.value,sizes=sizesInput.value.trim(),isNew=isNewCheckbox.checked,isFeatured=isFeaturedCheckbox?.checked===true;
+  const otherFeatured = products.filter(p=>p.id!==editingId && (p.isFeatured===true || p.featured===true));
+  if(isFeatured && otherFeatured.length>=4){alert("La portada ya tiene cuatro productos. Usá Editar portada para reemplazar uno.");return;}
+  const currentFeatured = products.find(p=>p.id===editingId);
+  const featuredOrder = isFeatured ? (Number.isInteger(currentFeatured?.featuredOrder) && currentFeatured.featuredOrder>=0 ? currentFeatured.featuredOrder : Math.max(-1,...otherFeatured.map(p=>Number.isInteger(p.featuredOrder)?p.featuredOrder:-1))+1) : null;
   const allowsFixedPrice=categories.some(cat=>["Poster","Llaveros","Jarras","Abrigos"].includes(cat));
   if(!name||!categories.length){alert("Completá nombre y marcá al menos una sección.");return;}
   if(!allowsFixedPrice && !versions.length){alert("Marcá al menos una versión: Fan, Player, Retro o Uniforme completo.");return;}
@@ -3316,6 +3433,7 @@ async function saveProduct() {
       isNew,
       isFeatured,
       featured:isFeatured,
+      featuredOrder,
       variants,
       imageUrl:fi,
       imageUrls:Object.values(variants).flat()
@@ -3439,31 +3557,87 @@ function escapeHtml(value="") {
   return String(value || "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
 }
 function getHeroFeaturedProducts() {
-  const catalog = products.filter(p => !hasCategory(p,"Poster"));
-  const pinned = catalog.filter(p => p.isFeatured === true || p.featured === true);
-  const base = pinned.length ? pinned : catalog.filter(p => p.isNew).slice(0,4);
-  return (base.length ? base : catalog).slice(0,4);
+  const pinned = products.filter(p => p.isFeatured === true || p.featured === true);
+  if (pinned.length) return pinned.sort((a,b) => {
+    const rank = p => Number.isInteger(p.featuredOrder) && p.featuredOrder >= 0 ? p.featuredOrder : Number.MAX_SAFE_INTEGER;
+    return rank(a)-rank(b);
+  }).slice(0,4);
+  const catalog = products.filter(p => !hasCategory(p,'Poster'));
+  const newest = catalog.filter(p => p.isNew);
+  return (newest.length ? newest : catalog).slice(0,4);
 }
 function renderHeroFeatured() {
-  if(!heroFeaturedGrid) return;
+  if (!heroFeaturedGrid) return;
   const list = getHeroFeaturedProducts();
-  heroFeaturedGrid.innerHTML = "";
-  if(!list.length){
-    heroFeaturedGrid.innerHTML = `<div class="mini-product-card featured-empty"><i class="fas fa-star"></i><span>Anclá productos desde el panel admin</span><strong>Destacados</strong></div>`;
-    return;
+  heroFeaturedGrid.replaceChildren();
+  $('lpjEditHomeFeatured').hidden = !isAdmin;
+  if (!list.length) {
+    const empty = document.createElement('p'); empty.className = 'lpj-featured-empty';
+    empty.textContent = 'Pronto vas a encontrar nuevos productos acá.'; heroFeaturedGrid.append(empty); return;
   }
-  list.forEach(p=>{
-    const card=document.createElement("article");
-    card.className="mini-product-card";
-    const img=getFirstImg(p)||"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDgwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQ4MCIgZmlsbD0iI2YzZjNmMCIvPjx0ZXh0IHg9IjIwMCIgeT0iMjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM2NjYiPkltYWdlbiBubyBkaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg==";
-    const name=escapeHtml(p.name||"Producto destacado");
-    const cats=getCategories(p).join(" · ");
-    card.innerHTML=`<img loading="lazy" decoding="async" src="${img}" alt="${name}" onerror="this.onerror=null;this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNDgwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQ4MCIgZmlsbD0iI2YzZjNmMCIvPjx0ZXh0IHg9IjIwMCIgeT0iMjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiM2NjYiPkltYWdlbiBubyBkaXNwb25pYmxlPC90ZXh0Pjwvc3ZnPg=='"><button type="button" class="lpj-featured-title-button">${name}</button><strong>${fmt(getDisplayPrice(p))}</strong>`;
-    card.title = cats || name;
-    card.addEventListener("click",()=>openDetailModal(p,null));
-    heroFeaturedGrid.appendChild(card);
+  list.forEach(p => {
+    const card = document.createElement('article'); card.className = 'mini-product-card';
+    const media = document.createElement('div'); media.className = 'lpj-featured-image-wrap';
+    const image = document.createElement('img'); image.alt = p.name || 'Producto'; image.loading = 'lazy'; image.decoding = 'async';
+    const fallback = document.createElement('span'); fallback.className = 'lpj-featured-no-image'; fallback.textContent = 'Imagen no disponible';
+    const source = getFirstImg(p);
+    if (source) { image.src = source; image.onerror = () => { image.onerror = null; image.hidden = true; fallback.hidden = false; }; fallback.hidden = true; media.append(image); }
+    media.append(fallback);
+    if (isAdmin) {
+      const edit = document.createElement('button'); edit.type = 'button'; edit.className = 'lpj-featured-edit'; edit.textContent = 'Editar';
+      edit.setAttribute('aria-label','Editar ' + (p.name || 'producto'));
+      edit.addEventListener('click',event => {event.stopPropagation();startEdit(p.id);$('name')?.focus({preventScroll:true});}); media.append(edit);
+    }
+    const title = document.createElement('button'); title.type = 'button'; title.className = 'lpj-featured-title-button'; title.textContent = p.name || 'Producto';
+    const price = document.createElement('strong'); price.textContent = fmt(getDisplayPrice(p));
+    card.append(media,title,price); card.title = getCategories(p).join(' · ') || p.name || 'Producto';
+    card.addEventListener('click',() => openDetailModal(p,null)); heroFeaturedGrid.append(card);
   });
 }
+
+// Estado local de la página; búsquedas y filtros siguen usando todo el catálogo.
+let lpjCatalogPage = 1, lpjCatalogFilterKey = '';
+function lpjCurrentCatalogFilterKey() {
+  return JSON.stringify([
+    normalizeText(searchInput.value.trim()), sortSelect.value,
+    activeLeagueFilter, activeTeamFilter, activeSizeFilter,
+    activeVersionFilters, activeUniformFilters, activeStatusFilters,
+    activeMangaFilters, activeSeasonFilters
+  ]);
+}
+function lpjPrepareCatalogPage(filtered) {
+  const key = lpjCurrentCatalogFilterKey();
+  if (key !== lpjCatalogFilterKey) { lpjCatalogPage = 1; lpjCatalogFilterKey = key; }
+  const page = window.LPJCatalogPager.paginate(filtered, lpjCatalogPage);
+  lpjCatalogPage = page.page;
+  $('lpjCatalogRange').textContent = page.total ? `Mostrando ${page.start}–${page.end} de ` : '';
+  $('lpjCatalogPagination').hidden = page.pageCount <= 1;
+  $('lpjCatalogPageSummary').textContent = `Página ${page.page} de ${page.pageCount} · ${window.LPJCatalogPager.PAGE_SIZE} por página`;
+  $('lpjCatalogPrevious').disabled = page.page === 1;
+  $('lpjCatalogNext').disabled = page.page === page.pageCount;
+  const pages = $('lpjCatalogPages'); pages.replaceChildren();
+  window.LPJCatalogPager.numbers(page.page, page.pageCount).forEach(number => {
+    if (number === '…') {
+      const gap = document.createElement('span'); gap.className = 'lpj-page-gap'; gap.textContent = '…'; gap.setAttribute('aria-hidden','true'); pages.append(gap); return;
+    }
+    const button = document.createElement('button'); button.type = 'button'; button.className = 'lpj-page-number'; button.textContent = number;
+    button.setAttribute('aria-label', 'Ir a la página ' + number); button.setAttribute('aria-controls', 'products');
+    if (number === page.page) button.setAttribute('aria-current', 'page');
+    button.addEventListener('click', () => lpjGoToCatalogPage(number)); pages.append(button);
+  });
+  return page;
+}
+function lpjGoToCatalogPage(page) {
+  const requested = Number(page);
+  if (!Number.isInteger(requested) || requested < 1 || requested === lpjCatalogPage) return;
+  lpjCatalogPage = requested; renderProducts();
+  const summary = $('lpjCatalogResultSummary');
+  summary.focus({ preventScroll:true });
+  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  $('lpjCatalogResultsBar').scrollIntoView({ behavior:reduced ? 'auto' : 'smooth', block:'start' });
+}
+$('lpjCatalogPrevious').addEventListener('click', () => lpjGoToCatalogPage(lpjCatalogPage - 1));
+$('lpjCatalogNext').addEventListener('click', () => lpjGoToCatalogPage(lpjCatalogPage + 1));
 
 // ── Render products ──
 function renderProducts() {
@@ -3476,8 +3650,9 @@ function renderProducts() {
   const jarBanner=$("lpjJarrasBanner");
   if(jarBanner) jarBanner.style.display=activeLeagueFilter==="Jarras"?"flex":"none";
   resultCount.textContent=filtered.length; productsContainer.innerHTML="";
+  const pageInfo = lpjPrepareCatalogPage(filtered);
   if(!filtered.length){ productsContainer.innerHTML=`<div class="empty-state"><i class="fas fa-box-open"></i><p>No hay productos para mostrar.</p></div>`; return; }
-  filtered.forEach((p,idx)=>{
+  pageInfo.items.forEach((p,idx)=>{
     const card=document.createElement("div");
     card.className="product-card"; if(p.isNew)card.classList.add("is-new");
     const variants=getVariants(p),firstImg=getFirstImg(p),dp=getDisplayPrice(p);
@@ -3729,7 +3904,8 @@ onAuthStateChanged(auth,user=>{
   } else {
     isAdmin=false;dashboard.classList.remove("show");logoutBtn.style.display="none";adminFormWrap.style.display="none";
   }
-  renderProducts();renderPosters();updateStats();
+  renderProducts();renderPosters();renderHeroFeatured();updateStats();
+  document.dispatchEvent(new Event("lpj:admin-state"));
 });
 
 // ── Login ──
@@ -3923,6 +4099,7 @@ document.querySelectorAll(".size-pill").forEach(btn=>{
   });
 });
 $("clearFiltersBtn").addEventListener("click",()=>{
+  lpjCatalogPage = 1;
   activeLeagueFilter="";activeTeamFilter="";activeSizeFilter="";
   activeVersionFilters=[];activeUniformFilters=[];activeStatusFilters=[];activeMangaFilters=[];activeSeasonFilters=[];
   searchInput.value="";
@@ -4347,6 +4524,34 @@ Object.assign(window.lpjStoreBridge, {
   }
 });
 
+// Editor de destacados: usa los productos y la sesión administrativa existentes.
+window.lpjHomeAdmin = {
+  canEdit() { return isAdmin; },
+  isReady() { return lpjCatalogLoaded; },
+  getProducts() {
+    return products.map(p => ({id:p.id,name:p.name||'Producto',image:getFirstImg(p),price:getDisplayPrice(p),status:p.status||'Disponible'}));
+  },
+  getSelected() { return getHeroFeaturedProducts().map(p => p.id); },
+  editProduct(id) { if (!isAdmin) return; startEdit(id); },
+  async save(ids) {
+    if (!isAdmin) throw new Error('Iniciá sesión como administrador para editar la portada.');
+    if (!lpjCatalogLoaded) throw new Error('Esperá a que cargue el catálogo.');
+    if (!Array.isArray(ids) || !ids.length || ids.length > 4 || new Set(ids).size !== ids.length) throw new Error('Elegí entre 1 y 4 productos diferentes.');
+    if (ids.some(id => !products.some(p => p.id === id))) throw new Error('Uno de los productos ya no está disponible en el catálogo. Elegí otro.');
+    const changes = products.filter(p => ids.includes(p.id) || p.isFeatured === true || p.featured === true).map(p => ({
+      id:p.id, data:{isFeatured:ids.includes(p.id),featured:ids.includes(p.id),featuredOrder:ids.includes(p.id)?ids.indexOf(p.id):null}
+    }));
+    const batch = writeBatch(db);
+    changes.forEach(change => batch.update(doc(db,'products',change.id),change.data));
+    try { await batch.commit(); }
+    catch (error) { console.error(error); throw new Error('No se pudo guardar la portada. Revisá tu conexión y tu sesión de administrador e intentá de nuevo.'); }
+    const changed = new Map(changes.map(change => [change.id,change.data]));
+    products = products.map(p => changed.has(p.id) ? {...p,...changed.get(p.id)} : p);
+    renderHeroFeatured(); renderProducts();
+    document.dispatchEvent(new Event('lpj:home-saved'));
+  }
+};
+
 document.dispatchEvent(new Event('lpj:store-ready'));
 
 
@@ -4426,7 +4631,7 @@ document.addEventListener('DOMContentLoaded', function(){
   const $ = id => document.getElementById(id), Core = window.LPJCartCore;
   const storageKey = 'los_primos_jersey_cart_v1';
   const config = JSON.parse($('lpjStoreConfig').textContent);
-  let cart = [], storageAvailable = true, toastTimer;
+  let cart = [], storageAvailable = true, toastTimer, cartStepControls = new Map();
   try { cart = Core.read(localStorage.getItem(storageKey)); } catch (_) { storageAvailable = false; }
   const cartDialog = $('lpjCartDialog'), sizeDialog = $('lpjSizeGuideDialog');
   const menu = $('lpjPrimaryNav'), menuToggle = $('lpjMenuToggle'), menuBackdrop = $('lpjMenuBackdrop');
@@ -4446,7 +4651,40 @@ document.addEventListener('DOMContentLoaded', function(){
     if (text != null) element.textContent = text;
     return element;
   }
+  function stepButton(icon, label) {
+    const button = node('button'); button.type = 'button'; button.setAttribute('aria-label', label);
+    const symbol = node('i', 'fas fa-' + icon); symbol.setAttribute('aria-hidden','true'); button.append(symbol); return button;
+  }
+  function cartQuantity(item) {
+    const group = node('div','lpj-quantity-stepper'); group.setAttribute('role','group'); group.setAttribute('aria-label','Cantidad de '+item.name);
+    const decrease = stepButton(item.quantity === 1?'trash-can':'minus',item.quantity === 1?'Eliminar '+item.name+' del carrito':'Restar una unidad de '+item.name);
+    const number = node('output','',item.quantity); number.setAttribute('aria-label',(item.packCount>1?'Paquetes':'Cantidad')+' de '+item.name); number.setAttribute('aria-live','polite');
+    const increase = stepButton('plus','Sumar una unidad de '+item.name); increase.disabled = item.quantity >= Core.MAX_QUANTITY;
+    function change(delta) {
+      try {
+        const remove = item.quantity === 1 && delta < 0;
+        cart = remove ? Core.remove(cart,item.key) : Core.setQuantity(cart,item.key,item.quantity+delta); persist();
+        $('lpjCartFeedback').textContent = remove ? 'Producto retirado del carrito.' : 'Cantidad actualizada.';
+        const current = cartStepControls.get(item.key);
+        if (current) (delta>0 && !current.increase.disabled?current.increase:current.decrease).focus();
+        else (cartStepControls.values().next().value?.decrease || cartDialog.querySelector('[data-close-dialog]')).focus();
+      } catch (error) { $('lpjCartFeedback').textContent = error.message; }
+    }
+    decrease.addEventListener('click',()=>change(-1)); increase.addEventListener('click',()=>change(1));
+    group.append(decrease,number,increase); cartStepControls.set(item.key,{decrease,increase}); return group;
+  }
+  function updateDetailStepper() {
+    const quantity = Number($('lpjDetailQuantity').value);
+    const valid = Number.isInteger(quantity) && quantity>=1 && quantity<=Core.MAX_QUANTITY;
+    $('lpjDetailDecrease').disabled = !valid || quantity<=1;
+    $('lpjDetailIncrease').disabled = !valid || quantity>=Core.MAX_QUANTITY;
+  }
+  $('lpjDetailDecrease').addEventListener('click',()=>{$('lpjDetailQuantity').value=String(Math.max(1,Number($('lpjDetailQuantity').value)-1));updateDetailStepper();});
+  $('lpjDetailIncrease').addEventListener('click',()=>{$('lpjDetailQuantity').value=String(Math.min(Core.MAX_QUANTITY,Number($('lpjDetailQuantity').value)+1));updateDetailStepper();});
+  $('lpjDetailQuantity').addEventListener('input',updateDetailStepper);
+  $('lpjDetailQuantity').addEventListener('change',updateDetailStepper);
   function renderCart() {
+    cartStepControls = new Map();
     const count = Core.count(cart);
     $('lpjCartCount').textContent = count; $('lpjCartCount').hidden = !count;
     $('lpjCartButton').setAttribute('aria-label', 'Abrir carrito: ' + count + ' artículo(s)');
@@ -4467,14 +4705,9 @@ document.addEventListener('DOMContentLoaded', function(){
       const custom = [item.customName ? 'Nombre: ' + item.customName : '', item.customNumber ? 'Número: ' + item.customNumber : '', item.patch && item.patch !== 'Sin' ? 'Parche: ' + item.patch : '', item.notes].filter(Boolean).join(' · ');
       if (custom) info.append(node('p', 'lpj-cart-custom', custom));
       const row = node('div', 'lpj-cart-controls');
-      const label = node('label', 'lpj-cart-quantity-label', item.packCount > 1 ? 'Paquetes' : 'Cantidad');
-      const quantity = node('input'); quantity.type = 'number'; quantity.min = '1'; quantity.max = String(Core.MAX_QUANTITY);
-      quantity.value = String(item.quantity); quantity.inputMode = 'numeric'; quantity.setAttribute('aria-label', 'Cantidad de ' + item.name);
-      quantity.addEventListener('change', () => {
-        try { cart = Core.setQuantity(cart, item.key, quantity.value); persist(); $('lpjCartFeedback').textContent = ''; }
-        catch (error) { quantity.value = String(item.quantity); $('lpjCartFeedback').textContent = error.message; }
-      });
-      label.append(quantity); row.append(label, node('strong', 'lpj-cart-line-total', Core.money(item.unitPrice * item.quantity)));
+      const label = node('div', 'lpj-cart-quantity-label');
+      label.append(node('span','',item.packCount > 1?'Paquetes':'Cantidad'),cartQuantity(item));
+      row.append(label, node('strong', 'lpj-cart-line-total', Core.money(item.unitPrice * item.quantity)));
       const remove = node('button', 'lpj-text-button', 'Quitar'); remove.type = 'button';
       remove.setAttribute('aria-label', 'Quitar ' + item.name);
       remove.addEventListener('click', () => { cart = Core.remove(cart, item.key); persist(); $('lpjCartFeedback').textContent = 'Producto retirado.'; });
@@ -4509,6 +4742,7 @@ document.addEventListener('DOMContentLoaded', function(){
   window.addEventListener('storage', event => { if (event.key === storageKey) { cart = Core.read(event.newValue); renderCart(); } });
   document.addEventListener('lpj:detail-opened', () => {
     $('lpjDetailQuantity').value = '1'; $('lpjDetailNotes').value = ''; $('lpjDetailFeedback').textContent = '';
+    updateDetailStepper();
     const current = bridge().getDetail();
     $('lpjAddToCart').disabled = current.product?.status === 'Agotado';
     $('lpjAddToCart').textContent = current.product?.status === 'Agotado' ? 'Agotado' : 'Agregar al carrito';
@@ -4606,7 +4840,7 @@ document.addEventListener('DOMContentLoaded', function(){
     $('lpjCatalogError').hidden = true;
     if (bridge()) bridge().reload(); else location.reload();
   });
-  renderCart();
+  updateDetailStepper(); renderCart();
 })();
 </script><script id="lpjProductLinksUI">(function () {
   'use strict';
@@ -4769,6 +5003,104 @@ document.addEventListener('DOMContentLoaded', function(){
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
   applyLocation();
+})();
+</script><dialog id="lpjHomeEditor" class="lpj-dialog lpj-home-editor" aria-labelledby="lpjHomeEditorTitle">
+  <div class="lpj-dialog-head"><h2 id="lpjHomeEditorTitle">Productos de portada</h2><button id="lpjHomeEditorClose" type="button" class="lpj-dialog-close" aria-label="Cerrar editor de portada">×</button></div>
+  <div class="lpj-dialog-content">
+    <p class="lpj-dialog-intro">Elegí entre 1 y 4 productos y acomodalos en el orden en que querés mostrarlos. Los cambios se aplican al tocar Guardar portada.</p>
+    <p id="lpjHomeSelectionCount" class="lpj-home-count" role="status"></p>
+    <div id="lpjHomeSelected" class="lpj-home-selected"></div>
+    <div class="lpj-home-picker">
+      <label for="lpjHomeSearch">Buscar un producto</label><input id="lpjHomeSearch" type="search" placeholder="Nombre de la camiseta o accesorio" autocomplete="off">
+      <label for="lpjHomeProduct">Producto para destacar</label><select id="lpjHomeProduct"></select>
+      <button id="lpjHomeAdd" class="lpj-wide-button secondary" type="button">Agregar a la portada</button>
+    </div>
+    <p id="lpjHomeEditorFeedback" class="lpj-inline-feedback" role="status" aria-live="polite"></p>
+    <div class="lpj-home-editor-actions"><button id="lpjHomeSave" class="lpj-wide-button" type="button">Guardar portada</button><button id="lpjHomeCancel" class="lpj-text-button" type="button">Cancelar</button></div>
+  </div>
+</dialog>
+<script id="lpjHomeAdminUI">(function () {
+  'use strict';
+  const $ = id => document.getElementById(id), api = () => window.lpjHomeAdmin;
+  const dialog = $('lpjHomeEditor');
+  let selected = [], busy = false, opener = null;
+  function element(tag,className,text) {
+    const node = document.createElement(tag); if (className) node.className = className; if (text != null) node.textContent = text; return node;
+  }
+  function availableProducts() { return api()?.getProducts() || []; }
+  function renderPicker() {
+    const query = $('lpjHomeSearch').value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+    const list = availableProducts().filter(p => !selected.includes(p.id) && p.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(query));
+    const select = $('lpjHomeProduct'); select.replaceChildren();
+    if (!list.length) { const option = element('option','',query?'No hay productos con ese nombre':'No quedan productos para agregar'); option.value = ''; select.append(option); }
+    list.sort((a,b) => a.name.localeCompare(b.name,'es')).forEach(p => {
+      const option = element('option','',p.name + ' · ' + window.LPJCartCore.money(p.price) + (p.status === 'Agotado'?' · Agotado':'')); option.value = p.id; select.append(option);
+    });
+    select.disabled = busy || selected.length >= 4 || !list.length;
+    $('lpjHomeAdd').disabled = select.disabled;
+    $('lpjHomeSave').disabled = busy || !selected.length || !api()?.canEdit();
+    $('lpjHomeCancel').disabled = busy; $('lpjHomeEditorClose').disabled = busy;
+    $('lpjHomeSearch').disabled = busy;
+    $('lpjHomeSave').textContent = busy ? 'Guardando…' : 'Guardar portada';
+  }
+  function renderSelected(focusIndex = -1) {
+    const holder = $('lpjHomeSelected'); holder.replaceChildren();
+    const products = availableProducts();
+    $('lpjHomeSelectionCount').textContent = selected.length + ' de 4 productos seleccionados';
+    selected.forEach((id,index) => {
+      const p = products.find(product => product.id === id);
+      const row = element('article','lpj-home-row');
+      const order = element('span','lpj-home-order',index+1); order.setAttribute('aria-label','Posición '+(index+1));
+      const image = element('img','lpj-home-thumbnail'); image.alt = ''; image.loading = 'lazy'; image.decoding = 'async';
+      image.onerror = () => {image.onerror = null; image.hidden = true;};
+      if (p?.image) image.src = p.image; else image.hidden = true;
+      const text = element('div','lpj-home-row-copy'); text.append(element('strong','',p?.name || 'Producto retirado'),element('span','',p ? window.LPJCartCore.money(p.price) : 'Elegí otro producto'));
+      const controls = element('div','lpj-home-row-controls');
+      const up = element('button','lpj-home-order-button','↑'), down = element('button','lpj-home-order-button','↓'), remove = element('button','lpj-text-button','Quitar');
+      [up,down,remove].forEach(button => {button.type = 'button';});
+      up.setAttribute('aria-label','Subir '+(p?.name||'producto')); down.setAttribute('aria-label','Bajar '+(p?.name||'producto')); remove.setAttribute('aria-label','Quitar '+(p?.name||'producto')+' de la portada');
+      up.disabled = busy || index === 0; down.disabled = busy || index === selected.length-1; remove.disabled = busy;
+      function move(to) { [selected[index],selected[to]] = [selected[to],selected[index]]; $('lpjHomeEditorFeedback').textContent = ''; renderSelected(to); }
+      up.addEventListener('click',() => move(index-1)); down.addEventListener('click',() => move(index+1));
+      remove.addEventListener('click',() => {selected = selected.filter(value => value !== id);$('lpjHomeEditorFeedback').textContent = '';renderSelected(Math.max(0,index-1));});
+      controls.append(up,down,remove); row.append(order,image,text,controls); holder.append(row);
+    });
+    renderPicker();
+    if (focusIndex >= 0) {
+      const row = holder.children[focusIndex];
+      if (row) (row.querySelector('button:not([disabled])') || $('lpjHomeSearch')).focus(); else $('lpjHomeSearch').focus();
+    }
+  }
+  function open(event) {
+    if (!api()?.canEdit()) return;
+    if (!api().isReady()) { $('lpjHomeSavedMessage').textContent = 'Esperá a que cargue el catálogo para editar la portada.'; return; }
+    opener = event?.currentTarget || document.activeElement;
+    selected = api().getSelected().slice(0,4); $('lpjHomeSearch').value = ''; $('lpjHomeEditorFeedback').textContent = ''; busy = false;
+    renderSelected(); if (!dialog.open) dialog.showModal();
+  }
+  function close() { if (!busy) dialog.close(); }
+  $('lpjEditHomeFeatured').addEventListener('click',open); $('lpjManageHome').addEventListener('click',open);
+  $('lpjHomeEditorClose').addEventListener('click',close); $('lpjHomeCancel').addEventListener('click',close);
+  $('lpjHomeSearch').addEventListener('input',renderPicker);
+  $('lpjHomeAdd').addEventListener('click',() => {
+    const id = $('lpjHomeProduct').value;
+    if (busy || !id || selected.length >= 4 || selected.includes(id)) return;
+    selected.push(id); $('lpjHomeEditorFeedback').textContent = ''; renderSelected(selected.length-1);
+  });
+  $('lpjHomeSave').addEventListener('click',async () => {
+    if (busy || !api()?.canEdit() || !selected.length) return;
+    busy = true; renderSelected(); $('lpjHomeEditorFeedback').textContent = '';
+    try { await api().save([...selected]); busy = false; $('lpjHomeSavedMessage').textContent = 'Portada actualizada.'; dialog.close(); }
+    catch (error) { busy = false; $('lpjHomeEditorFeedback').textContent = error.message || 'No se pudo guardar la portada. Intentá de nuevo.'; renderSelected(); }
+  });
+  dialog.addEventListener('click',event => {if (event.target === dialog) close();});
+  dialog.addEventListener('cancel',event => {if (busy) event.preventDefault();});
+  dialog.addEventListener('keydown',event => {if (event.key === 'Escape') event.stopPropagation();});
+  dialog.addEventListener('close',() => {if (opener?.isConnected) opener.focus();});
+  document.addEventListener('lpj:admin-state',() => {
+    $('lpjEditHomeFeatured').hidden = !api()?.canEdit();
+    if (!api()?.canEdit()) {busy = false; if (dialog.open) dialog.close(); $('lpjHomeSavedMessage').textContent = '';}
+  });
 })();
 </script></body>
 </html>
