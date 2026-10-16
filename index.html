@@ -1113,172 +1113,6 @@
   </style>
 
 
-  <style id="lpj-detail-close-visible-fix">
-    /* Botón visible para salir del detalle de la chema */
-    .detail-close{
-      display:flex !important;
-      align-items:center !important;
-      justify-content:center !important;
-      width:42px !important;
-      height:42px !important;
-      border-radius:999px !important;
-      background:#ffffff !important;
-      color:#111111 !important;
-      border:1px solid #dddddd !important;
-      box-shadow:0 10px 28px rgba(0,0,0,.16) !important;
-      font-size:30px !important;
-      font-weight:900 !important;
-      line-height:1 !important;
-      cursor:pointer !important;
-      z-index:12000 !important;
-      text-decoration:none !important;
-    }
-    .detail-back-btn{
-      display:none;
-      border:0;
-      cursor:pointer;
-      font-family:var(--font-body);
-    }
-    .detail-close:hover{background:#111111 !important;color:#ffffff !important;}
-
-    @media (max-width: 768px){
-      .detail-modal{
-        z-index:11000 !important;
-        background:#ffffff !important;
-        padding:0 !important;
-      }
-      .detail-modal.show{
-        display:block !important;
-      }
-      .detail-inner{
-        width:100% !important;
-        min-height:100dvh !important;
-        margin:0 !important;
-        border:0 !important;
-        border-radius:0 !important;
-        box-shadow:none !important;
-      }
-      .detail-close{
-        position:fixed !important;
-        top:calc(env(safe-area-inset-top) + 12px) !important;
-        right:12px !important;
-        width:44px !important;
-        height:44px !important;
-        background:#111111 !important;
-        color:#ffffff !important;
-        border:0 !important;
-        font-size:30px !important;
-        z-index:12050 !important;
-      }
-      .detail-back-btn{
-        display:flex !important;
-        align-items:center !important;
-        justify-content:center !important;
-        gap:8px !important;
-        position:fixed !important;
-        top:calc(env(safe-area-inset-top) + 12px) !important;
-        left:12px !important;
-        min-height:44px !important;
-        padding:0 16px !important;
-        border-radius:999px !important;
-        background:#111111 !important;
-        color:#ffffff !important;
-        font-size:13px !important;
-        font-weight:900 !important;
-        letter-spacing:.2px !important;
-        box-shadow:0 10px 28px rgba(0,0,0,.22) !important;
-        z-index:12050 !important;
-      }
-      .detail-imgs{
-        padding-top:70px !important;
-      }
-    }
-  </style>
-
-
-
-  <style id="lpj-mobile-detail-fullscreen-final">
-    /* En celular, al abrir una chema se oculta el menú superior y el detalle ocupa toda la pantalla */
-    @media (max-width: 768px){
-      body.lpj-detail-open .topbar,
-      body.lpj-detail-open #lpjMobileCategoryPanel{
-        display:none !important;
-        visibility:hidden !important;
-        pointer-events:none !important;
-      }
-      body.lpj-detail-open{
-        overflow:hidden !important;
-        height:100dvh !important;
-      }
-      body.lpj-detail-open .detail-modal.show{
-        position:fixed !important;
-        inset:0 !important;
-        top:0 !important;
-        left:0 !important;
-        right:0 !important;
-        bottom:0 !important;
-        width:100vw !important;
-        height:100dvh !important;
-        max-height:100dvh !important;
-        overflow-y:auto !important;
-        background:#ffffff !important;
-        z-index:2147483000 !important;
-        padding:0 !important;
-      }
-      body.lpj-detail-open .detail-inner{
-        width:100% !important;
-        min-height:100dvh !important;
-        margin:0 !important;
-        border:0 !important;
-        border-radius:0 !important;
-        box-shadow:none !important;
-      }
-      body.lpj-detail-open .detail-imgs{
-        padding-top:78px !important;
-      }
-      body.lpj-detail-open .detail-close{
-        position:fixed !important;
-        top:calc(env(safe-area-inset-top) + 14px) !important;
-        right:14px !important;
-        width:54px !important;
-        height:54px !important;
-        min-width:54px !important;
-        min-height:54px !important;
-        border-radius:999px !important;
-        background:#000000 !important;
-        color:#ffffff !important;
-        border:2px solid #ffffff !important;
-        box-shadow:0 10px 30px rgba(0,0,0,.30) !important;
-        font-size:36px !important;
-        font-weight:900 !important;
-        line-height:48px !important;
-        z-index:2147483647 !important;
-        opacity:1 !important;
-      }
-      body.lpj-detail-open .detail-back-btn{
-        display:flex !important;
-        align-items:center !important;
-        justify-content:center !important;
-        position:fixed !important;
-        top:calc(env(safe-area-inset-top) + 14px) !important;
-        left:14px !important;
-        height:54px !important;
-        min-height:54px !important;
-        padding:0 18px !important;
-        border-radius:999px !important;
-        background:#000000 !important;
-        color:#ffffff !important;
-        border:2px solid #ffffff !important;
-        font-size:14px !important;
-        font-weight:900 !important;
-        box-shadow:0 10px 30px rgba(0,0,0,.30) !important;
-        z-index:2147483647 !important;
-        opacity:1 !important;
-      }
-    }
-  </style>
-
-
   <style id="lpj-search-bar-fix">
     /* Barra de búsqueda rápida visible en PC y celular */
     .catalog-search-area{
@@ -1855,13 +1689,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); control.click(); }
     });
   });
-  const detailClose = document.getElementById('detailClose');
-  if (detailClose) {
-    detailClose.setAttribute('tabindex', '0');
-    detailClose.addEventListener('keydown', function (event) {
-      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); detailClose.click(); }
-    });
-  }
 });
 
 </script>
@@ -2269,6 +2096,99 @@ html body .detail-modal #lpjDetailQuantity { width: 100%; min-width: 0; min-heig
   .lpj-home-admin-button { font-size: 11px; }
 }
 @media (max-width: 520px) { .lpj-detail-shopping-fields { grid-template-columns: 1fr; } }
+</style><style id="lpjImageDetailFix">/* Encuadre completo y ficha por encima de la navegación. */
+html body #products .card-img-wrap,
+html body #heroFeaturedGrid .lpj-featured-image-wrap {
+  position: relative; width: 100%; min-width: 0; aspect-ratio: 4/4.8;
+  padding: 0; background: #f3f3f0; overflow: hidden;
+}
+html body #products .card-img,
+html body #heroFeaturedGrid .lpj-featured-image-wrap > img {
+  display: block; position: absolute; inset: 0; width: 100%; height: 100%;
+  max-width: 100%; max-height: 100%; min-width: 0; min-height: 0;
+  aspect-ratio: auto; object-fit: contain; object-position: center;
+  padding: clamp(10px,4%,20px); margin: 0; transform: none !important;
+}
+html body #heroFeaturedGrid .lpj-featured-image-wrap { margin-bottom: 14px; }
+html body #heroFeaturedGrid .lpj-featured-no-image { width: 100%; height: 100%; aspect-ratio: auto; }
+html body #heroFeaturedGrid .lpj-featured-edit { z-index: 1; }
+html body #postersGrid .poster-img-wrap { position: relative; width: 100%; aspect-ratio: 3/4; padding: 0; overflow: hidden; }
+html body #postersGrid .poster-img-wrap > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: 100%; max-height: 100%; aspect-ratio: auto; object-fit: contain; object-position: center; padding: 12px; transform: none !important; }
+html body .thumb-strip img,
+html body .detail-thumbs img,
+html body .lpj-cart-image,
+html body .lpj-home-thumbnail { object-fit: contain; object-position: center; transform: none !important; }
+
+/* El diálogo nativo evita que el menú tape las fotos o los botones de salida. */
+html body #detailModal {
+  position: fixed !important; inset: 0 !important; width: 100% !important;
+  height: 100vh !important; height: 100dvh !important; max-width: none !important; max-height: none !important;
+  margin: 0 !important; padding: 24px !important; border: 0 !important;
+  overflow-x: hidden !important; overflow-y: auto !important;
+  background: transparent !important; color: #171717; z-index: 7000 !important;
+  overscroll-behavior: contain;
+}
+html body #detailModal:not(.show) { display: none !important; }
+html body #detailModal.show { display: block !important; }
+#detailModal::backdrop { background: #0008; }
+html body #detailModal > .detail-inner {
+  display: grid !important; grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr) !important;
+  grid-template-rows: auto minmax(0,1fr); width: 100% !important; max-width: 1120px !important;
+  height: min(820px,calc(100vh - 48px)); height: min(820px,calc(100dvh - 48px));
+  min-height: 0 !important; max-height: none !important; margin: 0 auto !important;
+  overflow: hidden !important; position: relative; border: 0 !important; border-radius: 0 !important;
+  background: #fff !important; box-shadow: 0 20px 70px #0003;
+  animation: none !important; transform: none !important;
+}
+html body #detailModal .lpj-detail-toolbar {
+  grid-column: 1/-1; display: flex; align-items: center; justify-content: space-between;
+  min-height: 64px; padding: 10px 18px; gap: 16px;
+  background: #fff; border-bottom: 1px solid #e1e1db; z-index: 2;
+}
+html body #detailModal #detailBackBtn,
+html body #detailModal #detailClose {
+  position: static !important; display: inline-flex !important; align-items: center !important; justify-content: center !important;
+  gap: 8px; width: auto !important; height: auto !important; min-width: 44px !important; min-height: 42px !important;
+  margin: 0 !important; padding: 10px 15px !important; border: 1px solid #d6d6cf !important;
+  border-radius: 0 !important; background: #fff !important; color: #171717 !important;
+  font-family: var(--font-body); font-size: 12px !important; font-weight: 500 !important; line-height: 1.4 !important;
+  box-shadow: none !important; opacity: 1 !important; cursor: pointer;
+}
+html body #detailModal #detailClose { background: #171717 !important; color: #fff !important; border-color: #171717 !important; }
+#detailModal #detailClose > span { font-size: 22px; line-height: .8; }
+#detailModal .lpj-detail-toolbar button:focus-visible { outline: 2px solid #171717; outline-offset: 3px; }
+html body #detailModal .detail-imgs {
+  display: flex; flex-direction: column; min-width: 0; min-height: 0;
+  height: 100%; padding: 22px !important; gap: 12px; border: 0;
+  background: #f3f3f0 !important; overflow: hidden;
+}
+html body #detailModal .detail-main-img-wrap {
+  position: relative; flex: 1 1 0; min-width: 0; min-height: 0;
+  width: 100%; height: auto; border-radius: 0; overflow: hidden;
+}
+html body #detailModal #detailMainImg {
+  position: absolute; inset: 0; display: block; width: 100% !important; height: 100% !important;
+  max-width: 100%; max-height: 100%; min-width: 0; min-height: 0;
+  object-fit: contain !important; object-position: center !important; aspect-ratio: auto;
+  padding: 4px; margin: 0; transform: none !important; background: #f3f3f0 !important;
+}
+html body #detailModal .detail-thumbs { flex: 0 0 auto; min-height: 0; max-height: 76px; overflow-x: auto; overflow-y: hidden; padding-bottom: 4px; }
+html body #detailModal .detail-thumbs img { width: 60px; height: 60px; object-fit: contain; flex-shrink: 0; }
+html body #detailModal .detail-info {
+  min-width: 0; min-height: 0; height: 100%; max-height: none !important;
+  overflow-x: hidden; overflow-y: auto; padding: 26px !important;
+  overscroll-behavior: contain; scrollbar-gutter: stable;
+}
+@media (max-width: 900px) {
+  html body #detailModal { padding: 0 !important; background: #fff !important; }
+  html body #detailModal > .detail-inner {
+    display: block !important; width: 100% !important; max-width: none !important;
+    height: auto; min-height: 100% !important; overflow: visible !important; box-shadow: none;
+  }
+  html body #detailModal .lpj-detail-toolbar { position: sticky; top: 0; padding-top: max(10px,env(safe-area-inset-top)); }
+  html body #detailModal .detail-imgs { height: min(62vh,540px); height: min(62dvh,540px); padding: 18px !important; }
+  html body #detailModal .detail-info { height: auto; overflow: visible; padding: 24px 18px !important; }
+}
 </style></head>
 <body>
 <a class="lpj-skip-link" href="#catalog-section">Ir al catálogo</a>
@@ -2831,11 +2751,10 @@ html body .detail-modal #lpjDetailQuantity { width: 100%; min-width: 0; min-heig
 </div>
 
 <!-- ══ PRODUCT DETAIL MODAL ══ -->
-<div id="detailModal" class="detail-modal" role="dialog" aria-modal="true" aria-labelledby="detailName">
+<dialog id="detailModal" class="detail-modal" role="dialog" aria-modal="true" aria-labelledby="detailName" aria-label="Detalle del producto">
   <div class="detail-inner">
-    <span class="detail-close" id="detailClose" role="button" aria-label="Cerrar detalle">×</span>
-    <button class="detail-back-btn" id="detailBackBtn" type="button"><i class="fas fa-arrow-left"></i> Volver</button>
-    <!-- Imágenes -->
+    <div class="lpj-detail-toolbar" role="group" aria-label="Salir del producto"><button class="detail-back-btn" id="detailBackBtn" type="button"><i class="fas fa-arrow-left"></i> Volver</button>
+    </div><!-- Imágenes -->
     <div class="detail-imgs">
       <div class="detail-main-img-wrap">
         <img id="detailMainImg" src="" alt="Producto" loading="lazy" decoding="async">
@@ -2940,7 +2859,7 @@ html body .detail-modal #lpjDetailQuantity { width: 100%; min-width: 0; min-heig
       </div>
     </div>
   </div>
-</div>
+</dialog>
 
 <!-- ══ DASHBOARD ══ -->
 <div id="dashboard" class="dashboard">
@@ -3147,7 +3066,7 @@ const saveBtn = $("saveBtn"), cancelEditBtn = $("cancelEditBtn"), formTitle = $(
 const loginModal = $("loginModal"), submitLoginBtn = $("submitLoginBtn"), closeLoginBtn = $("closeLoginBtn");
 const loginError = $("loginError"), heroCarousel = $("heroCarousel"), carouselDots = $("carouselDots");
 const catalogPage = $("catalog-page"), postersPage = $("posters-page");
-const detailModal = $("detailModal"), detailClose = $("detailClose"), detailBackBtn = $("detailBackBtn");
+const detailModal = $("detailModal"), detailBackBtn = $("detailBackBtn");
 
 // ── Accordion ──
 window.toggleAcc = (id) => {
@@ -3835,12 +3754,12 @@ function openDetailModal(product, initVariant) {
 
   updateDetailHint();
   detailModal.classList.add("show");
+  if (!detailModal.open) detailModal.showModal();
   document.body.classList.add("lpj-detail-open");
   document.body.style.overflow="hidden";
-  if (window.matchMedia && window.matchMedia("(max-width: 768px)").matches) {
-    detailModal.scrollTop = 0;
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }
+  detailModal.scrollTop = 0;
+  const detailInfo = detailModal.querySelector(".detail-info");
+  if (detailInfo) detailInfo.scrollTop = 0;
 }
 
 function updateDetailPrice() {
@@ -3877,11 +3796,14 @@ function updateDetailHint() {
 function closeDetail() {
   const wasOpen = detailModal.classList.contains("show");
   detailModal.classList.remove("show"); document.body.classList.remove("lpj-detail-open"); document.body.style.overflow="";
+  if (detailModal.open) detailModal.close();
   if (wasOpen) document.dispatchEvent(new Event("lpj:detail-closed"));
 }
-if(detailClose) detailClose.addEventListener("click",closeDetail);
 if(detailBackBtn) detailBackBtn.addEventListener("click",closeDetail);
 detailModal.addEventListener("click",e=>{if(e.target===detailModal)closeDetail();});
+detailModal.addEventListener("cancel",e=>{e.preventDefault();closeDetail();});
+detailModal.addEventListener("close",()=>{if(detailModal.classList.contains("show"))closeDetail();});
+detailModal.addEventListener("keydown",e=>{if(e.key==="Escape"){e.preventDefault();e.stopPropagation();closeDetail();}});
 
 // Consulta directa: conserva cantidades, tallas y personalización.
 $("detailBuyBtn").addEventListener("click",()=>{
@@ -4932,7 +4854,7 @@ document.addEventListener('DOMContentLoaded', function(){
     if (!modal.contains(document.activeElement)) returnFocus = document.activeElement;
     resetPanel(); $('lpjLinkSelectionNotice').hidden = true; $('lpjProductLinkNotice').hidden = true;
     if (!applyingLocation) syncCurrentProduct(true); else updateSharing();
-    $('detailClose').focus({ preventScroll: true });
+    $('detailBackBtn').focus({ preventScroll: true });
   });
   document.addEventListener('lpj:detail-selection-changed', () => {
     if (applyingLocation) return;
